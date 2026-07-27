@@ -5,7 +5,7 @@ import os
 def show_navbar_section():
     """
     الدالة المركزية النهائية لشريط التحكم الموزون بالمنتصف.
-    تطهر الأزرار والعلم من تأثير المربع المزدوج وتجعل التظليل ناعماً ومفرداً عند تمرير الماوس.
+    تم تطهير وتغيير كافة المفاتيح البرمجية هنا إلى v10_final لكسر الصندوق الأحمر وإرجاع الشريط فوراً.
     """
     # 1. قراءة وتشفير صورة العلم العراقي من مجلد assets
     flag_path = "assets/iraqi_flag.jpg"
@@ -95,47 +95,47 @@ def show_navbar_section():
     )
 
     # 3. توزيع الأعمدة بالتسلسل العربي القياسي الصحيح
-    cols = st.columns([1.3, 1.6, 1.2, 0.9, 0.7, 0.7, 0.7, 0.6, 0.4])
+    cols = st.columns([1.4, 1.6, 1.2, 0.9, 0.7, 0.7, 0.7, 0.6, 0.4])
     
-    # العمود 1 (أقصى اليسار): زر تسجيل الدخول المذهب
+    # العمود 1 (أقصى اليسار): زر تسجيل الدخول المذهب بمفتاح نهائي معزول
     with cols:
-        if st.button("تسجيل الدخول 🔒", key="nav_auth_f2"):
+        if st.button("تسجيل الدخول 🔒", key="v10_final_nav_auth"):
             st.session_state["current_page"] = "auth"; st.rerun()
 
-    # العمود 2: حقل البحث المدمج والناعم
+    # العمود 2: حقل البحث المدمج والناعم بمفتاح نهائي معزول
     with cols:
-        search_q = st.text_input("", key="nav_search_f2", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
+        search_q = st.text_input("", key="v10_final_nav_search", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
         if search_q:
             st.session_state["search_trigger"] = search_q
 
     # العمود 3: زر عن المنصة / اتصل بنا
     with cols:
-        if st.button("عن المنصة / اتصل بنا", key="nav_abt_f2"):
+        if st.button("عن المنصة / اتصل بنا", key="v10_final_nav_abt"):
             st.session_state["current_page"] = "about"; st.rerun()
 
     # العمود 4: زر حوكمة البيانات
     with cols:
-        if st.button("حوكمة البيانات", key="nav_gov_f2"):
+        if st.button("حوكمة البيانات", key="v10_final_nav_gov"):
             st.session_state["current_page"] = "data_governance"; st.rerun()
 
     # العمود 5: زر المهندسون
     with cols:
-        if st.button("المهندسون", key="nav_eng_f2"):
+        if st.button("المهندسون", key="v10_final_nav_eng"):
             st.session_state["current_page"] = "engineers"; st.rerun()
 
     # العمود 6: زر المشاريع
     with cols:
-        if st.button("المشاريع", key="nav_proj_f2"):
+        if st.button("المشاريع", key="v10_final_nav_proj"):
             st.session_state["current_page"] = "projects"; st.rerun()
 
     # العمود 7: زر المدونات
     with cols:
-        if st.button("المدونات", key="nav_blogs_f2"):
+        if st.button("المدونات", key="v10_final_nav_blogs"):
             st.session_state["current_page"] = "blogs"; st.rerun()
 
     # العمود 8: زر الرئيسية
     with cols:
-        if st.button("الرئيسية", key="nav_home_f2"):
+        if st.button("الرئيسية", key="v10_final_nav_home"):
             st.session_state["current_page"] = "home"; st.rerun()
 
     # العمود 9 (أقصى اليمين): العلم العراقي الدائري المصغر النظيف محمي من أي تظليل خارجي
