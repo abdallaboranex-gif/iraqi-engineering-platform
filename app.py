@@ -101,10 +101,10 @@ st.markdown("<hr style='border-color: rgba(197, 160, 89, 0.15); margin-top: 5px;
 from modules_dashboard.dashboard_linker import show_dashboard_sidebar
 from core_layout.footer.footer_linker import show_footer_section
 
-# 8. تقسيم الشاشة حسب الأوزان القياسية المتطابقة مع التصميم الأصلي (اليمين محتوى واليسار مؤشرات)
-main_content, sidebar_stats = st.columns([3.2, 1.0])
+# 8. الحل الجذري لتنحيف اللوحة: توسيع مساحة المحتوى إلى 4.5 وتقليص اللوحة الجانبية لـ 1.0 لتبدو نحيفة كالأصل
+main_content, sidebar_stats = st.columns([4.5, 1.0])
 
-# --- الطابق الأيسر: لوحة المؤشرات الوطنية الجانبية النحيفة الملونة ---
+# --- الطابق الأيسر: لوحة المؤشرات الوطنية الجانبية النحيفة جداً والمقيدة ---
 with sidebar_stats:
     try:
         show_dashboard_sidebar()
@@ -129,7 +129,7 @@ with main_content:
         st.markdown("### 🏢 كبائن الرؤى الاستراتيجية الكبرى للمنصة")
         col_v1, col_v2, col_v3, col_v4 = st.columns(4)
         
-        # كابينة 1: المدن الذكية
+        # كابينة 1: المدن الذ
         with col_v1:
             st.markdown(f"""
                 <div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.25); margin-bottom: 8px;">
