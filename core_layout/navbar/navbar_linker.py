@@ -114,53 +114,52 @@ def show_navbar_section():
         """,
         unsafe_allow_html=True
     )
-    # 3. صياغة الهيكل بالتسلسل العربي القياسي الصحيح من اليمين لليسار مع فرز أرقام الأعمدة هندسياً 100%
+       # 3. صياغة الهيكل بالتسلسل العربي القياسي الصحيح من اليمين لليسار مع فرز أرقام الأعمدة هندسياً 100%
     cols_isolated = st.columns([1.4, 1.6, 1.2, 0.9, 0.7, 0.7, 0.7, 0.6, 0.4])
     
     # العمود 1 (أقصى اليسار): زر تسجيل الدخول المذهب والنحيف
-    with cols_isolated:
-        if st.button("تسجيل الدخول 🔒", key="prime_isolated_nav_auth_v101"):
+    with cols_isolated[0]:
+        if st.button("تسجيل الدخول 🔒", key="prime_isolated_nav_auth_v300"):
             st.session_state["current_page"] = "auth"; st.rerun()
 
     # العمود 2: حقل البحث المدمج والناعم المتطهر من الحواف البيضاء والـ Empty Label سحابياً
-    with cols_isolated:
-        # 🎯 تم منح الحقل اسماً داخلياً "البحث" لتخطي حظر الـ Logger ومنع الانهيار نهائياً
-        search_q = st.text_input("البحث", key="prime_isolated_nav_search_v101", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
+    with cols_isolated[1]:
+        search_q = st.text_input("search", key="prime_isolated_nav_search_v300", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
         if search_q:
             st.session_state["search_trigger"] = search_q
 
     # العمود 3: زر عن المنصة / اتصل بنا
-    with cols_isolated:
-        if st.button("عن المنصة / اتصل بنا", key="prime_isolated_nav_abt_v101"):
+    with cols_isolated[2]:
+        if st.button("عن المنصة / اتصل بنا", key="prime_isolated_nav_abt_v300"):
             st.session_state["current_page"] = "about"; st.rerun()
 
     # العمود 4: زر حوكمة البيانات
-    with cols_isolated:
-        if st.button("حوكمة البيانات", key="prime_isolated_nav_gov_v101"):
+    with cols_isolated[3]:
+        if st.button("حوكمة البيانات", key="prime_isolated_nav_gov_v300"):
             st.session_state["current_page"] = "data_governance"; st.rerun()
 
     # العمود 5: زر المهندسون
-    with cols_isolated:
-        if st.button("المهندسون", key="prime_isolated_nav_eng_v101"):
+    with cols_isolated[4]:
+        if st.button("المهندسون", key="prime_isolated_nav_eng_v300"):
             st.session_state["current_page"] = "engineers"; st.rerun()
 
     # العمود 6: زر المشاريع
-    with cols_isolated:
-        if st.button("المشاريع", key="prime_isolated_nav_proj_v101"):
+    with cols_isolated[5]:
+        if st.button("المشاريع", key="prime_isolated_nav_proj_v300"):
             st.session_state["current_page"] = "projects"; st.rerun()
 
     # العمود 7: زر المدونات
-    with cols_isolated:
-        if st.button("المدونات", key="prime_isolated_nav_blogs_v101"):
+    with cols_isolated[6]:
+        if st.button("المدونات", key="prime_isolated_nav_blogs_v300"):
             st.session_state["current_page"] = "blogs"; st.rerun()
 
     # العمود 8: زر الرئيسية المضاء والنظيف
-    with cols_isolated:
-        if st.button("الرئيسية", key="prime_isolated_nav_home_v101"):
+    with cols_isolated[7]:
+        if st.button("الرئيسية", key="prime_isolated_nav_home_v300"):
             st.session_state["current_page"] = "home"; st.rerun()
 
     # العمود 9 (أقصى اليمين): العلم العراقي الدائري المصغر المستقر برأس السنتر الموازي
-    with cols_isolated:
+    with cols_isolated[8]:
         if encoded_flag:
             st.markdown(
                 f"""
