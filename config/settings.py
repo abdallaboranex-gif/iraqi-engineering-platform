@@ -2,16 +2,16 @@ import streamlit as st
 
 def apply_unified_background():
     """
-    برنامج الهوية البصرية الحاسم لإنهاء مشكلة التمدد والسحب الأفقي للمنصة،
-    وقفل أبعاد الطول والعرض في حاوية مركزية فخمة وموزونة بالمتصفح (Max-Width).
+    برنامج الهوية البصرية النهائي لإعادة فرش صورتك السيادية الموحدة كخلفية ثابتة،
+    مع الحفاظ على التوازن الهندسي للمنصة في المنتصف وتأمين الشفافية الزجاجية.
     """
-    # الرابط المباشر لصورتك الموحدة الحقيقية من مستودعك على GitHub
+    # الرابط المباشر (Raw URL) لصورتك الموحدة الحقيقية من مستودعك على GitHub
     image_url = "https://githubusercontent.com"
     
     st.markdown(
         f"""
         <style>
-        /* 1. فرش وتثبيت الخلفية الموحدة على كامل الشاشة الفيدرالية */
+        /* 1. إجبار المتصفح على فرش وتثبيت الخلفية الموحدة على كامل مساحة المنصة الخارجية */
         .stApp {{
             background-image: url("{image_url}") !important;
             background-size: cover !important;
@@ -20,22 +20,22 @@ def apply_unified_background():
             background-attachment: fixed !important;
         }}
         
-        /* 2. الحل الجذري لمشكلة السحب الأفقي: حصر كتلة المحتوى الداخلي بالكامل */
-        /* في صندوق ملموم وعميق بالمنتصف بحد أقصى لمنع التمطيط على الشاشات العريضة */
+        /* 2. حماية التوازن الهندسي بالمنتصف مع جعل الحاوية زجاجية وشفافة جداً لتمرير تفاصيل الصورة من خلفها */
         .block-container {{
-            max-width: 1250px !important; /* قفل العرض لتتناسق الواجهة أفقياً وعمودياً */
+            max-width: 1250px !important; /* قفل أبعاد العرض لمنع التمطيط والسحب */
             padding-top: 25px !important;
             padding-bottom: 25px !important;
             padding-left: 20px !important;
             padding-right: 20px !important;
-            margin: 0 auto !important; /* الموازنة المباشرة في سنتر الشاشة */
-            background-color: rgba(7, 22, 21, 0.4) !important; /* تظليل زجاجي خفيف للحاوية الكبرى */
+            margin: 0 auto !important; /* الموازنة المباشرة في السنتر */
+            background-color: rgba(7, 22, 21, 0.75) !important; /* تعتيم زجاجي داكن مريح جداً للعين للقراءة */
             border-radius: 12px !important;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6) !important;
-            backdrop-filter: blur(2px) !important;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.7) !important;
+            backdrop-filter: blur(6px) !important; /* تأثير الضبابية الزجاجية الفخم للمحتوى */
+            border: 1px solid rgba(197, 160, 89, 0.15) !important;
         }}
         
-        /* 3. إخفاء وتصفير العناصر الافتراضية المزعجة لـ Streamlit */
+        /* 3. إخفاء وتصفير العناصر والخطوط الافتراضية المزعجة لـ Streamlit */
         div[data-testid="stHeader"], div[data-testid="stDecoration"] {{
             background-color: transparent !important;
             background: transparent !important;
@@ -47,7 +47,7 @@ def apply_unified_background():
             margin-bottom: 10px !important;
         }}
 
-        /* 4. توحيد مقاسات الخطوط والنصوص باللونين الأبيض والذهبي */
+        /* 4. توحيد مقاسات وألوان الخطوط داخل الحاوية الزجاجية */
         h1 {{ 
             font-size: 42px !important; 
             font-weight: 800 !important; 
@@ -69,7 +69,7 @@ def apply_unified_background():
             line-height: 1.4 !important;
         }}
 
-        /* 5. تنحيف الأزرار وحقول الإدخال لتكون مكتنزة ونحيفة */
+        /* 5. تنحيف الأزرار وحقول الإدخال لتكون مدمجة ومصطفة */
         .stButton>button {{
             background-color: rgba(13, 35, 33, 0.85) !important;
             color: #c5a059 !important;
@@ -97,13 +97,12 @@ def apply_unified_background():
             height: 28px !important; 
         }}
 
-        /* 6. تعتيم الصناديق لتظهر واضحة فوق تفاصيل الصورة الخلفية */
+        /* 6. تعتيم الصناديق الداخلية (Cards) لتنفصل بوضوح */
         div[data-testid="stColumn"] {{
-            background-color: rgba(7, 22, 21, 0.65) !important;
+            background-color: rgba(7, 22, 21, 0.45) !important;
             padding: 10px !important;
             border-radius: 6px !important;
             border: 1px solid rgba(197, 160, 89, 0.12) !important;
-            backdrop-filter: blur(4px);
         }}
         </style>
         """,
