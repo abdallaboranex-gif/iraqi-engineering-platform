@@ -25,12 +25,13 @@ img_governance = get_base64_image("assets/governance.jpg")
 img_automation = get_base64_image("assets/automation.png")
 img_sustainability = get_base64_image("assets/sustainability.jpg")
 
-# 4. الالتزام بفلسفتك: استدعاء النافبار من غرفته المعزولة والمستقلة بسطر واحد
-from core_layout.navbar.navbar_linker import show_navbar_section
+# 4. حقن وعرض شريط النافبار المعزول والمستقل من مجلده الفرعي بحزام أمان مطهر
 try:
-    show_navbar_section()
+    import core_layout.navbar.navbar_linker as nv_linker
+    nv_linker.show_navbar_section()
 except Exception:
-    st.error("⚠️ هنت سيادي: عطل طارئ في منظومة شريط التحكم المركزي.")
+    st.error("⚠️ هنت سيادي: جاري صيانة وتحديث قمة شريط التحكم المركزي.")
+
 # 5. إدارة الذاكرة السحابية للتنقل الذكي المباشر بين الواجهات والتبويبات
 if "current_page" not in st.session_state:
     st.session_state["current_page"] = "home"
@@ -42,7 +43,7 @@ from core_layout.footer.footer_linker import show_footer_section
 # 7. تقسيم الشاشة حسب الأوزان القياسية (اليمين محتوى واليسار مؤشرات نحيفة)
 main_content, sidebar_stats = st.columns([4.5, 1.0])
 
-# --- الطابق الأيسر: لوحة المؤشرات الوطنية الجانبية النحيفة الملونة (المفهومة والمنظمة) ---
+# --- الطابق الأيسر: لوحة المؤشرات الوطنية الجانبية النحيفة الملونة ---
 with sidebar_stats:
     try:
         show_dashboard_sidebar()
@@ -63,7 +64,7 @@ with main_content:
             
         st.markdown("<br><br>", unsafe_allow_html=True)
         
-        # عرض كبائن الرؤى الأربعة متراصة في سطر واحد باستخدام صورك الحقيقية
+        # عرض كبائن الرؤى الأربعة متراصة في سطر واحد (4 أعمدة متساوية) باستخدام صورك الحقيقية
         st.markdown("### 🏢 كبائن الرؤى الاستراتيجية الكبرى للمنصة")
         col_v1, col_v2, col_v3, col_v4 = st.columns(4)
         
@@ -82,7 +83,7 @@ with main_content:
                 st.session_state["current_page"] = "smart_cities"
                 st.rerun()
 
-        # كابينة 2: حوكمة المشاريع (حساب الأحمال)
+        # كابينة 2: حوكمة المشاريع
         with col_v2:
             st.markdown(f"""
                 <div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.25); margin-bottom: 8px;">
