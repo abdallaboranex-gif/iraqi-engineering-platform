@@ -2,8 +2,8 @@ import streamlit as st
 
 def apply_unified_background():
     """
-    برنامج الهوية البصرية النهائي لإعادة فرش صورتك السيادية الموحدة كخلفية ثابتة،
-    مع الحفاظ على التوازن الهندسي للمنصة في المنتصف وتأمين الشفافية الزجاجية.
+    برنامج الهوية البصرية الحاسم لفرش صورتك السيادية الموحدة على كامل المتصفح الخارجي والداخلي،
+    وتصفير الألوان الافتراضية لـ Streamlit مع حماية التوازن الهندسي بالمنتصف (صفر اعتمادية).
     """
     # الرابط المباشر (Raw URL) لصورتك الموحدة الحقيقية من مستودعك على GitHub
     image_url = "https://githubusercontent.com"
@@ -11,28 +11,29 @@ def apply_unified_background():
     st.markdown(
         f"""
         <style>
-        /* 1. إجبار المتصفح على فرش وتثبيت الخلفية الموحدة على كامل مساحة المنصة الخارجية */
-        .stApp {{
+        /* 1. الحل الجذري: فرش وتثبيت الخلفية الموحدة على الجسد الخارجي والداخلي للمتصفح بالكامل لمنع الرمادي */
+        body, .main, .stApp, [data-testid="stAppViewContainer"] {{
             background-image: url("{image_url}") !important;
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
             background-attachment: fixed !important;
+            background-color: #071615 !important; /* لون احتياطي داكن جداً لمنع البياض */
         }}
         
-        /* 2. حماية التوازن الهندسي بالمنتصف مع جعل الحاوية زجاجية وشفافة جداً لتمرير تفاصيل الصورة من خلفها */
+        /* 2. حماية التوازن الهندسي الملموم بالمنتصف وجعل الحاوية زجاجية شفافة لتمرير تفاصيل الصورة */
         .block-container {{
             max-width: 1250px !important; /* قفل أبعاد العرض لمنع التمطيط والسحب */
             padding-top: 25px !important;
             padding-bottom: 25px !important;
             padding-left: 20px !important;
             padding-right: 20px !important;
-            margin: 0 auto !important; /* الموازنة المباشرة في السنتر */
-            background-color: rgba(7, 22, 21, 0.75) !important; /* تعتيم زجاجي داكن مريح جداً للعين للقراءة */
+            margin: 40px auto !important; /* حصر وموازنة الصندوق في السنتر المباشر للشاشة مع ترك هوامش علوية */
+            background-color: rgba(7, 22, 21, 0.78) !important; /* تعتيم زجاجي داكن مريح جداً للعين للقراءة */
             border-radius: 12px !important;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.7) !important;
-            backdrop-filter: blur(6px) !important; /* تأثير الضبابية الزجاجية الفخم للمحتوى */
-            border: 1px solid rgba(197, 160, 89, 0.15) !important;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.8) !important;
+            backdrop-filter: blur(8px) !important; /* تأثير الضبابية الزجاجية الفخم للمحتوى */
+            border: 1px solid rgba(197, 160, 89, 0.18) !important;
         }}
         
         /* 3. إخفاء وتصفير العناصر والخطوط الافتراضية المزعجة لـ Streamlit */
@@ -97,7 +98,7 @@ def apply_unified_background():
             height: 28px !important; 
         }}
 
-        /* 6. تعتيم الصناديق الداخلية (Cards) لتنفصل بوضوح */
+        /* 6. تعتيم الصناديق الداخلية (Cards) لتنفصل بوضوح فوق تفاصيل الصورة */
         div[data-testid="stColumn"] {{
             background-color: rgba(7, 22, 21, 0.45) !important;
             padding: 10px !important;
