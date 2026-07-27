@@ -5,7 +5,7 @@ import os
 def show_navbar_section():
     """
     الدالة المركزية النهائية لشريط التحكم الموزون بالمنتصف.
-    تم تطهير وتغيير كافة المفاتيح البرمجية هنا إلى v10_final لكسر الصندوق الأحمر وإرجاع الشريط فوراً.
+    تم تطهير وتغيير كافة المفاتيح البرمجية هنا إلى v50_final_key لكسر الصندوق الأحمر وإرجاع الشريط فوراً.
     """
     # 1. قراءة وتشفير صورة العلم العراقي من مجلد assets
     flag_path = "assets/iraqi_flag.jpg"
@@ -97,45 +97,45 @@ def show_navbar_section():
     # 3. توزيع الأعمدة بالتسلسل العربي القياسي الصحيح
     cols = st.columns([1.4, 1.6, 1.2, 0.9, 0.7, 0.7, 0.7, 0.6, 0.4])
     
-    # العمود 1 (أقصى اليسار): زر تسجيل الدخول المذهب بمفتاح نهائي معزول
+    # العمود 1 (أقصى اليسار): زر تسجيل الدخول بمفتاح نهائي فريد ومستحيل التكرار
     with cols:
-        if st.button("تسجيل الدخول 🔒", key="v10_final_nav_auth"):
+        if st.button("تسجيل الدخول 🔒", key="v50_final_key_nav_auth"):
             st.session_state["current_page"] = "auth"; st.rerun()
 
-    # العمود 2: حقل البحث المدمج والناعم بمفتاح نهائي معزول
+    # العمود 2: حقل البحث المدمج والناعم بمفتاح نهائي فريد ومستحيل التكرار
     with cols:
-        search_q = st.text_input("", key="v10_final_nav_search", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
+        search_q = st.text_input("", key="v50_final_key_nav_search", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
         if search_q:
             st.session_state["search_trigger"] = search_q
 
-    # العمود 3: زر عن المنصة / اتصل بنا
+    # العمود 3: زر عن المنصة / اتصل بنا بمفتاح نهائي فريد ومستحيل التكرار
     with cols:
-        if st.button("عن المنصة / اتصل بنا", key="v10_final_nav_abt"):
+        if st.button("عن المنصة / اتصل بنا", key="v50_final_key_nav_abt"):
             st.session_state["current_page"] = "about"; st.rerun()
 
-    # العمود 4: زر حوكمة البيانات
+    # العمود 4: زر حوكمة البيانات بمفتاح نهائي فريد ومستحيل التكرار
     with cols:
-        if st.button("حوكمة البيانات", key="v10_final_nav_gov"):
+        if st.button("حوكمة البيانات", key="v50_final_key_nav_gov"):
             st.session_state["current_page"] = "data_governance"; st.rerun()
 
-    # العمود 5: زر المهندسون
+    # العمود 5: زر المهندسون بمفتاح نهائي فريد ومستحيل التكرار
     with cols:
-        if st.button("المهندسون", key="v10_final_nav_eng"):
+        if st.button("المهندسون", key="v50_final_key_nav_eng"):
             st.session_state["current_page"] = "engineers"; st.rerun()
 
-    # العمود 6: زر المشاريع
+    # العمود 6: زر المشاريع بمفتاح نهائي فريد ومستحيل التكرار
     with cols:
-        if st.button("المشاريع", key="v10_final_nav_proj"):
+        if st.button("المشاريع", key="v50_final_key_nav_proj"):
             st.session_state["current_page"] = "projects"; st.rerun()
 
-    # العمود 7: زر المدونات
+    # العمود 7: زر المدونات بمفتاح نهائي فريد ومستحيل التكرار
     with cols:
-        if st.button("المدونات", key="v10_final_nav_blogs"):
+        if st.button("المدونات", key="v50_final_key_nav_blogs"):
             st.session_state["current_page"] = "blogs"; st.rerun()
 
-    # العمود 8: زر الرئيسية
+    # العمود 8: زر الرئيسية بمفتاح نهائي فريد ومستحيل التكرار
     with cols:
-        if st.button("الرئيسية", key="v10_final_nav_home"):
+        if st.button("الرئيسية", key="v50_final_key_nav_home"):
             st.session_state["current_page"] = "home"; st.rerun()
 
     # العمود 9 (أقصى اليمين): العلم العراقي الدائري المصغر النظيف محمي من أي تظليل خارجي
