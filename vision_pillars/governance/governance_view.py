@@ -15,7 +15,7 @@ def render_governance_view():
     الواجهة المركزية المحدثة لكابينة الحوكمة.
     تم تصفير كافة الحقول القياسية، وحقن خيار "اختر بنداً..."، وتفتيح ألوان النصوص المدخلة لتصبح بيضاء مقروءة 100%.
     """
-        # 1. حقن نظام تصاميم صارم وقاهر يجبر نصوص القوائم المنسدلة على التلون بالأبيض الناصع المقروء
+    # 1. حقن نظام تصاميم فيدرالي قاهر يجبر حواف الصناديق وإشارات الزائد والناقص على السطوع بالأبيض والذهب
     st.markdown(
         """
         <style>
@@ -26,24 +26,26 @@ def render_governance_view():
         }
         .gov-panel-box {
             background-color: rgba(7, 22, 21, 0.6) !important;
-            border: 1px solid rgba(197, 160, 89, 0.2) !important;
+            border: 1px solid rgba(197, 160, 89, 0.3) !important; /* تقوية حافة الحاوية الزجاجية الكبرى */
             border-radius: 8px !important; padding: 15px !important; margin-bottom: 15px !important;
         }
         .gov-section-header {
             font-size: 14px !important; font-weight: 700 !important; color: #c5a059 !important;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.2) !important;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.3) !important;
             padding-bottom: 6px !important; margin-bottom: 15px !important; text-align: right !important;
         }
         .stSelectbox label, .stNumberInput label, .stTextInput label {
             color: #c5a059 !important; font-size: 12px !important; font-weight: 600 !important;
             display: block !important; text-align: right !important; direction: rtl !important;
         }
+        
+        /* 🎯 تفتيح وتقوية حواف صناديق الإدخال وجعل حدودها مذهبة وواضحة جداً للمستخدم */
         .stSelectbox > div > div, .stNumberInput > div > div, .stTextInput > div > div {
-            border: 1px solid rgba(197, 160, 89, 0.25) !important;
-            background-color: rgba(7, 22, 21, 0.85) !important; border-radius: 4px !important;
+            border: 1px solid rgba(197, 160, 89, 0.5) !important; /* رفع التباين البصري للحدود */
+            background-color: rgba(7, 22, 21, 0.9) !important; border-radius: 4px !important;
         }
         
-        /* 🎯 نسف خط المتصفح الغامق: إجبار النص المختار والنصوص الداخلية للقوائم المنسدلة وحقول الإدخال على التلون بالأبيض الناصع */
+        /* إجبار النص المختار والنصوص الداخلية وحقول الإدخال على التلون بالأبيض الناصع */
         .stSelectbox div[data-baseweb="select"] div,
         .stSelectbox div[data-baseweb="select"] span,
         .stSelectbox div[aria-selected="true"],
@@ -51,19 +53,39 @@ def render_governance_view():
         .stNumberInput input, 
         .stTextInput input,
         div[role="listbox"] li,
-        div[role="option"] {{
+        div[role="option"] {
             color: #ffffff !important;
             background-color: transparent !important;
             font-weight: 600 !important;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.9) !important;
-            -webkit-text-fill-color: #ffffff !important; /* قهر جدار حماية المتصفح للألوان */
-        }}
+            -webkit-text-fill-color: #ffffff !important; /* قهر حماية المتصفح للألوان */
+        }
         
-        /* تفتيح السهم الصغير الجانبي للقائمة المنسدلة */
-        .stSelectbox svg {{
-            fill: #c5a059 !important;
-            color: #c5a059 !important;
-        }}
+        /* 🎯 نسف عتمة أزرار الزائد والناقص: صبغ الخلفية والرموز باللون المذهب والأبيض الساطع لقراءة فورية */
+        button[data-testid="stNumberInputStepUp"], 
+        button[data-testid="stNumberInputStepDown"] {
+            background-color: rgba(197, 160, 89, 0.15) !important;
+            border-left: 1px solid rgba(197, 160, 89, 0.3) !important;
+            border-right: 1px solid rgba(197, 160, 89, 0.3) !important;
+            color: #ffffff !important;
+            transition: all 0.2s ease !important;
+        }
+        button[data-testid="stNumberInputStepUp"]:hover, 
+        button[data-testid="stNumberInputStepDown"]:hover {
+            background-color: #c5a059 !important;
+            color: #071615 !important;
+        }
+        
+        /* إجبار إشارات الـ + والـ - الداكنة (الـ SVG) على التلون بالأبيض الساطع والوضوح التام */
+        button[data-testid="stNumberInputStepUp"] svg, 
+        button[data-testid="stNumberInputStepDown"] svg,
+        .stSelectbox svg {
+            fill: #ffffff !important;
+            color: #ffffff !important;
+            stroke: #ffffff !important;
+            width: 14px !important;
+            height: 14px !important;
+        }
         
         .premium-violation-card {
             background-color: rgba(139, 0, 0, 0.15) !important;
@@ -75,6 +97,7 @@ def render_governance_view():
         """,
         unsafe_allow_html=True
     )
+
 
     st.markdown('<h2 class="gov-title-main">⚖️ البوابة المركزية لإدخال معطيات الرخصة الهندسية</h2>', unsafe_allow_html=True)
     st.markdown("<p style='text-align: right; color: #a0b0af;'>يرجى ملء البيانات العامة للمعاملة؛ ليقوم النظام باحتساب القيود الجغرافية وتنشيط الفحوصات ديناميكياً تلبية لأكواد المدونة ومنع التحايل.</p>", unsafe_allow_html=True)
