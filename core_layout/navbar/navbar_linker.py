@@ -5,7 +5,7 @@ import os
 def show_navbar_section():
     """
     الدالة المركزية المستقلة لإدارة شريط التنقل وحفظه في غرفته المعزولة (صفر اعتمادية).
-    تم نسف البياض المحيط بحقل البحث نهائياً وجعله داكناً ناعماً ومدمجاً بالشاشة.
+    تم حل مشكلة الـ Empty Label لحقل البحث وتطهير البياض المحيط به تماماً.
     """
     # 1. قراءة وتشفير صورة العلم العراقي من مجلد assets
     flag_path = "assets/iraqi_flag.jpg"
@@ -36,7 +36,7 @@ def show_navbar_section():
             border: none !important; background: transparent !important; box-shadow: none !important; padding: 0px !important;
         }}
         
-        /* رفع وموازنة العلم العراقي الدائري الحقيقي */
+        /* رفع وموازنة العلم العراقي الدائري الحقيقي ليصبح متناسقاً وفي السنتر المباشر */
         .nav-flag-img {{
             width: 28px !important;
             height: 28px !important;
@@ -48,7 +48,7 @@ def show_navbar_section():
             margin-top: -6px !important;
         }}
 
-        /* الأزرار الستة كنصوص عائمة نظيفة تماماً */
+        /* الأزرار الستة كنصوص عائمة نظيفة تماماً وبدون أي مربعات مشوهة */
         .stButton > button {{
             border: none !important;
             background: transparent !important;
@@ -68,7 +68,7 @@ def show_navbar_section():
             border: none !important;
         }}
         
-        /* 🎯 نسف وتطهير الحواف والحدود البيضاء المشوهة لحقل البحث وقفلها سحابياً */
+        /* نسف وتطهير الحواف والحدود البيضاء المشوهة لحقل البحث وقفلها سحابياً */
         .stTextInput, .stTextInput > div, .stTextInput > div > div, .stTextInput > div > div > div {{
             border: none !important;
             background-color: transparent !important;
@@ -77,7 +77,7 @@ def show_navbar_section():
             outline: none !important;
         }}
         
-        /* صياغة الصندوق الداخلي الحقيقي للبحث ليكون داكناً وبحواف مذهبة خفيفة وناعمة جداً */
+        /* صياغة الصندوق الداخلي الحقيقي للبحث ليكون داكناً وبحواف مذهبة خفيفة وناعمة */
         .stTextInput input {{
             background-color: rgba(7, 22, 21, 0.85) !important;
             color: #ffffff !important;
@@ -114,48 +114,49 @@ def show_navbar_section():
         """,
         unsafe_allow_html=True
     )
-    # 3. صياغة الهيكل بالتسلسل العربي الصحيح من اليمين لليسار مع فرز أرقام الأعمدة هندسياً 100%
+    # 3. صياغة الهيكل بالتسلسل العربي القياسي الصحيح من اليمين لليسار مع فرز أرقام الأعمدة هندسياً 100%
     cols_isolated = st.columns([1.4, 1.6, 1.2, 0.9, 0.7, 0.7, 0.7, 0.6, 0.4])
     
     # العمود 1 (أقصى اليسار): زر تسجيل الدخول المذهب والنحيف
     with cols_isolated:
-        if st.button("تسجيل الدخول 🔒", key="prime_isolated_nav_auth_v100"):
+        if st.button("تسجيل الدخول 🔒", key="prime_isolated_nav_auth_v101"):
             st.session_state["current_page"] = "auth"; st.rerun()
 
-    # العمود 2: حقل البحث المدمج والناعم المتطهر من الحواف البيضاء المشوهة
+    # العمود 2: حقل البحث المدمج والناعم المتطهر من الحواف البيضاء والـ Empty Label سحابياً
     with cols_isolated:
-        search_q = st.text_input("", key="prime_isolated_nav_search_v100", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
+        # 🎯 تم منح الحقل اسماً داخلياً "البحث" لتخطي حظر الـ Logger ومنع الانهيار نهائياً
+        search_q = st.text_input("البحث", key="prime_isolated_nav_search_v101", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
         if search_q:
             st.session_state["search_trigger"] = search_q
 
     # العمود 3: زر عن المنصة / اتصل بنا
     with cols_isolated:
-        if st.button("عن المنصة / اتصل بنا", key="prime_isolated_nav_abt_v100"):
+        if st.button("عن المنصة / اتصل بنا", key="prime_isolated_nav_abt_v101"):
             st.session_state["current_page"] = "about"; st.rerun()
 
     # العمود 4: زر حوكمة البيانات
     with cols_isolated:
-        if st.button("حوكمة البيانات", key="prime_isolated_nav_gov_v100"):
+        if st.button("حوكمة البيانات", key="prime_isolated_nav_gov_v101"):
             st.session_state["current_page"] = "data_governance"; st.rerun()
 
     # العمود 5: زر المهندسون
     with cols_isolated:
-        if st.button("المهندسون", key="prime_isolated_nav_eng_v100"):
+        if st.button("المهندسون", key="prime_isolated_nav_eng_v101"):
             st.session_state["current_page"] = "engineers"; st.rerun()
 
     # العمود 6: زر المشاريع
     with cols_isolated:
-        if st.button("المشاريع", key="prime_isolated_nav_proj_v100"):
+        if st.button("المشاريع", key="prime_isolated_nav_proj_v101"):
             st.session_state["current_page"] = "projects"; st.rerun()
 
     # العمود 7: زر المدونات
     with cols_isolated:
-        if st.button("المدونات", key="prime_isolated_nav_blogs_v100"):
+        if st.button("المدونات", key="prime_isolated_nav_blogs_v101"):
             st.session_state["current_page"] = "blogs"; st.rerun()
 
     # العمود 8: زر الرئيسية المضاء والنظيف
     with cols_isolated:
-        if st.button("الرئيسية", key="prime_isolated_nav_home_v100"):
+        if st.button("الرئيسية", key="prime_isolated_nav_home_v101"):
             st.session_state["current_page"] = "home"; st.rerun()
 
     # العمود 9 (أقصى اليمين): العلم العراقي الدائري المصغر المستقر برأس السنتر الموازي
