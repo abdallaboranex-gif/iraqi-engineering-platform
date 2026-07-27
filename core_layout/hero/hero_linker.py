@@ -1,50 +1,108 @@
 import streamlit as st
 
-# استدعاء البرامج المصغرة المستقلة من مجلداتها الفرعية
-from core_layout.hero.hero_main_title.main_title import render_main_title
-from core_layout.hero.hero_sub_title.sub_title import render_sub_title
-from core_layout.hero.pillar_sustainability.sustainability_pillar import render_sustainability_pillar
-from core_layout.hero.pillar_automation.automation_pillar import render_automation_pillar
-from core_layout.hero.pillar_governance.governance_pillar import render_governance_pillar
-
 def show_hero_section():
     """
-    الدالة المركزية لربط وتجميع عناصر القسم الترحيبي الـ 5 
-    مع عزل كامل للأخطاء وصفر اعتمادية بينها وحمايتها بأحزمة أمان.
+    الدالة المركزية المستقلة لإدارة وتأمين قسم الهيرو الترحيبي (صفر اعتمادية).
+    تنهي التشوه البصري وتجمع الركائز الثلاث في سطر واحد متناسق وموزون بالسنتر.
     """
-    
-    # 1. تجميع وعزل العنوان الرئيسي
-    try:
-        render_main_title()
-    except Exception:
-        st.sidebar.error("⚠️ هنت: عطل مؤقت في برنامج العنوان الرئيسي للمنصة.")
+    # 1. حقن نظام تصاميم صارم ومحدود لربط العناوين الترحيبية وتوسيطها بالملي
+    st.markdown(
+        """
+        <style>
+        .hero-title-main {
+            font-size: 38px !important;
+            font-weight: 800 !important;
+            color: #c5a059 !important;
+            text-align: center !important;
+            text-shadow: 0 0 20px rgba(197, 160, 89, 0.5), 2px 2px 5px rgba(0,0,0,0.9) !important;
+            margin-top: 10px !important;
+            margin-bottom: 5px !important;
+        }
+        .hero-subtitle-sub {
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            color: #ffffff !important;
+            text-align: center !important;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.9) !important;
+            margin-bottom: 30px !important;
+            opacity: 0.95;
+        }
+        /* تصميم الكروت الزجاجية العائمة للركائز الثلاث لضمان انتظام الأيقونات فوق النصوص */
+        .pillar-card-box {
+            background-color: rgba(7, 22, 21, 0.45) !important;
+            border: 1px solid rgba(197, 160, 89, 0.15) !important;
+            border-radius: 10px !important;
+            padding: 15px 10px !important;
+            text-align: center !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+            backdrop-filter: blur(4px) !important;
+            transition: all 0.3s ease !important;
+            margin: 5px !important;
+            min-height: 110px;
+        }
+        .pillar-card-box:hover {
+            border-color: #c5a059 !important;
+            box-shadow: 0 6px 20px rgba(197, 160, 89, 0.2) !important;
+            transform: translateY(-2px);
+        }
+        .pillar-icon-style {
+            font-size: 26px !important;
+            color: #c5a059 !important;
+            margin-bottom: 8px !important;
+            text-shadow: 0 0 10px rgba(197, 160, 89, 0.4) !important;
+        }
+        .pillar-text-style {
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            margin: 0 !important;
+            text-align: center !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
-    # 2. تجميع وعزل العنوان الفرعي
-    try:
-        render_sub_title()
-    except Exception:
-        pass  # يختفي بصمت دون التأثير على التصميم
+    # 2. طباعة العنوان الرئيسي والفرعي بالوسط بانتظام متوازن
+    st.markdown('<h1 class="hero-title-main">المدونات الهندسية العراقية</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="hero-subtitle-sub">منصة وطنية للمعرفة الهندسية المستدامة</p>', unsafe_allow_html=True)
 
-    # 3. إنشاء 3 أعمدة متساوية على الشاشة لصف أيقونات الركائز الثلاث بجانب بعضها
-    col1, col2, col3 = st.columns(3)
+    # 3. الحل الهندسي الجذري: حصر الركائز الثلاث داخل سطر واحد بـ 3 أعمدة متساوية تماماً لإنهاء المتمطط
+    col_p1, col_p2, col_p3 = st.columns(3)
 
-    # تجميع وعزل أيقونة استدامة داخل العمود الأول
-    with col1:
-        try:
-            render_sustainability_pillar()
-        except Exception:
-            st.warning("⚠️ القسم خاضع للصيانة")
+    # الركيزة 1: استدامة (اليمين بصرياً بالتسلسل العربي)
+    with col_p1:
+        st.markdown(
+            """
+            <div class="pillar-card-box">
+                <div class="pillar-icon-style">🌿</div>
+                <h4 class="pillar-text-style">استدامة</h4>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-    # تجميع وعزل أيقونة أتمتة داخل العمود الثاني
-    with col2:
-        try:
-            render_automation_pillar()
-        except Exception:
-            st.warning("⚠️ القسم خاضع للصيانة")
+    # الركيزة 2: أتمتة (الوسط)
+    with col_p2:
+        st.markdown(
+            """
+            <div class="pillar-card-box">
+                <div class="pillar-icon-style">⚙️</div>
+                <h4 class="pillar-text-style">أتمتة</h4>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-    # تجميع وعزل أيقونة حوكمة سيادية داخل العمود الثالث
-    with col3:
-        try:
-            render_governance_pillar()
-        except Exception:
-            st.warning("⚠️ القسم خاضع للصيانة")
+    # الركيزة 3: حوكمة سيادية (اليسار)
+    with col_p3:
+        st.markdown(
+            """
+            <div class="pillar-card-box">
+                <div class="pillar-icon-style">🏛️</div>
+                <h4 class="pillar-text-style">حوكمة سيادية</h4>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
