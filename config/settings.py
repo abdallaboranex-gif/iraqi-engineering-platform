@@ -1,13 +1,13 @@
 import streamlit as st
 import base64
 
-def apply_unified_background(image_path="assets/main_background.jpg"):
+def apply_unified_background(image_path="assets/main_background.jpeg"):
     """
     برنامج مستقل ومحصن لفرش الصورة الموحدة كخلفية ثابتة 
-    لكل واجهات المنصة مع ضبط الألوان والنصوص (صفر اعتمادية).
+    لكل واجهات المنصة بصيغة JPEG مع ضبط الألوان والنصوص (صفر اعتمادية).
     """
     try:
-        # قراءة الصورة وتحويلها إلى صيغة base64 لتعمل داخل المتصفح بأعلى سرعة وفوراً
+        # قراءة الصورة وتحويلها إلى صيغة base64 لتعمل داخل المتصفح فوراً وبأعلى سرعة
         with open(image_path, "rb") as image_file:
             encoded_string = base64.b64encode(image_file.read()).decode()
         
