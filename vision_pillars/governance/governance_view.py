@@ -15,7 +15,7 @@ def render_governance_view():
     الواجهة المركزية المحدثة لكابينة الحوكمة.
     تم تصفير كافة الحقول القياسية، وحقن خيار "اختر بنداً..."، وتفتيح ألوان النصوص المدخلة لتصبح بيضاء مقروءة 100%.
     """
-    # 1. حقن نظام تصاميم زجاجي فاخر مطور لتفتيح خطوط الكتابة داخل المربعات ومنع الغامق
+        # 1. حقن نظام تصاميم صارم وقاهر يجبر نصوص القوائم المنسدلة على التلون بالأبيض الناصع المقروء
     st.markdown(
         """
         <style>
@@ -43,18 +43,27 @@ def render_governance_view():
             background-color: rgba(7, 22, 21, 0.85) !important; border-radius: 4px !important;
         }
         
-        /* 🎯 كود حقن تفتيح الخطوط: إجبار الكلمات والأرقام المدخلة داخل المربعات على التلون بالأبيض الناصع المقروء */
-        .stSelectbox div[data-testid="stMarkdownContainer"] p, 
+        /* 🎯 نسف خط المتصفح الغامق: إجبار النص المختار والنصوص الداخلية للقوائم المنسدلة وحقول الإدخال على التلون بالأبيض الناصع */
+        .stSelectbox div[data-baseweb="select"] div,
+        .stSelectbox div[data-baseweb="select"] span,
+        .stSelectbox div[aria-selected="true"],
+        .stSelectbox select,
         .stNumberInput input, 
         .stTextInput input,
         div[role="listbox"] li,
-        div[data-baseweb="select"] span,
-        div[data-baseweb="select"] div {
+        div[role="option"] {{
             color: #ffffff !important;
+            background-color: transparent !important;
             font-weight: 600 !important;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important;
-            -webkit-text-fill-color: #ffffff !important; /* قهر المتصفحات الذكية التي تقفل اللون */
-        }
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.9) !important;
+            -webkit-text-fill-color: #ffffff !important; /* قهر جدار حماية المتصفح للألوان */
+        }}
+        
+        /* تفتيح السهم الصغير الجانبي للقائمة المنسدلة */
+        .stSelectbox svg {{
+            fill: #c5a059 !important;
+            color: #c5a059 !important;
+        }}
         
         .premium-violation-card {
             background-color: rgba(139, 0, 0, 0.15) !important;
