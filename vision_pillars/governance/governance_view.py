@@ -15,7 +15,7 @@ def render_governance_view():
     الواجهة المركزية المحدثة لكابينة الحوكمة.
     تم تصفير كافة الحقول القياسية، وحقن خيار "اختر بنداً..."، وتفتيح ألوان النصوص المدخلة لتصبح بيضاء مقروءة 100%.
     """
-    # 1. حقن نظام تصاميم فيدرالي صارم لتعتيم خلفيات القوائم العائمة لتبدو مخملية وواضحة 100%
+     # 1. حقن نظام تصاميم فيدرالي صارم لتفتيح خطوط الصناديق المغلقة والمفتوحة بالأبيض الناصع 100%
     st.markdown(
         """
         <style>
@@ -45,20 +45,25 @@ def render_governance_view():
             background-color: rgba(7, 22, 21, 0.9) !important; border-radius: 4px !important;
         }
         
-        /* إجبار النصوص الداخلية وحقول الإدخال على التلون بالأبيض الناصع */
+        # 🎯 نسف تعتيم الصناديق المغلقة: حقن فيدرالي شامل يجبر الكلمات المختارة (مثل بغداد) والنصوص الداخلية على السطوع بالأبيض
         .stSelectbox div[data-baseweb="select"] div,
         .stSelectbox div[data-baseweb="select"] span,
+        .stSelectbox div[data-testid="stMarkdownContainer"] p,
         .stSelectbox div[aria-selected="true"],
         .stSelectbox select,
         .stNumberInput input, 
-        .stTextInput input {
+        .stTextInput input,
+        div[role="listbox"] li,
+        div[role="option"],
+        div[data-baseweb="menu"] div,
+        div[data-baseweb="menu"] li {
             color: #ffffff !important;
             font-weight: 600 !important;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.9) !important;
-            -webkit-text-fill-color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important; /* قهر وإبطال ألوان المتصفح الافتراضية */
         }
         
-        /* 🎯 نسف الخلفية البيضاء للقائمة المنبثقة: إجبار الصندوق العائم على التلون بالداكن المخملي وحواف مذهبة */
+        /* نسف الخلفية البيضاء للقائمة المنبثقة المفتوحة */
         div[data-baseweb="menu"], 
         div[role="listbox"],
         ul[role="listbox"] {
@@ -69,23 +74,7 @@ def render_governance_view():
             border-radius: 6px !important;
         }
         
-        /* إجبار أسماء المحافظات والخيارات داخل القائمة المنبثقة على التلون بالأبيض الناصع وصفر خلفية بيضاء */
-        div[role="listbox"] li,
-        div[role="option"],
-        div[data-baseweb="menu"] div,
-        div[data-baseweb="menu"] li {
-            color: #ffffff !important;
-            background-color: #071615 !important;
-            background: #071615 !important;
-            font-weight: 600 !important;
-            text-align: right !important;
-            direction: rtl !important;
-            -webkit-text-fill-color: #ffffff !important;
-            padding: 8px 12px !important;
-            cursor: pointer !important;
-        }
-        
-        /* تأثير تظليل مذهب راقٍ عند تمرير الماوس فوق اسم المحافظة داخل القائمة */
+        /* تأثير تظليل مذهب راقٍ عند تمرير الماوس فوق الخيارات */
         div[role="listbox"] li:hover,
         div[role="option"]:hover,
         div[data-baseweb="menu"] li:hover {
@@ -95,7 +84,7 @@ def render_governance_view():
             -webkit-text-fill-color: #c5a059 !important;
         }
         
-        /* تفتيح وتقوية أزرار الزائد والناقص والرموز */
+        /* تفتيح وتقوية أزرار الزائد والناقص والرموز السهمية لجعلها ساطعة وبارزة */
         button[data-testid="stNumberInputStepUp"], 
         button[data-testid="stNumberInputStepDown"] {
             background-color: rgba(197, 160, 89, 0.15) !important;
@@ -104,7 +93,9 @@ def render_governance_view():
         button[data-testid="stNumberInputStepUp"] svg, 
         button[data-testid="stNumberInputStepDown"] svg,
         .stSelectbox svg {
-            fill: #ffffff !important; color: #ffffff !important; stroke: #ffffff !important;
+            fill: #ffffff !important; 
+            color: #ffffff !important; 
+            stroke: #ffffff !important;
         }
         
         .premium-violation-card {
