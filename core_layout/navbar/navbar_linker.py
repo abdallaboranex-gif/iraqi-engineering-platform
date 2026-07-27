@@ -4,8 +4,8 @@ import os
 
 def show_navbar_section():
     """
-    الدالة المركزية المصلحة والمحكمة لبناء شريط تنقل متراص ومدمج.
-    تم إغلاق كافة الأقواس البرمجية هنا بشكل صارم لكسر الصندوق الأحمر وإظهار الشريط فوراً.
+    الدالة المركزية المصلحة والنهائية لبناء شريط تنقل متراص ومدمج.
+    تستخدم ميزة row-reverse لإجبار المتصفح على قلب الترتيب من اليمين لليسار 100%.
     """
     # 1. قراءة وتشفير صورة العلم العراقي من مجلد assets
     flag_path = "assets/iraqi_flag.jpg"
@@ -17,11 +17,19 @@ def show_navbar_section():
     except Exception:
         pass
 
-    # 2. حقن نظام تصاميم محكم ومغلق تماماً بدون أي تسريب نصوص أو أقواس ناقصة
+    # 2. حقن نظام تصاميم صارم يجبر العناصر على الانقالب والتراص من اليمين لليسار
     st.markdown(
         f"""
         <style>
-        /* تثبيت أبعاد العلم العراقي الحقيقي ليكون دائرياً ناعماً وصغيراً كالأيقونة */
+        /* الحل الجذري: قلب اتجاه صف الأعمدة بالكامل لتبدأ من اليمين 100% */
+        div[data-testid="stHorizontalBlock"] {{
+            display: flex !important;
+            flex-direction: row-reverse !important; /* قلب الصف كاملاً بصرياً بالمتصفح */
+            gap: 2px !important;
+            align-items: center !important;
+        }}
+        
+        /* تثبيت أبعاد العلم العراقي الحقيقي ليكون دائرياً ناعماً وصغيراً */
         .nav-flag-img {{
             width: 32px !important;
             height: 32px !important;
@@ -33,13 +41,15 @@ def show_navbar_section():
             vertical-align: middle !important;
         }}
 
-        /* تصفير وإغلاق الفراغات الحشوية الافتراضية لـ Streamlit بالكامل لتقريب الأزرار */
-        div[data-testid="stHorizontalBlock"] {{
-            gap: 2px !important;
-            align-items: center !important;
+        div[data-testid="stColumn"] {{
+            background-color: transparent !important;
+            border: none !important;
+            padding: 0px !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
         }}
         
-        /* إعادة تصميم أزرار النافبار لتكون نحيفة جداً وشفافة وبخط صغير */
+        /* إعادة تصميم أزرار النافبار لتكون نحيفة جداً وشفافة وبخط صغير مدمج */
         .stButton > button {{
             border: none !important;
             background: rgba(7, 22, 21, 0.6) !important;
@@ -63,11 +73,11 @@ def show_navbar_section():
         unsafe_allow_html=True
     )
 
-    # 3. صياغة الهيكل الموزع أفقياً بأبعاد مقربة ومحاذاة ممتازة بالتسلسل العربي الصحيح
-    # توزيع نسبي محكم لصف الأعمدة لمنع خروج العناصر
+    # 3. صياغة الهيكل بالتسلسل البرمجي (المتصفح سيقوم بقلبه تلقائياً بفضل كود الـ CSS أعلاه)
+    # نكتب الترتيب هنا طبيعياً، وحقنة الـ row-reverse ستجعل العمود الأول يطير لأقصى اليمين والتاسع لأقصى اليسار
     cols = st.columns([0.5, 0.6, 0.6, 0.6, 0.7, 0.8, 1.2, 1.5, 0.9])
     
-    # العمود 1 (أقصى اليمين): العلم الدائري المصغر بمفرده ونظيف تماماً
+    # هذا العمود سيطير برمشة عين ليستقر في أقصى اليمين (العلم النظيف)
     with cols[0]:
         if encoded_flag:
             st.markdown(
@@ -81,52 +91,40 @@ def show_navbar_section():
         else:
             st.markdown("<div style='font-size: 22px; text-align: right;'>🇮🇶</div>", unsafe_allow_html=True)
 
-    # العمود 2: زر الرئيسية
+    # الأزرار الوسطية ستترتب بانتظام خلف العلم مباشرة وتتجه يساراً
     with cols[1]:
-        if st.button("الرئيسية", key="nav_home_final"):
-            st.session_state["current_page"] = "home"
-            st.rerun()
+        if st.button("الرئيسية", key="nav_home_final_v6"):
+            st.session_state["current_page"] = "home"; st.rerun()
 
-    # العمود 3: زر المدونات
     with cols[2]:
-        if st.button("المدونات", key="nav_blogs_final"):
-            st.session_state["current_page"] = "blogs"
-            st.rerun()
+        if st.button("المدونات", key="nav_blogs_final_v6"):
+            st.session_state["current_page"] = "blogs"; st.rerun()
 
-    # العمود 4: زر المشاريع
     with cols[3]:
-        if st.button("المشاريع", key="nav_proj_final"):
-            st.session_state["current_page"] = "projects"
-            st.rerun()
+        if st.button("المشاريع", key="nav_proj_final_v6"):
+            st.session_state["current_page"] = "projects"; st.rerun()
 
-    # العمود 5: زر المهندسون
     with cols[4]:
-        if st.button("المهندسون", key="nav_eng_final"):
-            st.session_state["current_page"] = "engineers"
-            st.rerun()
+        if st.button("المهندسون", key="nav_eng_final_v6"):
+            st.session_state["current_page"] = "engineers"; st.rerun()
 
-    # العمود 6: زر حوكمة البيانات
     with cols[5]:
-        if st.button("حوكمة البيانات", key="nav_gov_final"):
-            st.session_state["current_page"] = "data_governance"
-            st.rerun()
+        if st.button("حوكمة البيانات", key="nav_gov_final_v6"):
+            st.session_state["current_page"] = "data_governance"; st.rerun()
 
-    # العمود 7: زر عن المنصة / اتصل بنا
     with cols[6]:
-        if st.button("عن المنصة / اتصل بنا", key="nav_abt_final"):
-            st.session_state["current_page"] = "about"
-            st.rerun()
+        if st.button("عن المنصة / اتصل بنا", key="nav_abt_final_v6"):
+            st.session_state["current_page"] = "about"; st.rerun()
 
-    # العمود 8: خانة البحث المدمجة والناعمة المجاورة للأزرار
+    # حقل البحث المدمج
     with cols[7]:
-        search_q = st.text_input("", key="nav_search_final", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
+        search_q = st.text_input("", key="nav_search_final_v6", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
         if search_q:
             st.session_state["search_trigger"] = search_q
 
-    # العمود 9 (أقصى اليسار): بوابة تسجيل الدخول
+    # هذا العمود سيطير ليستقر في أقصى اليسار (بوابة الدخول)
     with cols[8]:
-        if st.button("🔒 دخول", key="nav_auth_final"):
-            st.session_state["current_page"] = "auth"
-            st.rerun()
+        if st.button("🔒 دخول", key="nav_auth_final_v6"):
+            st.session_state["current_page"] = "auth"; st.rerun()
 
     st.markdown("<hr style='border-color: rgba(197, 160, 89, 0.15); margin-top: 5px; margin-bottom: 15px;'>", unsafe_allow_html=True)
