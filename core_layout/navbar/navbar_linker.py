@@ -1,105 +1,140 @@
 import streamlit as st
-
-# استدعاء البرامج المصغرة المستقلة للنافكيشن بار من مجلداتها الفرعية المخصصة
-from core_layout.navbar.nav_iraqi_flag.flag import render_iraqi_flag
-from core_layout.navbar.nav_logo.logo import render_nav_logo
-from core_layout.navbar.nav_menu_drawer.menu_drawer import render_menu_drawer
-from core_layout.navbar.nav_search_engine.search_engine import render_search_engine
-from core_layout.navbar.nav_home.btn_home import render_btn_home
-from core_layout.navbar.nav_blogs.btn_blogs import render_btn_blogs
-from core_layout.navbar.nav_projects.btn_projects import render_btn_projects
-from core_layout.navbar.nav_engineers.btn_engineers import render_btn_engineers
-from core_layout.navbar.nav_data_governance.btn_governance import render_btn_governance
-from core_layout.navbar.nav_about_contact.btn_about_contact import render_btn_about_contact
-from core_layout.navbar.nav_auth_gate.auth_gate import render_auth_gate
+import base64
+import os
 
 def show_navbar_section():
     """
-    الدالة المركزية لتجميع برامج شريط التنقل الـ 11 ومحرك بحث الإكسل.
-    تم تعديل أوزان الأعمدة هنا لتقريب الأزرار وتراصها أفقياً بنسبة اعتماد صفرية.
+    الدالة المركزية المطورة لبناء شريط تنقل متراص ومدمج أفقياً يحاكي الصورة القياسية تماماً.
+    تم تحديث مسار العلم هنا ليقرأ الامتداد الحقيقي iraq_flag.jpg بنجاح وصفر اعتمادية.
     """
-    
-    # حقن كود CSS مصغر ومستقل لعزل وتجميل أزرار النافبار وجعلها متقاربة وبدون فراغات بيضاء
+    # 1. قراءة وتشفير صورة العلم العراقي الحقيقية المرفوعة بصيغة JPG
+    flag_path = "assets/iraqi_flag.jpg"
+    encoded_flag = ""
+    if os.path.exists(flag_path):
+        with open(flag_path, "rb") as f:
+            encoded_flag = base64.b64encode(f.read()).decode()
+
+    # 2. حقن هندسة التصميم المتقدمة للتحكم الدقيق بالمسافات والأبعاد وتصغير الأزرار
     st.markdown(
-        """
+        f"""
+        <link rel="stylesheet" href="https://cloudflare.com">
         <style>
-        /* تصغير الفراغات بين أعمدة النافبار وجعل الخطوط متناسقة */
-        div[data-testid="stHorizontalBlock"] > div {{
-            padding-left: 2px !important;
-            padding-right: 2px !important;
+        /* إنشاء حاوية مرنة ومدمجة تجمع كل العناصر متراصة في سطر واحد */
+        .custom-navbar {{
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            background-color: rgba(7, 22, 21, 0.85) !important;
+            padding: 6px 16px !important;
+            border-radius: 8px !important;
+            border: 1px solid rgba(197, 160, 89, 0.25) !important;
+            direction: rtl !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
+            margin-bottom: 15px !important;
         }}
-        /* تجميل خطوط أزرار النافبار المتقاربة */
+        
+        /* تجميع أزرار القائمة والعلم والشعار متراصين ومقربين جداً باليمين */
+        .nav-right-block {{
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important; /* مسافات صغيرة ومحكومة بكسلياً بين العناصر */
+        }}
+        
+        /* العلم العراقي الدائري الحقيقي والمضاء */
+        .nav-flag {{
+            width: 24px !important;
+            height: 24px !important;
+            border-radius: 50% !important;
+            object-fit: cover !important;
+            border: 1px solid #c5a059 !important;
+            box-shadow: 0 0 6px rgba(197, 160, 89, 0.4) !important;
+        }}
+        
+        /* الشعار والبحث المدمج */
+        .nav-logo {{
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            color: #c5a059 !important;
+            letter-spacing: 0.5px !important;
+        }}
+        
+        /* تجميع الأزرار الستة الوسطية متراصة ومقربة بدون أي فراغات عمودية */
+        .nav-center-menu {{
+            display: flex !important;
+            align-items: center !important;
+            gap: 15px !important;
+        }}
+        
+        /* تصفير وإعادة تشكيل تصميم أزرار Streamlit داخل حاوية النافبار لتبدو نبيلة ونحيفة */
+        div[data-testid="stHorizontalBlock"] {{
+            gap: 0px !important; /* إغلاق فراغات الأعمدة الافتراضية لـ Streamlit واكتناز الأبعاد */
+        }}
         .stButton > button {{
-            font-size: 13px !important;
-            padding: 4px 8px !important;
-            white-space: nowrap !important; /* منع نزول النص لسطر جديد */
-            width: 100% !important;
+            border: none !important;
+            background: transparent !important;
+            color: #a0b0af !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            padding: 2px 4px !important;
+            white-space: nowrap !important;
+            transition: color 0.2s ease !important;
+        }}
+        .stButton > button:hover {{
+            color: #c5a059 !important;
+            background: transparent !important;
+            box-shadow: none !important;
         }}
         </style>
         """,
         unsafe_allow_html=True
     )
 
-    # إنشاء 10 أعمدة متراصة ومقربة جداً لصف الأزرار والعلم والشعار بجانب بعضها
-    # الأرقام تمثل العرض النسبي لكل عمود (أوزان خفيفة ومتقاربة)
-    cols = st.columns([0.2, 0.4, 0.2, 0.6, 0.6, 0.6, 0.6, 1.0, 1.3, 0.9])
+    # 3. صياغة الهيكل البصري المدمج بنظام توزيع الأعمدة المقربة (الأبعاد المكتنزة)
+    col_nav = st.columns([1.2, 5.0, 1.0])
     
-    # 1. العلم العراقي
-    with cols[0]:
-        try: render_iraqi_flag()
-        except Exception: pass
+    # العمود الأيمن المتراص (العلم الحقيقي المرفوع، الشعار، والبرجر)
+    with col_nav[0]:
+        st.markdown(
+            f"""
+            <div class="nav-right-block">
+                <i class="fa-solid fa-bars" style="color: #a0b0af; cursor: pointer; font-size: 14px;"></i>
+                <img class="nav-flag" src="data:image/jpeg;base64,{encoded_flag}">
+                <span class="nav-logo">INCP</span>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
 
-    # 2. شعار المنصة INCP
-    with cols[1]:
-        try: render_nav_logo()
-        except Exception: pass
+    # العمود الأوسط المدمج (تقريب مسافات أزرار التنقل وحقل الاستعلام)
+    with col_nav[1]:
+        sub_cols = st.columns([0.6, 0.7, 0.7, 0.7, 1.0, 1.3, 1.8])
+        with sub_cols[0]:
+            if st.button("الرئيسية", key="nav_home_new"):
+                st.session_state["current_page"] = "home"; st.rerun()
+        with sub_cols[1]:
+            if st.button("المدونات", key="nav_blogs_new"):
+                st.session_state["current_page"] = "blogs"; st.rerun()
+        with sub_cols[2]:
+            if st.button("المشاريع", key="nav_proj_new"):
+                st.session_state["current_page"] = "projects"; st.rerun()
+        with sub_cols[3]:
+            if st.button("المهندسون", key="nav_eng_new"):
+                st.session_state["current_page"] = "engineers"; st.rerun()
+        with sub_cols[4]:
+            if st.button("حوكمة البيانات", key="nav_gov_new"):
+                st.session_state["current_page"] = "data_governance"; st.rerun()
+        with sub_cols[5]:
+            if st.button("عن المنصة / اتصل بنا", key="nav_abt_new"):
+                st.session_state["current_page"] = "about"; st.rerun()
+        with sub_cols[6]:
+            # حقل البحث المدمج والناعم المتواجد بجانب الأزرار مباشرة كالصورة المرجعية
+            search_q = st.text_input("", key="nav_search_compact", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
+            if search_q:
+                st.session_state["search_trigger"] = search_q
 
-    # 3. أيقونة البرجر للقائمة الجانبية المساعدة
-    with cols[2]:
-        try: render_menu_drawer()
-        except Exception: pass
+    # العمود الأيسر (حجز زر تسجيل الدخول المذهب بأقصى اليسار)
+    with col_nav[2]:
+        if st.button("🔒 تسجيل الدخول", key="nav_auth_new"):
+            st.session_state["current_page"] = "auth"; st.rerun()
 
-    # 4. زر الرئيسية
-    with cols[3]:
-        try: render_btn_home()
-        except Exception: pass
-
-    # 5. زر المدونات
-    with cols[4]:
-        try: render_btn_blogs()
-        except Exception: pass
-
-    # 6. زر المشاريع
-    with cols[5]:
-        try: render_btn_projects()
-        except Exception: pass
-
-    # 7. زر المهندسون
-    with cols[6]:
-        try: render_btn_engineers()
-        except Exception: pass
-
-    # 8. زر حوكمة البيانات
-    with cols[7]:
-        try: render_btn_governance()
-        except Exception: pass
-
-    # 9. زر عن المنصة / اتصل بنا
-    with cols[8]:
-        try: render_btn_about_contact()
-        except Exception: pass
-
-    # 10. بوابة تسجيل الدخول الموحدة
-    with cols[9]:
-        try: render_auth_gate()
-        except Exception: pass
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # 11. حقن وعزل محرك البحث الذكي المباشر داخل ملفات الإكسل شيت أسفل صف الأزرار لراحة العين
-    try:
-        render_search_engine()
-    except Exception:
-        st.sidebar.warning("⚠️ هنت: محرك الاستعلام الذكي في الإكسل خاضع للصيانة.")
-        
-    st.markdown("<hr style='border-color: rgba(197, 160, 89, 0.3); margin-top: 5px; margin-bottom: 15px;'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border-color: rgba(197, 160, 89, 0.15); margin-top: 2px; margin-bottom: 15px;'>", unsafe_allow_html=True)
