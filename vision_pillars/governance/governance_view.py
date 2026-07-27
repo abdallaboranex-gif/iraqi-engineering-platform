@@ -15,7 +15,7 @@ def render_governance_view():
     الواجهة المركزية المحدثة لكابينة الحوكمة.
     تم تصفير كافة الحقول القياسية، وحقن خيار "اختر بنداً..."، وتفتيح ألوان النصوص المدخلة لتصبح بيضاء مقروءة 100%.
     """
-     # 1. حقن نظام تصاميم فيدرالي صارم لتفتيح خطوط الصناديق المغلقة والمفتوحة بالأبيض الناصع 100%
+    # 1. حقن نظام تصاميم فيدرالي صارم لتفتيح خطوط الصناديق المغلقة والمفتوحة بالأبيض الناصع 100%
     st.markdown(
         """
         <style>
@@ -39,47 +39,67 @@ def render_governance_view():
             display: block !important; text-align: right !important; direction: rtl !important;
         }
         
-        /* تقوية حواف صناديق الإدخال وتلوين خلفيتها الافتراضية بالداكن */
+        /* تقوية حواف صناديق الإدخال وتلوين خلفيتها الافتراضية بالداكن المخملي */
         .stSelectbox > div > div, .stNumberInput > div > div, .stTextInput > div > div {
             border: 1px solid rgba(197, 160, 89, 0.5) !important;
-            background-color: rgba(7, 22, 21, 0.9) !important; border-radius: 4px !important;
+            background-color: rgba(7, 22, 21, 0.95) !important; border-radius: 4px !important;
         }
         
-        # 🎯 نسف تعتيم الصناديق المغلقة: حقن فيدرالي شامل يجبر الكلمات المختارة (مثل بغداد) والنصوص الداخلية على السطوع بالأبيض
+        /* 🎯 نسف تعتيم الصناديق (المفتوحة والمغلقة): اختراق وتفتيح كافة طبقات نصوص بايثون سحابياً */
         .stSelectbox div[data-baseweb="select"] div,
         .stSelectbox div[data-baseweb="select"] span,
         .stSelectbox div[data-testid="stMarkdownContainer"] p,
         .stSelectbox div[aria-selected="true"],
         .stSelectbox select,
+        .stSelectbox div,
+        .stSelectbox span,
         .stNumberInput input, 
         .stTextInput input,
         div[role="listbox"] li,
+        div[role="listbox"] div,
         div[role="option"],
+        div[role="option"] span,
         div[data-baseweb="menu"] div,
+        div[data-baseweb="menu"] span,
         div[data-baseweb="menu"] li {
             color: #ffffff !important;
-            font-weight: 600 !important;
+            font-weight: 700 !important;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.9) !important;
-            -webkit-text-fill-color: #ffffff !important; /* قهر وإبطال ألوان المتصفح الافتراضية */
+            -webkit-text-fill-color: #ffffff !important; /* القهر اللوني الشامل لخط المتصفح الافتراضي */
         }
         
-        /* نسف الخلفية البيضاء للقائمة المنبثقة المفتوحة */
+        /* نسف الخلفية البيضاء أو المشوهة للقائمة المنبثقة المفتوحة وجعلها داكنة فاخرة */
         div[data-baseweb="menu"], 
         div[role="listbox"],
         ul[role="listbox"] {
             background-color: #071615 !important;
             background: #071615 !important;
             border: 1px solid #c5a059 !important;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.8) !important;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.9) !important;
             border-radius: 6px !important;
         }
         
-        /* تأثير تظليل مذهب راقٍ عند تمرير الماوس فوق الخيارات */
+        /* ضبط وتأمين خيارات القائمة المفتوحة لتصبح بيضاء وخلفيتها داكنة تماماً */
+        div[role="listbox"] li,
+        div[role="option"],
+        div[data-baseweb="menu"] div,
+        div[data-baseweb="menu"] li {
+            background-color: #071615 !important;
+            background: #071615 !important;
+            padding: 8px 12px !important;
+            text-align: right !important;
+            direction: rtl !important;
+        }
+        
+        /* تأثير تظليل مذهب راقٍ جداً عند تمرير الماوس فوق الخيارات المفتوحة */
         div[role="listbox"] li:hover,
         div[role="option"]:hover,
-        div[data-baseweb="menu"] li:hover {
-            background-color: rgba(197, 160, 89, 0.2) !important;
-            background: rgba(197, 160, 89, 0.2) !important;
+        div[data-baseweb="menu"] li:hover,
+        div[role="listbox"] li:hover *,
+        div[role="option"]:hover *,
+        div[data-baseweb="menu"] li:hover * {
+            background-color: rgba(197, 160, 89, 0.25) !important;
+            background: rgba(197, 160, 89, 0.25) !important;
             color: #c5a059 !important;
             -webkit-text-fill-color: #c5a059 !important;
         }
