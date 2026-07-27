@@ -8,6 +8,11 @@ st.set_page_config(page_title="منصة المدونات الهندسية الع
 
 # 2. حقن المسار الجذري الفعلي للمشروع لتأمين غرف الـ __init__.py المرفوعة
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# 🎯 حاقن فيدرالي لتطهير المسارات المخبأة وإجبار السيرفر على الاعتراف بالحزم الجديدة
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "database_rules"))
 
 # 3. فرش الخلفية الموحدة وتأمين الهوية البصرية من ملف الإعدادات
 import config.settings as custom_settings
