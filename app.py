@@ -140,39 +140,54 @@ with main_content:
             ft_linker.show_footer_section()
         except Exception:
             st.caption("⚠️ قاع الشاشة خاضع للتحديث.")
-
-    # --- إدارة فتح الصفحات الفرعية الجديدة والمعزولة بشكل مستقل طبقاً لفلسفتك ---
-    elif current_view == "smart_cities":
-        from vision_pillars.smart_cities.smart_cities_view import render_smart_cities_view
-        try: render_smart_cities_view()
-        except Exception: st.error("⚠️ عطل في الكابينة")
-        if st.button("↩️ العودة للشاشة الرئيسية", key="ultimate_m_back_sc"): st.session_state["current_page"] = "home"; st.rerun()
-
-    elif current_view == "governance":
-        from vision_pillars.governance.governance_view import render_governance_view
-        try: render_governance_view()
-        except Exception: st.error("⚠️ عطل في الكابينة")
-        if st.button("↩️ العودة للشاشة الرئيسية", key="ultimate_m_back_gov"): st.session_state["current_page"] = "home"; st.rerun()
-
-    elif current_view == "automation":
-        from vision_pillars.automation.automation_view import render_automation_view
-        try: render_automation_view()
-        except Exception: st.error("⚠️ عطل في الكابينة")
-        if st.button("↩️ العودة للشاشة الرئيسية", key="ultimate_m_back_auto"): st.session_state["current_page"] = "home"; st.rerun()
-
-    elif current_view == "sustainability":
-        from vision_pillars.sustainability.sustainability_view import render_sustainability_view
-        try: render_sustainability_view()
-        except Exception: st.error("⚠️ عطل في الكابينة")
-        if st.button("↩️ العودة للشاشة الرئيسية", key="ultimate_m_back_sus"): st.session_state["current_page"] = "home"; st.rerun()
-        
-      elif current_view == "blogs":
-        from vision_pillars.blogs.blogs_view import render_blogs_view
+    # --- إدارة فتح الصفحات الفرعية والتبويبات بالمسافات القياسية الصارمة ---
+    elif current_view == "blogs":
         try:
+            from vision_pillars.blogs.blogs_view import render_blogs_view
             render_blogs_view()
         except Exception:
-            st.error("⚠️ عطل في الكابينة")
-        if st.button("↩️ العودة للشاشة الرئيسية", key="ultimate_f_back_blogs_nav"):
+            st.error("⚠️ عطل طارئ في لوحة تشغيل المدونات واللوائح.")
+        if st.button("↩️ العودة للشاشة الرئيسية", key="ultimate_back_from_blogs_tab", use_container_width=True):
             st.session_state["current_page"] = "home"; st.rerun()
-            
+
+    elif current_view == "smart_cities":
+        try:
+            from vision_pillars.smart_cities.smart_cities_view import render_smart_cities_view
+            render_smart_cities_view()
+        except Exception:
+            st.error("⚠️ عطل في الكابينة")
+        if st.button("↩️ العودة للشاشة الرئيسية", key="ultimate_f_back_sc"):
+            st.session_state["current_page"] = "home"; st.rerun()
+
+    elif current_view == "governance":
+        try:
+            from vision_pillars.governance.governance_view import render_governance_view
+            render_governance_view()
+        except Exception:
+            st.error("⚠️ عطل في الكابينة")
+        if st.button("↩️ العودة للشاشة الرئيسية", key="ultimate_f_back_gov"):
+            st.session_state["current_page"] = "home"; st.rerun()
+
+    elif current_view == "automation":
+        try:
+            from vision_pillars.automation.automation_view import render_automation_view
+            render_automation_view()
+        except Exception:
+            st.error("⚠️ عطل في الكابينة")
+        if st.button("↩️ العودة للشاشة الرئيسية", key="ultimate_f_back_auto"):
+            st.session_state["current_page"] = "home"; st.rerun()
+
+    elif current_view == "sustainability":
+        try:
+            from vision_pillars.sustainability.sustainability_view import render_sustainability_view
+            render_sustainability_view()
+        except Exception:
+            st.error("⚠️ عطل في الكابينة")
+        if st.button("↩️ العودة للشاشة الرئيسية", key="ultimate_f_back_sus"):
+            st.session_state["current_page"] = "home"; st.rerun()
+        
     elif current_view in ["projects", "engineers", "data_governance", "about", "auth"]:
+        st.markdown(f"## 🚪 واجهة مركزية جديدة ومستقلة: `{current_view.upper()}`")
+        st.info(f"🔒 هذه الخدمة معزولة تماماً في مجلدها الفرعي الخاص.")
+        if st.button("↩️ العودة للشاشة الرئيسية", key="ultimate_f_back_nav_pages"):
+            st.session_state["current_page"] = "home"; st.rerun()
