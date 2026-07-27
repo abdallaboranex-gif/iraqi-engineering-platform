@@ -166,7 +166,13 @@ with main_content:
         except Exception: st.error("⚠️ عطل في الكابينة")
         if st.button("↩️ العودة للشاشة الرئيسية", key="ultimate_m_back_sus"): st.session_state["current_page"] = "home"; st.rerun()
         
-    elif current_view in ["blogs", "projects", "engineers", "data_governance", "about", "auth"]:
-        st.markdown(f"## 🚪 واجهة مركزية جديدة ومستقلة: `{current_view.upper()}`")
-        st.info(f"🔒 هذه الخدمة معزولة تماماً في مجلدها الفرعي الخاص.")
-        if st.button("↩️ العودة للشاشة الرئيسية", key="ultimate_m_back_nav_pages"): st.session_state["current_page"] = "home"; st.rerun()
+      elif current_view == "blogs":
+        from vision_pillars.blogs.blogs_view import render_blogs_view
+        try:
+            render_blogs_view()
+        except Exception:
+            st.error("⚠️ عطل في الكابينة")
+        if st.button("↩️ العودة للشاشة الرئيسية", key="ultimate_f_back_blogs_nav"):
+            st.session_state["current_page"] = "home"; st.rerun()
+            
+    elif current_view in ["projects", "engineers", "data_governance", "about", "auth"]:
