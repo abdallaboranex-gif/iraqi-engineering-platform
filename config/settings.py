@@ -1,24 +1,38 @@
 import streamlit as st
+import base64
+import os
 
 def apply_unified_background():
     """
-    برنامج الهوية البصرية الحاسم لفرش صورتك السيادية الموحدة على كامل المتصفح الخارجي والداخلي،
-    وتصفير الألوان الافتراضية لـ Streamlit مع حماية التوازن الهندسي بالمنتصف (صفر اعتمادية).
+    برنامج الهوية البصرية النهائي المعتمد لقراءة ملف الصورة محلياً من مجلد assets
+    وتحويله برمجياً بصيغة Base64 لتخطي حجب المتصفحات وفرش الخلفية الموحدة فوراً.
     """
-    # الرابط المباشر (Raw URL) لصورتك الموحدة الحقيقية من مستودعك على GitHub
-    image_url = "https://githubusercontent.com"
+    # تحديد مسار ملف صورتك الموحدة الحقيقية داخل المجلد التابع للمشروع
+    image_path = "assets/main_background.jpeg"
+    bg_style = ""
+    
+    try:
+        if os.path.exists(image_path):
+            # قراءة الصورة وتحويلها فوراً إلى صيغة مشفرة يتقبلها المتصفح بدون جدران حماية
+            with open(image_path, "rb") as image_file:
+                encoded_string = base64.b64encode(image_file.read()).decode()
+            bg_style = f'background-image: url("data:image/jpeg;base64,{encoded_string}") !important;'
+        else:
+            # حزام أمان داكن في حال عدم تطابق اسم الملف
+            bg_style = 'background-color: #071615 !important;'
+    except Exception:
+        bg_style = 'background-color: #071615 !important;'
     
     st.markdown(
         f"""
         <style>
-        /* 1. الحل الجذري: فرش وتثبيت الخلفية الموحدة على الجسد الخارجي والداخلي للمتصفح بالكامل لمنع الرمادي */
+        /* 1. فرش وتثبيت الخلفية الموحدة المشفرة على كامل الجسد الخارجي والداخلي للمتصفح */
         body, .main, .stApp, [data-testid="stAppViewContainer"] {{
-            background-image: url("{image_url}") !important;
+            {bg_style}
             background-size: cover !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
             background-attachment: fixed !important;
-            background-color: #071615 !important; /* لون احتياطي داكن جداً لمنع البياض */
         }}
         
         /* 2. حماية التوازن الهندسي الملموم بالمنتصف وجعل الحاوية زجاجية شفافة لتمرير تفاصيل الصورة */
@@ -28,11 +42,11 @@ def apply_unified_background():
             padding-bottom: 25px !important;
             padding-left: 20px !important;
             padding-right: 20px !important;
-            margin: 40px auto !important; /* حصر وموازنة الصندوق في السنتر المباشر للشاشة مع ترك هوامش علوية */
-            background-color: rgba(7, 22, 21, 0.78) !important; /* تعتيم زجاجي داكن مريح جداً للعين للقراءة */
+            margin: 40px auto !important; /* موازنة الصندوق في السنتر المباشر للشاشة */
+            background-color: rgba(7, 22, 21, 0.78) !important; /* تعتيم زجاجي داكن مريح جداً للقراءة */
             border-radius: 12px !important;
             box-shadow: 0 15px 50px rgba(0,0,0,0.8) !important;
-            backdrop-filter: blur(8px) !important; /* تأثير الضبابية الزجاجية الفخم للمحتوى */
+            backdrop-filter: blur(8px) !important; /* تأثير الضبابية الزجاجية الفخم */
             border: 1px solid rgba(197, 160, 89, 0.18) !important;
         }}
         
@@ -98,7 +112,7 @@ def apply_unified_background():
             height: 28px !important; 
         }}
 
-        /* 6. تعتيم الصناديق الداخلية (Cards) لتنفصل بوضوح فوق تفاصيل الصورة */
+        /* 6. تعتيم الصناديق الداخلية (Cards) لتنفصل بوضوح */
         div[data-testid="stColumn"] {{
             background-color: rgba(7, 22, 21, 0.45) !important;
             padding: 10px !important;
