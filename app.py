@@ -19,7 +19,7 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# تشفير صورك الأربعة بالأسماء والصيغ الدقيقة التي زودتني بها
+# تشفير صورك الأربعة بالأسماء والصيغ الدقيقة
 img_smart_cities = get_base64_image("assets/smart_cities.jpeg")
 img_governance = get_base64_image("assets/governance.jpg")
 img_automation = get_base64_image("assets/automation.png")
@@ -64,11 +64,11 @@ with main_content:
             
         st.markdown("<br><br>", unsafe_allow_html=True)
         
-        # عرض كبائن الرؤى الأربعة متراصة في سطر واحد (4 أعمدة متساوية بجانب بعضها) باستخدام صورك الحقيقية
+        # عرض كبائن الرؤى الأربعة متراصة في سطر واحد باستخدام صورك الحقيقية
         st.markdown("### 🏢 كبائن الرؤى الاستراتيجية الكبرى للمنصة")
         col_v1, col_v2, col_v3, col_v4 = st.columns(4)
         
-        # كابينة 1: المدن الذكية (تستخدم صورك الحقيقية والنمط الفخم المتوهج)
+        # كابينة 1: المدن الذكية (تم تحديث المفتاح إلى v5_go_sc لمنع التداخل)
         with col_v1:
             st.markdown(f"""
                 <div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.25); margin-bottom: 8px;">
@@ -79,11 +79,11 @@ with main_content:
                     </div>
                 </div>
             """, unsafe_allow_html=True)
-            if st.button("استكشف واجهة المدن 🗺️", key="go_sc", use_container_width=True):
+            if st.button("استكشف واجهة المدن 🗺️", key="v5_go_sc", use_container_width=True):
                 st.session_state["current_page"] = "smart_cities"
                 st.rerun()
 
-        # كابينة 2: حوكمة المشاريع (تستخدم صورك الحقيقية والنمط الفخم المتوهج)
+        # كابينة 2: حوكمة المشاريع (تم تحديث المفتاح إلى v5_go_gov)
         with col_v2:
             st.markdown(f"""
                 <div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.25); margin-bottom: 8px;">
@@ -94,11 +94,11 @@ with main_content:
                     </div>
                 </div>
             """, unsafe_allow_html=True)
-            if st.button("استكشف واجهة الحوكمة 🔒", key="go_gov", use_container_width=True):
+            if st.button("استكشف واجهة الحوكمة 🔒", key="v5_go_gov", use_container_width=True):
                 st.session_state["current_page"] = "governance"
                 st.rerun()
 
-        # كابينة 3: الأتمتة والذكاء الاصطناعي (تستخدم صورك الحقيقية والنمط الفخم المتوهج)
+        # كابينة 3: الأتمتة والذكاء الاصطناعي (تم تحديث المفتاح إلى v5_go_auto)
         with col_v3:
             st.markdown(f"""
                 <div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.25); margin-bottom: 8px;">
@@ -109,11 +109,11 @@ with main_content:
                     </div>
                 </div>
             """, unsafe_allow_html=True)
-            if st.button("استكشف واجهة الأتمتة 🧠", key="go_auto", use_container_width=True):
+            if st.button("استكشف واجهة الأتمتة 🧠", key="v5_go_auto", use_container_width=True):
                 st.session_state["current_page"] = "automation"
                 st.rerun()
 
-        # كابينة 4: الاستدامة وكفاءة الطاقة (تستخدم صورك الحقيقية والنمط الفخم المتوهج)
+        # كابينة 4: الاستدامة وكفاءة الطاقة (تم تحديث المفتاح إلى v5_go_sustain)
         with col_v4:
             st.markdown(f"""
                 <div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.25); margin-bottom: 8px;">
@@ -124,7 +124,7 @@ with main_content:
                     </div>
                 </div>
             """, unsafe_allow_html=True)
-            if st.button("استكشف واجهة الاستدامة ☀️", key="go_sustain", use_container_width=True):
+            if st.button("استكشف واجهة الاستدامة ☀️", key="v5_go_sustain", use_container_width=True):
                 st.session_state["current_page"] = "sustainability"
                 st.rerun()
                 
@@ -141,27 +141,27 @@ with main_content:
         from vision_pillars.smart_cities.smart_cities_view import render_smart_cities_view
         try: render_smart_cities_view()
         except Exception: st.error("⚠️ عطل في الكابينة")
-        if st.button("↩️ العودة للشاشة الرئيسية", key="back_sc"): st.session_state["current_page"] = "home"; st.rerun()
+        if st.button("↩️ العودة للشاشة الرئيسية", key="back_sc_v5"): st.session_state["current_page"] = "home"; st.rerun()
 
     elif current_view == "governance":
         from vision_pillars.governance.governance_view import render_governance_view
         try: render_governance_view()
         except Exception: st.error("⚠️ عطل في الكابينة")
-        if st.button("↩️ العودة للشاشة الرئيسية", key="back_gov"): st.session_state["current_page"] = "home"; st.rerun()
+        if st.button("↩️ العودة للشاشة الرئيسية", key="back_gov_v5"): st.session_state["current_page"] = "home"; st.rerun()
 
     elif current_view == "automation":
         from vision_pillars.automation.automation_view import render_automation_view
         try: render_automation_view()
         except Exception: st.error("⚠️ عطل في الكابينة")
-        if st.button("↩️ العودة للشاشة الرئيسية", key="back_auto"): st.session_state["current_page"] = "home"; st.rerun()
+        if st.button("↩️ العودة للشاشة الرئيسية", key="back_auto_v5"): st.session_state["current_page"] = "home"; st.rerun()
 
     elif current_view == "sustainability":
         from vision_pillars.sustainability.sustainability_view import render_sustainability_view
         try: render_sustainability_view()
         except Exception: st.error("⚠️ عطل في الكابينة")
-        if st.button("↩️ العودة للشاشة الرئيسية", key="back_sus"): st.session_state["current_page"] = "home"; st.rerun()
+        if st.button("↩️ العودة للشاشة الرئيسية", key="back_sus_v5"): st.session_state["current_page"] = "home"; st.rerun()
         
     elif current_view in ["blogs", "projects", "engineers", "data_governance", "about", "auth"]:
         st.markdown(f"## 🚪 واجهة مركزية جديدة ومستقلة: `{current_view.upper()}`")
         st.info(f"🔒 هذه الخدمة معزولة تماماً في مجلدها فرعي الخاص.")
-        if st.button("↩️ العودة للشاشة الرئيسية", key="back_nav_pages"): st.session_state["current_page"] = "home"; st.rerun()
+        if st.button("↩️ العودة للشاشة الرئيسية", key="back_nav_pages_v5"): st.session_state["current_page"] = "home"; st.rerun()
