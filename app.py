@@ -1,15 +1,19 @@
 import streamlit as st
 import base64
 import os
+import sys
 
 # 1. تهيئة الشاشة بالعرض الكامل فوراً كأول أمر برمي صارم
 st.set_page_config(page_title="منصة المدونات الهندسية العراقية", page_icon="🇮🇶", layout="wide")
 
-# 2. فرش الخلفية الموحدة وتأمين الهوية البصرية من ملف الإعدادات
+# 2. تأمين وقراءة مسارات الشجرة الهندسية للمشروع سحابياً لمنع أعطال الاستدعاء
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+# 3. فرش الخلفية الموحدة وتأمين الهوية البصرية من ملف الإعدادات
 from config.settings import apply_unified_background
 apply_unified_background()
 
-# 3. دالة محمية لتشفير صور الكبائن الأربعة لتعمل سحابياً بامتياز
+# 4. دالة محمية لتشفير صور الكبائن الأربعة لتعمل سحابياً بامتياز
 def get_base64_image(image_path):
     try:
         if os.path.exists(image_path):
@@ -25,24 +29,25 @@ img_governance = get_base64_image("assets/governance.jpg")
 img_automation = get_base64_image("assets/automation.png")
 img_sustainability = get_base64_image("assets/sustainability.jpg")
 
-# 4. إدارة الذاكرة السحابية للتنقل الذكي المباشر بين الواجهات والتبويبات
-if "current_page" not in st.session_state:
-    st.session_state["current_page"] = "home"
-
-# 5. استدامة وحقن شريط النافبار المعزول والمستقل بطريقة الاستدعاء المباشر الصافي
+# 5. حقن وعرض شريط النافبار المعزول والمستقل من مجلده الفرعي بحزام أمان مطهر ومسار فيدرالي مباشر
 try:
     from core_layout.navbar.navbar_linker import show_navbar_section
     show_navbar_section()
 except Exception:
-    st.warning("⚠️ جاري مزامنة قمة شريط التحكم المركزي...")
-# 6. استدعاء طوابق المرصد الجانبي وقاع المقالات بأحزمة أمان معزولة
+    st.error("⚠️ هنت سيادي: عطل طارئ في منظومة شريط التحكم المركزي.")
+
+# 6. إدارة الذاكرة السحابية للتنقل الذكي المباشر بين الواجهات والتبويبات
+if "current_page" not in st.session_state:
+    st.session_state["current_page"] = "home"
+
+# 7. استدعاء طوابق المرصد الجانبي وقاع المقالات بأحزمة أمان معزولة
 from modules_dashboard.dashboard_linker import show_dashboard_sidebar
 from core_layout.footer.footer_linker import show_footer_section
 
-# 7. تقسيم الشاشة حسب الأوزان القياسية (اليمين محتوى واليسار مؤشرات نحيفة)
+# 8. تقسيم الشاشة حسب الأوزان القياسية (اليمين محتوى واليسار مؤشرات نحيفة)
 main_content, sidebar_stats = st.columns([4.5, 1.0])
 
-# --- الطابق الأيسر: لوحة المؤشرات الوطنية الجانبية النحيفة الملونة والمفهومة ---
+# --- الطابق الأيسر: لوحة المؤشرات الوطنية الجانبية النحيفة الملونة ---
 with sidebar_stats:
     try:
         show_dashboard_sidebar()
