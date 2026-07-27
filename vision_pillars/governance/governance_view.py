@@ -15,7 +15,7 @@ def render_governance_view():
     الواجهة المركزية المحدثة لكابينة الحوكمة.
     تم تصفير كافة الحقول القياسية، وحقن خيار "اختر بنداً..."، وتفتيح ألوان النصوص المدخلة لتصبح بيضاء مقروءة 100%.
     """
-    # 1. حقن نظام تصاميم فيدرالي قاهر يجبر حواف الصناديق وإشارات الزائد والناقص على السطوع بالأبيض والذهب
+    # 1. حقن نظام تصاميم فيدرالي صارم لتعتيم خلفيات القوائم العائمة لتبدو مخملية وواضحة 100%
     st.markdown(
         """
         <style>
@@ -26,7 +26,7 @@ def render_governance_view():
         }
         .gov-panel-box {
             background-color: rgba(7, 22, 21, 0.6) !important;
-            border: 1px solid rgba(197, 160, 89, 0.3) !important; /* تقوية حافة الحاوية الزجاجية الكبرى */
+            border: 1px solid rgba(197, 160, 89, 0.3) !important;
             border-radius: 8px !important; padding: 15px !important; margin-bottom: 15px !important;
         }
         .gov-section-header {
@@ -39,52 +39,72 @@ def render_governance_view():
             display: block !important; text-align: right !important; direction: rtl !important;
         }
         
-        /* 🎯 تفتيح وتقوية حواف صناديق الإدخال وجعل حدودها مذهبة وواضحة جداً للمستخدم */
+        /* تقوية حواف صناديق الإدخال وتلوين خلفيتها الافتراضية بالداكن */
         .stSelectbox > div > div, .stNumberInput > div > div, .stTextInput > div > div {
-            border: 1px solid rgba(197, 160, 89, 0.5) !important; /* رفع التباين البصري للحدود */
+            border: 1px solid rgba(197, 160, 89, 0.5) !important;
             background-color: rgba(7, 22, 21, 0.9) !important; border-radius: 4px !important;
         }
         
-        /* إجبار النص المختار والنصوص الداخلية وحقول الإدخال على التلون بالأبيض الناصع */
+        /* إجبار النصوص الداخلية وحقول الإدخال على التلون بالأبيض الناصع */
         .stSelectbox div[data-baseweb="select"] div,
         .stSelectbox div[data-baseweb="select"] span,
         .stSelectbox div[aria-selected="true"],
         .stSelectbox select,
         .stNumberInput input, 
-        .stTextInput input,
-        div[role="listbox"] li,
-        div[role="option"] {
+        .stTextInput input {
             color: #ffffff !important;
-            background-color: transparent !important;
             font-weight: 600 !important;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.9) !important;
-            -webkit-text-fill-color: #ffffff !important; /* قهر حماية المتصفح للألوان */
+            -webkit-text-fill-color: #ffffff !important;
         }
         
-        /* 🎯 نسف عتمة أزرار الزائد والناقص: صبغ الخلفية والرموز باللون المذهب والأبيض الساطع لقراءة فورية */
+        /* 🎯 نسف الخلفية البيضاء للقائمة المنبثقة: إجبار الصندوق العائم على التلون بالداكن المخملي وحواف مذهبة */
+        div[data-baseweb="menu"], 
+        div[role="listbox"],
+        ul[role="listbox"] {
+            background-color: #071615 !important;
+            background: #071615 !important;
+            border: 1px solid #c5a059 !important;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.8) !important;
+            border-radius: 6px !important;
+        }
+        
+        /* إجبار أسماء المحافظات والخيارات داخل القائمة المنبثقة على التلون بالأبيض الناصع وصفر خلفية بيضاء */
+        div[role="listbox"] li,
+        div[role="option"],
+        div[data-baseweb="menu"] div,
+        div[data-baseweb="menu"] li {
+            color: #ffffff !important;
+            background-color: #071615 !important;
+            background: #071615 !important;
+            font-weight: 600 !important;
+            text-align: right !important;
+            direction: rtl !important;
+            -webkit-text-fill-color: #ffffff !important;
+            padding: 8px 12px !important;
+            cursor: pointer !important;
+        }
+        
+        /* تأثير تظليل مذهب راقٍ عند تمرير الماوس فوق اسم المحافظة داخل القائمة */
+        div[role="listbox"] li:hover,
+        div[role="option"]:hover,
+        div[data-baseweb="menu"] li:hover {
+            background-color: rgba(197, 160, 89, 0.2) !important;
+            background: rgba(197, 160, 89, 0.2) !important;
+            color: #c5a059 !important;
+            -webkit-text-fill-color: #c5a059 !important;
+        }
+        
+        /* تفتيح وتقوية أزرار الزائد والناقص والرموز */
         button[data-testid="stNumberInputStepUp"], 
         button[data-testid="stNumberInputStepDown"] {
             background-color: rgba(197, 160, 89, 0.15) !important;
-            border-left: 1px solid rgba(197, 160, 89, 0.3) !important;
-            border-right: 1px solid rgba(197, 160, 89, 0.3) !important;
             color: #ffffff !important;
-            transition: all 0.2s ease !important;
         }
-        button[data-testid="stNumberInputStepUp"]:hover, 
-        button[data-testid="stNumberInputStepDown"]:hover {
-            background-color: #c5a059 !important;
-            color: #071615 !important;
-        }
-        
-        /* إجبار إشارات الـ + والـ - الداكنة (الـ SVG) على التلون بالأبيض الساطع والوضوح التام */
         button[data-testid="stNumberInputStepUp"] svg, 
         button[data-testid="stNumberInputStepDown"] svg,
         .stSelectbox svg {
-            fill: #ffffff !important;
-            color: #ffffff !important;
-            stroke: #ffffff !important;
-            width: 14px !important;
-            height: 14px !important;
+            fill: #ffffff !important; color: #ffffff !important; stroke: #ffffff !important;
         }
         
         .premium-violation-card {
@@ -97,7 +117,6 @@ def render_governance_view():
         """,
         unsafe_allow_html=True
     )
-
 
     st.markdown('<h2 class="gov-title-main">⚖️ البوابة المركزية لإدخال معطيات الرخصة الهندسية</h2>', unsafe_allow_html=True)
     st.markdown("<p style='text-align: right; color: #a0b0af;'>يرجى ملء البيانات العامة للمعاملة؛ ليقوم النظام باحتساب القيود الجغرافية وتنشيط الفحوصات ديناميكياً تلبية لأكواد المدونة ومنع التحايل.</p>", unsafe_allow_html=True)
