@@ -9,7 +9,7 @@ st.set_page_config(page_title="منصة المدونات الهندسية الع
 from config.settings import apply_unified_background
 apply_unified_background()
 
-# 3. دالة محمية لتشفير صور الكبائن والعلم العراقي لتعمل سحابياً
+# 3. دالة معزولة ومحمية لتشفير صور الكبائن والعلم العراقي لتعمل سحابياً
 def get_base64_image(image_path):
     try:
         if os.path.exists(image_path):
@@ -25,6 +25,7 @@ img_governance = get_base64_image("assets/governance.jpg")
 img_automation = get_base64_image("assets/automation.png")
 img_sustainability = get_base64_image("assets/sustainability.jpg")
 encoded_flag = get_base64_image("assets/iraqi_flag.jpg")
+
 # 4. حقن نظام تصاميم محكم لتصفير حواف Streamlit ومنع المربع المزدوج نهائياً
 st.markdown(
     """
@@ -63,44 +64,44 @@ st.markdown(
 if "current_page" not in st.session_state:
     st.session_state["current_page"] = "home"
 
-# 6. بناء وحقن النافبار المدمج والموزون بالمنتصف مباشرة لتجنب تداخل الاستدعاءات
+# 6. بناء وحقن النافبار المدمج والموزون بالمنتصف مباشرة بالتسلسل العربي الصحيح مع إصلاح الأوزان والأعمدة
 cols_nav = st.columns([1.3, 1.6, 1.2, 0.9, 0.7, 0.7, 0.7, 0.6, 0.4])
 
-with cols_nav:
+with cols_nav[0]:
     if st.button("تسجيل الدخول 🔒", key="ultimate_f_nav_auth"):
         st.session_state["current_page"] = "auth"; st.rerun()
-with cols_nav:
+with cols_nav[1]:
     search_q = st.text_input("", key="ultimate_f_nav_search", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
-with cols_nav:
+with cols_nav[2]:
     if st.button("عن المنصة / اتصل بنا", key="ultimate_f_nav_abt"):
         st.session_state["current_page"] = "about"; st.rerun()
-with cols_nav:
+with cols_nav[3]:
     if st.button("حوكمة البيانات", key="ultimate_f_nav_gov"):
         st.session_state["current_page"] = "data_governance"; st.rerun()
-with cols_nav:
+with cols_nav[4]:
     if st.button("المهندسون", key="ultimate_f_nav_eng"):
         st.session_state["current_page"] = "engineers"; st.rerun()
-with cols_nav:
+with cols_nav[5]:
     if st.button("المشاريع", key="ultimate_f_nav_proj"):
         st.session_state["current_page"] = "projects"; st.rerun()
-with cols_nav:
+with cols_nav[6]:
     if st.button("المدونات", key="ultimate_f_nav_blogs"):
         st.session_state["current_page"] = "blogs"; st.rerun()
-with cols_nav:
+with cols_nav[7]:
     if st.button("الرئيسية", key="ultimate_f_nav_home"):
         st.session_state["current_page"] = "home"; st.rerun()
-with cols_nav:
+with cols_nav[8]:
     if encoded_flag:
         st.markdown(f'<div style="text-align: center; padding-top: 4px;"><img class="nav-flag-img" src="data:image/jpeg;base64,{encoded_flag}"></div>', unsafe_allow_html=True)
     else:
         st.markdown("<div style='font-size: 20px; text-align: center;'>🇮🇶</div>", unsafe_allow_html=True)
 
 st.markdown("<hr style='border-color: rgba(197, 160, 89, 0.15); margin-top: 5px; margin-bottom: 15px;'>", unsafe_allow_html=True)
-# 7. استدعاء طوابق المرصد الجانبي وقاع المقالات
+# 7. استدعاء طوابق المرصد الجانبي وقاع المقالات بأحزمة أمان معزولة
 from modules_dashboard.dashboard_linker import show_dashboard_sidebar
 from core_layout.footer.footer_linker import show_footer_section
 
-# 8. تقسيم الشاشة حسب الأوزان القياسية المتطابقة مع التصميم الأصلي
+# 8. تقسيم الشاشة حسب الأوزان القياسية المتطابقة مع التصميم الأصلي (اليمين محتوى واليسار مؤشرات)
 main_content, sidebar_stats = st.columns([3.2, 1.0])
 
 # --- الطابق الأيسر: لوحة المؤشرات الوطنية الجانبية النحيفة الملونة ---
@@ -149,7 +150,7 @@ with main_content:
                 <div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.25); margin-bottom: 8px;">
                     <img src="data:image/jpeg;base64,{img_governance}" style="width: 100%; height: 140px; object-fit: cover; border-bottom: 2px solid #c5a059;">
                     <div style="padding: 12px;">
-                        <h4 style="color: #c5a059 !important; margin: 0; font-size: 14px; font-weight: 700;">حوكمة المشاريع</h4>
+                        <h4 style="color: #c5a059 !important; margin: 0; font-size: 14px; font-weight: 700;">حساب الأحمال</h4>
                         <p style="font-size: 11px; color: #a0b0af !important; margin-top: 5px; line-height: 1.4;">حوكمة المشاريع الهندسية بأعلى معايير الشفافية</p>
                     </div>
                 </div>
