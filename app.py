@@ -2,14 +2,14 @@ import streamlit as st
 import base64
 import os
 
-# 1. تهيئة الشاشة بالعرض الكامل
+# 1. تهيئة الشاشة بالعرض الكامل فوراً كأول أمر برمي صارم
 st.set_page_config(page_title="منصة المدونات الهندسية العراقية", page_icon="🇮🇶", layout="wide")
 
 # 2. فرش الخلفية الموحدة وتأمين الهوية البصرية من ملف الإعدادات
 from config.settings import apply_unified_background
 apply_unified_background()
 
-# 3. دالة محمية لتشفير صور الكبائن والعلم العراقي لتعمل سحابياً
+# 3. دالة محمية لتشفير صور الكبائن الأربعة لتعمل سحابياً بامتياز
 def get_base64_image(image_path):
     try:
         if os.path.exists(image_path):
@@ -24,124 +24,25 @@ img_smart_cities = get_base64_image("assets/smart_cities.jpeg")
 img_governance = get_base64_image("assets/governance.jpg")
 img_automation = get_base64_image("assets/automation.png")
 img_sustainability = get_base64_image("assets/sustainability.jpg")
-encoded_flag = get_base64_image("assets/iraqi_flag.jpg")
 
-# 4. حقن نظام تصاميم محكم لتطهير النافبار وإلغاء التشوهات البصرية 100%
-st.markdown(
-    """
-    <style>
-    /* تصفير الحاويات الخارجية الافتراضية لـ Streamlit */
-    div[data-testid="element-container"], div[data-testid="stBlock"] {
-        border: none !important; background: transparent !important; box-shadow: none !important;
-    }
-    div[data-testid="stHorizontalBlock"] { gap: 4px !important; align-items: center !important; }
-    div[data-testid="stColumn"] { border: none !important; background: transparent !important; padding: 0px !important; }
-    
-    /* رفع ومحاذاة العلم العراقي الدائري ليصبح متناسقاً وفي السنتر المباشر مع الأزرار */
-    .nav-flag-img {
-        width: 28px !important; 
-        height: 28px !important; 
-        border-radius: 50% !important;
-        object-fit: cover !important; 
-        border: 1px solid rgba(197, 160, 89, 0.4) !important;
-        box-shadow: 0 0 6px rgba(197, 160, 89, 0.3) !important; 
-        display: inline-block !important;
-        margin-top: -6px !important; /* رفع العلم للأعلى ليتحاذى مع السطر */
-    }
-    
-    /* جعل الأزرار الستة عبارة عن نصوص عائمة نظيفة تماماً وبدون أي مربعات مشوهة */
-    .stButton > button {
-        border: none !important; /* حذف المربعات المحيطة تماماً */
-        background: transparent !important; /* جعل الخلفية شفافة 100% */
-        color: #ffffff !important; /* توحيد اللون للأبيض الفخم المريح */
-        font-size: 12px !important; 
-        font-weight: 600 !important;
-        padding: 4px 6px !important; 
-        white-space: nowrap !important; 
-        border-radius: 4px !important; 
-        width: 100% !important;
-        transition: all 0.2s ease-in-out !important;
-    }
-    /* تأثير التمرير للأزرار الستة: يظهر مربع زجاجي خفيف وناعم جداً فقط عند ملامسة الماوس */
-    .stButton > button:hover {
-        color: #c5a059 !important; 
-        background: rgba(197, 160, 89, 0.1) !important;
-        border: none !important;
-    }
-    
-    /* نسف وتطهير الحواف والحدود البيضاء المشوهة لحقل البحث وجعله ناعماً ومدمجاً */
-    .stTextInput > div > div {
-        border: 1px solid rgba(197, 160, 89, 0.25) !important;
-        border-radius: 4px !important;
-        box-shadow: none !important;
-    }
-    .stTextInput > div > div:focus-within {
-        border: 1px solid #c5a059 !important; /* توهج ذهبي ناعم جداً عند الكتابة بدل البياض المشوه */
-        box-shadow: 0 0 6px rgba(197, 160, 89, 0.2) !important;
-    }
-    
-    /* موازنة وتوحيد لون زر تسجيل الدخول (العمود الأول) ليتناسق بجمالية مع بقية الأزرار */
-    div[data-testid="stColumn"]:first-child .stButton > button {
-        border: 1px solid rgba(197, 160, 89, 0.4) !important; /* إطار مفرد خفيف مذهب */
-        color: #c5a059 !important; /* لون ذهبي هادئ منسجم */
-        background: rgba(13, 35, 33, 0.4) !important;
-        font-weight: 700 !important;
-    }
-    div[data-testid="stColumn"]:first-child .stButton > button:hover {
-        background: #c5a059 !important; 
-        color: #071615 !important;
-        border: 1px solid #c5a059 !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# 5. إدارة الذاكرة السحابية للتنقل الذكي بين الواجهات
+# 4. الالتزام بفلسفتك: استدعاء النافبار من غرفته المعزولة والمستقلة بسطر واحد
+from core_layout.navbar.navbar_linker import show_navbar_section
+try:
+    show_navbar_section()
+except Exception:
+    st.error("⚠️ هنت سيادي: عطل طارئ في منظومة شريط التحكم المركزي.")
+# 5. إدارة الذاكرة السحابية للتنقل الذكي المباشر بين الواجهات والتبويبات
 if "current_page" not in st.session_state:
     st.session_state["current_page"] = "home"
 
-# 6. بناء وحقن النافبار المدمج والموزون بالمنتصف مباشرة بالتسلسل العربي الصحيح مع إصلاح الأوزان والأعمدة
-cols_nav = st.columns([1.4, 1.6, 1.2, 0.9, 0.7, 0.7, 0.7, 0.6, 0.4])
-
-with cols_nav:
-    if st.button("تسجيل الدخول 🔒", key="ultimate_f_nav_auth"):
-        st.session_state["current_page"] = "auth"; st.rerun()
-with cols_nav:
-    search_q = st.text_input("", key="ultimate_f_nav_search", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
-with cols_nav:
-    if st.button("عن المنصة / اتصل بنا", key="ultimate_f_nav_abt"):
-        st.session_state["current_page"] = "about"; st.rerun()
-with cols_nav:
-    if st.button("حوكمة البيانات", key="ultimate_f_nav_gov"):
-        st.session_state["current_page"] = "data_governance"; st.rerun()
-with cols_nav:
-    if st.button("المهندسون", key="ultimate_f_nav_eng"):
-        st.session_state["current_page"] = "engineers"; st.rerun()
-with cols_nav:
-    if st.button("المشاريع", key="ultimate_f_nav_proj"):
-        st.session_state["current_page"] = "projects"; st.rerun()
-with cols_nav:
-    if st.button("المدونات", key="ultimate_f_nav_blogs"):
-        st.session_state["current_page"] = "blogs"; st.rerun()
-with cols_nav:
-    if st.button("الرئيسية", key="ultimate_f_nav_home"):
-        st.session_state["current_page"] = "home"; st.rerun()
-with cols_nav:
-    if encoded_flag:
-        st.markdown(f'<div style="text-align: center; padding-top: 4px;"><img class="nav-flag-img" src="data:image/jpeg;base64,{encoded_flag}"></div>', unsafe_allow_html=True)
-    else:
-        st.markdown("<div style='font-size: 20px; text-align: center;'>🇮🇶</div>", unsafe_allow_html=True)
-
-st.markdown("<hr style='border-color: rgba(197, 160, 89, 0.15); margin-top: 5px; margin-bottom: 15px;'>", unsafe_allow_html=True)
-# 7. استدعاء طوابق المرصد الجانبي وقاع المقالات بأحزمة أمان معزولة
+# 6. استدعاء طوابق المرصد الجانبي وقاع المقالات بأحزمة أمان معزولة
 from modules_dashboard.dashboard_linker import show_dashboard_sidebar
 from core_layout.footer.footer_linker import show_footer_section
 
-# 8. تقسيم الشاشة حسب الأوزان القياسية المتطابقة مع التصميم الأصلي (اليمين محتوى واليسار مؤشرات)
+# 7. تقسيم الشاشة حسب الأوزان القياسية (اليمين محتوى واليسار مؤشرات نحيفة)
 main_content, sidebar_stats = st.columns([4.5, 1.0])
 
-# --- الطابق الأيسر: لوحة المؤشرات الوطنية الجانبية النحيفة جداً والمقيدة ---
+# --- الطابق الأيسر: لوحة المؤشرات الوطنية الجانبية النحيفة الملونة (المفهومة والمنظمة) ---
 with sidebar_stats:
     try:
         show_dashboard_sidebar()
@@ -162,7 +63,7 @@ with main_content:
             
         st.markdown("<br><br>", unsafe_allow_html=True)
         
-        # عرض كبائن الرؤى الأربعة متراصة في سطر واحد (4 أعمدة متساوية) باستخدام صورك الحقيقية
+        # عرض كبائن الرؤى الأربعة متراصة في سطر واحد باستخدام صورك الحقيقية
         st.markdown("### 🏢 كبائن الرؤى الاستراتيجية الكبرى للمنصة")
         col_v1, col_v2, col_v3, col_v4 = st.columns(4)
         
@@ -181,7 +82,7 @@ with main_content:
                 st.session_state["current_page"] = "smart_cities"
                 st.rerun()
 
-        # كابينة 2: حوكمة المشاريع
+        # كابينة 2: حوكمة المشاريع (حساب الأحمال)
         with col_v2:
             st.markdown(f"""
                 <div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.25); margin-bottom: 8px;">
