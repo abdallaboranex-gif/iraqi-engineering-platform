@@ -4,8 +4,8 @@ import os
 
 def show_navbar_section():
     """
-    الدالة المركزية المصلحة والنهائية لبناء شريط تنقل متراص ومدمج.
-    تستخدم ميزة row-reverse لإجبار المتصفح على قلب الترتيب من اليمين لليسار 100%.
+    الدالة المركزية الحاسمة والمطابقة 100% للصورة القياسية.
+    توازن شريط التحكم بالمنتصف، وتوسع صندوق زر تسجيل الدخول لإعادة النص داخل المربع المذهب.
     """
     # 1. قراءة وتشفير صورة العلم العراقي من مجلد assets
     flag_path = "assets/iraqi_flag.jpg"
@@ -17,22 +17,27 @@ def show_navbar_section():
     except Exception:
         pass
 
-    # 2. حقن نظام تصاميم صارم يجبر العناصر على الانقالب والتراص من اليمين لليسار
+    # 2. حقن نظام تصاميم صارم لتأمين موازنة الشريط في المنتصف وتنحيف الأزرار
     st.markdown(
         f"""
         <style>
-        /* الحل الجذري: قلب اتجاه صف الأعمدة بالكامل لتبدأ من اليمين 100% */
+        /* الحل الجذري لموازنة الشريط: تحديد حد أقصى للعرض وحصره في منتصف الشاشة تلقائياً */
         div[data-testid="stHorizontalBlock"] {{
             display: flex !important;
-            flex-direction: row-reverse !important; /* قلب الصف كاملاً بصرياً بالمتصفح */
-            gap: 2px !important;
+            flex-direction: row-reverse !important; /* قلب الصف كاملاً لتبدأ الأزرار من اليمين */
+            gap: 4px !important;
             align-items: center !important;
+            max-width: 90% !important; /* تقليص امتداد الشريط ليصبح ملموماً وموزوناً بالمنتصف */
+            margin: 0 auto !important; /* حصر الحاوية في السنتر المباشر للشاشة */
+            background: rgba(7, 22, 21, 0.4) !important; /* إعطاء لمحة تظليل خلفية خفيفة للشريط */
+            padding: 4px 10px !important;
+            border-radius: 6px !important;
         }}
         
-        /* تثبيت أبعاد العلم العراقي الحقيقي ليكون دائرياً ناعماً وصغيراً */
+        /* تثبيت أبعاد العلم العراقي الدائري المصغر النظيف */
         .nav-flag-img {{
-            width: 32px !important;
-            height: 32px !important;
+            width: 30px !important;
+            height: 30px !important;
             border-radius: 50% !important;
             object-fit: cover !important;
             border: 1px solid #c5a059 !important;
@@ -49,7 +54,7 @@ def show_navbar_section():
             backdrop-filter: none !important;
         }}
         
-        /* إعادة تصميم أزرار النافبار لتكون نحيفة جداً وشفافة وبخط صغير مدمج */
+        /* إعادة صياغة مظهر الأزرار لتكون نحيفة ومدمجة ومستقرة تماماً */
         .stButton > button {{
             border: none !important;
             background: rgba(7, 22, 21, 0.6) !important;
@@ -57,15 +62,23 @@ def show_navbar_section():
             font-size: 11px !important;
             font-weight: 600 !important;
             padding: 4px 6px !important;
-            white-space: nowrap !important;
+            white-space: nowrap !important; /* منع كسر أو نزول النص لسطر جديد */
             border-radius: 4px !important;
             width: 100% !important;
             transition: all 0.2s ease !important;
         }}
+        
+        /* تصميم خاص لزر تسجيل الدخول لمنحه التوهج المذهب الفخم المربع المضاء كالأصل */
+        div[data-testid="stColumn"]:last-child .stButton > button {{
+            border: 1px solid #c5a059 !important;
+            color: #c5a059 !important;
+            background: rgba(197, 160, 89, 0.08) !important;
+            font-weight: 700 !important;
+        }}
+        
         .stButton > button:hover {{
             color: #c5a059 !important;
             background: rgba(197, 160, 89, 0.1) !important;
-            border: none !important;
             box-shadow: none !important;
         }}
         </style>
@@ -73,12 +86,11 @@ def show_navbar_section():
         unsafe_allow_html=True
     )
 
-    # 3. صياغة الهيكل بالتسلسل البرمجي (المتصفح سيقوم بقلبه تلقائياً بفضل كود الـ CSS أعلاه)
-    # نكتب الترتيب هنا طبيعياً، وحقنة الـ row-reverse ستجعل العمود الأول يطير لأقصى اليمين والتاسع لأقصى اليسار
-    cols = st.columns([0.5, 0.6, 0.6, 0.6, 0.7, 0.8, 1.2, 1.5, 0.9])
+    # 3. صياغة التوزيع الهندسي للأعمدة (تم تكبير وتوسيع وزن العمود الأخير لزر التسجيل من 0.9 إلى 1.4 ليستوعب الكلمة بالداخل)
+    cols = st.columns([0.4, 0.6, 0.6, 0.6, 0.7, 0.8, 1.2, 1.5, 1.4])
     
-    # هذا العمود سيطير برمشة عين ليستقر في أقصى اليمين (العلم النظيف)
-    with cols[0]:
+    # العمود 1 (يمين الشاشة): العلم الدائري المصغر المستقر بفخامة
+    with cols:
         if encoded_flag:
             st.markdown(
                 f"""
@@ -91,40 +103,40 @@ def show_navbar_section():
         else:
             st.markdown("<div style='font-size: 22px; text-align: right;'>🇮🇶</div>", unsafe_allow_html=True)
 
-    # الأزرار الوسطية ستترتب بانتظام خلف العلم مباشرة وتتجه يساراً
-    with cols[1]:
-        if st.button("الرئيسية", key="nav_home_final_v6"):
+    # الأزرار الوسطية المتراصة بانتظام خلف العلم مباشرة ومتجهة يساراً
+    with cols:
+        if st.button("الرئيسية", key="nav_home_final_v7"):
             st.session_state["current_page"] = "home"; st.rerun()
 
-    with cols[2]:
-        if st.button("المدونات", key="nav_blogs_final_v6"):
+    with cols:
+        if st.button("المدونات", key="nav_blogs_final_v7"):
             st.session_state["current_page"] = "blogs"; st.rerun()
 
-    with cols[3]:
-        if st.button("المشاريع", key="nav_proj_final_v6"):
+    with cols:
+        if st.button("المشاريع", key="nav_proj_final_v7"):
             st.session_state["current_page"] = "projects"; st.rerun()
 
-    with cols[4]:
-        if st.button("المهندسون", key="nav_eng_final_v6"):
+    with cols:
+        if st.button("المهندسون", key="nav_eng_final_v7"):
             st.session_state["current_page"] = "engineers"; st.rerun()
 
-    with cols[5]:
-        if st.button("حوكمة البيانات", key="nav_gov_final_v6"):
+    with cols:
+        if st.button("حوكمة البيانات", key="nav_gov_final_v7"):
             st.session_state["current_page"] = "data_governance"; st.rerun()
 
-    with cols[6]:
-        if st.button("عن المنصة / اتصل بنا", key="nav_abt_final_v6"):
+    with cols:
+        if st.button("عن المنصة / اتصل بنا", key="nav_abt_final_v7"):
             st.session_state["current_page"] = "about"; st.rerun()
 
-    # حقل البحث المدمج
-    with cols[7]:
-        search_q = st.text_input("", key="nav_search_final_v6", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
+    # حقل البحث المدمج والناعم
+    with cols:
+        search_q = st.text_input("", key="nav_search_final_v7", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
         if search_q:
             st.session_state["search_trigger"] = search_q
 
-    # هذا العمود سيطير ليستقر في أقصى اليسار (بوابة الدخول)
-    with cols[8]:
-        if st.button("🔒 دخول", key="nav_auth_final_v6"):
+    # العمود 9 (أقصى اليسار): بوابة تسجيل الدخول (تم تعديل النص وتوسيع المربع ليستقر بالداخل 100%)
+    with cols:
+        if st.button("تسجيل الدخول 🔒", key="nav_auth_final_v7"):
             st.session_state["current_page"] = "auth"; st.rerun()
 
     st.markdown("<hr style='border-color: rgba(197, 160, 89, 0.15); margin-top: 5px; margin-bottom: 15px;'>", unsafe_allow_html=True)
