@@ -2,14 +2,14 @@ import streamlit as st
 import base64
 import os
 
-# 1. تهيئة الشاشة بالعرض الكامل فوراً كأول أمر برمي
+# 1. تهيئة الشاشة بالعرض الكامل فوراً كأول أمر برمي صارم
 st.set_page_config(page_title="منصة المدونات الهندسية العراقية", page_icon="🇮🇶", layout="wide")
 
 # 2. فرش الخلفية الموحدة وتأمين الهوية البصرية من ملف الإعدادات
 from config.settings import apply_unified_background
 apply_unified_background()
 
-# 3. دالة معزولة ومحمية لتشفير صور الكبائن والعلم
+# 3. دالة محمية لتشفير صور الكبائن والعلم العراقي لتعمل سحابياً
 def get_base64_image(image_path):
     try:
         if os.path.exists(image_path):
@@ -19,13 +19,12 @@ def get_base64_image(image_path):
     except Exception:
         return ""
 
-# تشفير كافة الصور بالأسماء والصيغ المتطابقة مع مستودعك
+# تشفير كافة الصور بالأسماء والصيغ المتطابقة مع مجلد assets
 img_smart_cities = get_base64_image("assets/smart_cities.jpeg")
 img_governance = get_base64_image("assets/governance.jpg")
 img_automation = get_base64_image("assets/automation.png")
 img_sustainability = get_base64_image("assets/sustainability.jpg")
 encoded_flag = get_base64_image("assets/iraqi_flag.jpg")
-
 # 4. حقن نظام تصاميم محكم لتصفير حواف Streamlit ومنع المربع المزدوج نهائياً
 st.markdown(
     """
@@ -60,11 +59,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 5. إدارة الذاكرة السحابية للتنقل الذكي بين الواجهات
+# 5. إدارة الذاكرة السحابية للتنقل الذكي بين الواجهات والتبويبات
 if "current_page" not in st.session_state:
     st.session_state["current_page"] = "home"
 
-# 6. بناء وحقن النافبار المدمج والموزون بالمنتصف مباشرة هنا لنسف الصندوق الأحمر
+# 6. بناء وحقن النافبار المدمج والموزون بالمنتصف مباشرة لتجنب تداخل الاستدعاءات
 cols_nav = st.columns([1.3, 1.6, 1.2, 0.9, 0.7, 0.7, 0.7, 0.6, 0.4])
 
 with cols_nav:
@@ -93,11 +92,11 @@ with cols_nav:
 with cols_nav:
     if encoded_flag:
         st.markdown(f'<div style="text-align: center; padding-top: 4px;"><img class="nav-flag-img" src="data:image/jpeg;base64,{encoded_flag}"></div>', unsafe_allow_html=True)
-else:
-    st.markdown("<div style='font-size: 20px; text-align: center;'>🇮🇶</div>", unsafe_allow_html=True)
+    else:
+        st.markdown("<div style='font-size: 20px; text-align: center;'>🇮🇶</div>", unsafe_allow_html=True)
 
 st.markdown("<hr style='border-color: rgba(197, 160, 89, 0.15); margin-top: 5px; margin-bottom: 15px;'>", unsafe_allow_html=True)
-# 7. استدعاء طوابق المرصد الجانبي وقاع المقالات بأحزمة أمان مستقلة
+# 7. استدعاء طوابق المرصد الجانبي وقاع المقالات
 from modules_dashboard.dashboard_linker import show_dashboard_sidebar
 from core_layout.footer.footer_linker import show_footer_section
 
