@@ -1,17 +1,17 @@
 import streamlit as st
 
-# 1. ضبط إعدادات الشاشة لتكون بعرض كامل وتستوعب التوزيع الأصلي
+# 1. تهيئة الشاشة بالعرض الكامل فوراً كأول أمر برمي
 st.set_page_config(page_title="منصة المدونات الهندسية العراقية", page_icon="🇮🇶", layout="wide")
 
-# 2. استدعاء ملف الإعدادات وأحزمة الأمان وطوابق الواجهة الرئيسية
+# 2. استدعاء ملف الإعدادات وفرش الخلفية الموحدة فوراً لمنع البياض الفاقع
 from config.settings import apply_unified_background
+apply_unified_background()
+
+# 3. استدعاء باقي طوابق المنصة والكبائن بعد تأمين الخلفية البصرية
 from core_layout.navbar.navbar_linker import show_navbar_section
 from core_layout.hero.hero_linker import show_hero_section
 from core_layout.footer.footer_linker import show_footer_section
 from modules_dashboard.dashboard_linker import show_dashboard_sidebar
-
-# 3. تأمين الهوية البصرية وفرش الصورة الموحدة كخلفية ثابتة لجميع الشاشات
-apply_unified_background()
 
 # 4. زرع وحقن شريط التحكم والتنقل العلوي الثابت في قمة الشاشة
 try:
@@ -19,22 +19,21 @@ try:
 except Exception:
     st.error("⚠️ هنت سيادي: عطل طارئ في منظومة شريط التحكم المركزي.")
 
-# 5. إدارة الذاكرة السحابية للتنقل الذكي المباشر بين الواجهات (Session State)
+# 5. إدارة الذاكرة السحابية للتنقل الذكي المباشر بين الواجهات
 if "current_page" not in st.session_state:
     st.session_state["current_page"] = "home"
 
-# 6. المطابقة الكبرى مع الصورة الأصلية:
-# تقسيم الشاشة إلى عمودين: الأيمن كبير جداً للمحتوى (وزن 3.2)، والأيسر نحيف جداً للمؤشرات الجانبية (وزن 1.0)
+# 6. تقسيم الشاشة حسب الأوزان الأصلية: اليمين للمحتوى (3.2) واليسار للمؤشرات الوطنية (1.0)
 main_content, sidebar_stats = st.columns([3.2, 1.0])
 
-# --- الطابق الأيسر: لوحة المؤشرات الوطنية الجانبية النحيفة (مطابقة للأصل) ---
+# --- الطابق الأيسر: لوحة المؤشرات الوطنية الجانبية النحيفة المعزولة ---
 with sidebar_stats:
     try:
         show_dashboard_sidebar()
     except Exception:
         st.caption("⚠️ لوحة المؤشرات الجانبية خاضعة للصيانة الكلية حالياً.")
 
-# --- الطابق الأيمن الرئيسي: المحتوى والكبائن المتراصة ---
+# --- الطابق الأيمن الرئيسي: المحتوى والكبائن المتراصة في سطر واحد ---
 with main_content:
     current_view = st.session_state["current_page"]
     
@@ -47,11 +46,11 @@ with main_content:
             
         st.markdown("<br><br>", unsafe_allow_html=True)
         
-        # المطابقة الكبرى الثانية: عرض كبائن الرؤى الأربعة متراصة في سطر واحد (4 أعمدة متساوية بجانب بعضها)
+        # عرض كبائن الرؤى الأربعة متراصة في سطر واحد (4 أعمدة متساوية بجانب بعضها كالأصل)
         st.markdown("### 🏢 كبائن الرؤى الاستراتيجية الكبرى للمنصة")
         col_v1, col_v2, col_v3, col_v4 = st.columns(4)
         
-        # كابينة 1
+        # كابينة 1: المدن الذكية
         with col_v1:
             st.markdown("""
                 <div style="background-color: rgba(7, 22, 21, 0.7); padding: 12px; border-radius: 8px; border-top: 3px solid #c5a059; height: 130px; margin-bottom: 8px;">
@@ -63,7 +62,7 @@ with main_content:
                 st.session_state["current_page"] = "smart_cities"
                 st.rerun()
 
-        # كابينة 2
+        # كابينة 2: حوكمة المشاريع
         with col_v2:
             st.markdown("""
                 <div style="background-color: rgba(7, 22, 21, 0.7); padding: 12px; border-radius: 8px; border-top: 3px solid #c5a059; height: 130px; margin-bottom: 8px;">
@@ -75,7 +74,7 @@ with main_content:
                 st.session_state["current_page"] = "governance"
                 st.rerun()
 
-        # كابينة 3
+        # كابينة 3: الأتمتة والذكاء الاصطناعي
         with col_v3:
             st.markdown("""
                 <div style="background-color: rgba(7, 22, 21, 0.7); padding: 12px; border-radius: 8px; border-top: 3px solid #c5a059; height: 130px; margin-bottom: 8px;">
@@ -87,7 +86,7 @@ with main_content:
                 st.session_state["current_page"] = "automation"
                 st.rerun()
 
-        # كابينة 4
+        # كابينة 4: الاستدامة وكفاءة الطاقة
         with col_v4:
             st.markdown("""
                 <div style="background-color: rgba(7, 22, 21, 0.7); padding: 12px; border-radius: 8px; border-top: 3px solid #c5a059; height: 130px; margin-bottom: 8px;">
@@ -101,7 +100,7 @@ with main_content:
                 
         st.markdown("<br><br>", unsafe_allow_html=True)
         
-        # استدعاء وعرض شريط التغذية الموحد للجامعات والمقالات الأربعة بقاع الشاشة
+        # عرض شريط التغذية الموحد للجامعات والمقالات الأربعة بقاع الشاشة
         try:
             show_footer_section()
         except Exception:
@@ -134,5 +133,5 @@ with main_content:
         
     elif current_view in ["blogs", "projects", "engineers", "data_governance", "about", "auth"]:
         st.markdown(f"## 🚪 واجهة مركزية جديدة ومستقلة: `{current_view.upper()}`")
-        st.info(f"🔒 هذه الخدمة معزولة تماماً في مجلدها الفرعي الخاص.")
+        st.info(f"🔒 هذه الخدمة معزولة تماماً في مجلدها فرعي الخاص.")
         if st.button("↩️ العودة للشاشة الرئيسية", key="back_nav_pages"): st.session_state["current_page"] = "home"; st.rerun()
