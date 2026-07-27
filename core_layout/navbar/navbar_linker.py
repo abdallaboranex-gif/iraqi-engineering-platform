@@ -4,8 +4,8 @@ import os
 
 def show_navbar_section():
     """
-    الدالة المركزية المصلحة لقلب تسلسل أزرار النافبار من اليمين إلى اليسار 
-    لتطابق الصورة القياسية تماماً وتثبت العلم والشعار في أقصى اليمين ودخول باليسار.
+    الدالة المركزية لشريط التنقل بعد حذف كلمة INCP 
+    ليبقى العلم العراقي الدائري بمفرده وبشكل سيادي ونظيف في اليمين.
     """
     # 1. قراءة وتشفير صورة العلم العراقي من مجلد assets
     flag_path = "assets/iraqi_flag.jpg"
@@ -18,7 +18,7 @@ def show_navbar_section():
     st.markdown(
         f"""
         <style>
-        /* تصغير وتثبيت أبعاد العلم العراقي الحقيقي ليكون دائرياً ناعماً وصغيراً كالصورة */
+        /* تثبيت أبعاد العلم العراقي الحقيقي ليكون دائرياً ناعماً وصغيراً */
         .nav-flag-img {{
             width: 32px !important;
             height: 32px !important;
@@ -28,17 +28,6 @@ def show_navbar_section():
             box-shadow: 0 0 8px rgba(197, 160, 89, 0.4) !important;
             display: inline-block !important;
             vertical-align: middle !important;
-        }}
-        
-        /* تجميل خط كلمة الشعار بجانب العلم */
-        .nav-logo-text {{
-            font-size: 15px !important;
-            font-weight: 700 !important;
-            color: #c5a059 !important;
-            margin-right: 8px !important;
-            display: inline-block !important;
-            vertical-align: middle !important;
-            font-family: 'Segoe UI', sans-serif !important;
         }}
 
         /* تصفير وإغلاق الفراغات الحشوية الافتراضية لـ Streamlit بالكامل لتقريب الأزرار */
@@ -78,61 +67,59 @@ def show_navbar_section():
         unsafe_allow_html=True
     )
 
-    # 3. صياغة الهيكل المقلوب (من اليمين لليسار):
-    # بدأنا بالعلم والشعار باليمين، يليه الرئيسية وباقي الأزرار، ثم البحث، وينتهي بتسجيل الدخول باليسار
-    cols = st.columns([0.8, 0.6, 0.6, 0.6, 0.7, 0.8, 1.2, 1.5, 0.9])
+    # 3. صياغة الهيكل الموزع أفقياً بأبعاد مقربة ومحاذاة ممتازة بعد حذف العبارة
+    cols = st.columns([0.4, 0.6, 0.6, 0.6, 0.7, 0.8, 1.2, 1.5, 0.9])
     
-    # العمود 1 (أقصى اليمين): العلم الدائري المصغر والشعار المتراصين
-    with cols[0]:
+    # العمود 1 (أقصى اليمين): العلم الدائري المصغر بمفرده ونظيف تماماً
+    with cols:
         st.markdown(
             f"""
             <div style="text-align: right; white-space: nowrap; padding-top: 5px;">
                 <img class="nav-flag-img" src="data:image/jpeg;base64,{encoded_flag}">
-                <span class="nav-logo-text">INCP</span>
             </div>
             """, 
             unsafe_allow_html=True
         )
 
     # العمود 2: زر الرئيسية
-    with cols[1]:
-        if st.button("الرئيسية", key="nav_home_v4"):
+    with cols:
+        if st.button("الرئيسية", key="nav_home_v5"):
             st.session_state["current_page"] = "home"; st.rerun()
 
     # العمود 3: زر المدونات
-    with cols[2]:
-        if st.button("المدونات", key="nav_blogs_v4"):
+    with cols:
+        if st.button("المدونات", key="nav_blogs_v5"):
             st.session_state["current_page"] = "blogs"; st.rerun()
 
     # العمود 4: زر المشاريع
-    with cols[3]:
-        if st.button("المشاريع", key="nav_proj_v4"):
+    with cols:
+        if st.button("المشاريع", key="nav_proj_v5"):
             st.session_state["current_page"] = "projects"; st.rerun()
 
     # العمود 5: زر المهندسون
-    with cols[4]:
-        if st.button("المهندسون", key="nav_eng_v4"):
+    with cols:
+        if st.button("المهندسون", key="nav_eng_v5"):
             st.session_state["current_page"] = "engineers"; st.rerun()
 
     # العمود 6: زر حوكمة البيانات
-    with cols[5]:
-        if st.button("حوكمة البيانات", key="nav_gov_v4"):
+    with cols:
+        if st.button("حوكمة البيانات", key="nav_gov_v5"):
             st.session_state["current_page"] = "data_governance"; st.rerun()
 
     # العمود 7: زر عن المنصة / اتصل بنا
-    with cols[6]:
-        if st.button("عن المنصة / اتصل بنا", key="nav_abt_v4"):
+    with cols:
+        if st.button("عن المنصة / اتصل بنا", key="nav_abt_v5"):
             st.session_state["current_page"] = "about"; st.rerun()
 
     # العمود 8: خانة البحث المدمجة المجاورة للأزرار
-    with cols[7]:
-        search_q = st.text_input("", key="nav_search_v4", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
+    with cols:
+        search_q = st.text_input("", key="nav_search_v5", placeholder="🔍 ابحث في الكودات الهندسية...", label_visibility="collapsed")
         if search_q:
             st.session_state["search_trigger"] = search_q
 
-    # العمود 9 (أقصى اليسار): بوابة تسجيل الدخول
-    with cols[8]:
-        if st.button("🔒 دخول", key="nav_auth_v4"):
+    # العمود 9 (أقصى اليسار): بوابة تسجيل الدخول المذهبة النحيفة
+    with cols:
+        if st.button("🔒 دخول", key="nav_auth_v5"):
             st.session_state["current_page"] = "auth"; st.rerun()
 
     st.markdown("<hr style='border-color: rgba(197, 160, 89, 0.15); margin-top: 5px; margin-bottom: 15px;'>", unsafe_allow_html=True)
