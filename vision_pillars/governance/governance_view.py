@@ -2,13 +2,11 @@ import streamlit as st
 import sys
 import os
 
-# حقن مسار المجلد الجذري لضمان استدعاء المحرك من غرفته المعزولة soil_rules
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+# إجبار نظام بايثون على إدراج المسار الجذري للمشروع لربط الغرف المفككة
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-try:
-    from database_rules.soil_rules.soil_compliance_engine import load_dynamic_excel_rules, verify_soil_compliance
-except Exception:
-    pass
+# الاستدعاء الصريح والمباشر للمحرك من داخل حزمة التربة soil_rules لإنهاء خطأ الـ NameError
+from database_rules.soil_rules.soil_compliance_engine import load_dynamic_excel_rules, verify_soil_compliance
 
 def render_governance_view():
     """
