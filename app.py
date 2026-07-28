@@ -110,17 +110,15 @@ with main_content:
         except Exception:
             st.caption("⚠️ قاع الشاشة خاضع للتحديث.")
 
-    # 🎯 تطبيق فكرتك الجوهرية: قفل وحجز دخول المدونات والفحوصات إلا بعد اجتياز بوابة الفلترة الـ 9 العامة
-    elif current_view in ["data_governance", "smart_cities", "automation", "sustainability", "blogs", "projects", "engineers"]:
-        
-        # إذا لم يتم تثبيت المعطيات الـ 9 العامة بعد، يتم إجبار السيرفر على إظهار قائمة الفلترة أولاً حتماً
+        # تطبيق فكرتك الجوهرية: قفل وحجز دخول المدونات والفحوصات إلا بعد اجتياز بوابة الفلترة الـ 9 العامة
         if not st.session_state["gate_filter_approved"]:
-            import vision_pillars.governance.governance_view as gov_package_v10
-            gov_package_v10.render_governance_view()
-
+            try:
+                # 🎯 استدعاء صريح وآمن ومحمي بالمسافات القياسية لنسخة كابينة الحوكمة العاشرة
+                import vision_pillars.governance.governance_view as gov_package_v10
+                gov_package_v10.render_governance_view()
             except Exception as e:
                 st.error(f"⚠️ عطل في تحميل البوابة التمهيدية: {str(e)}")
-        else:
+
             # إذا تم الضغط على زر تثبيت المعطيات الـ 9 بنجاح، تفتح الشرايين وتنبثق المدونة أو الفحص المختار
             st.success(f"🔓 البوابة مفتوحة ومؤمنة بالمعطيات الحالية. القسم النشط: `{current_view.upper()}`")
             
