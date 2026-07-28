@@ -110,10 +110,9 @@ with main_content:
         except Exception:
             st.caption("⚠️ قاع الشاشة خاضع للتحديث.")
 
-        # تطبيق فكرتك الجوهرية: قفل وحجز دخول المدونات والفحوصات إلا بعد اجتياز بوابة الفلترة الـ 9 العامة
+        # 🎯 التوجيه النهائي الفاخر: فرض واجهة الفلترة والمدخلات الـ 9 أولاً كشرط حتمي للعبور داخل تبويب المدونات والفحوصات
         if not st.session_state["gate_filter_approved"]:
             try:
-                # 🎯 استدعاء صريح وآمن ومحمي بالمسافات القياسية لنسخة كابينة الحوكمة العاشرة
                 import vision_pillars.governance.governance_view as gov_package_v10
                 gov_package_v10.render_governance_view()
             except Exception as e:
