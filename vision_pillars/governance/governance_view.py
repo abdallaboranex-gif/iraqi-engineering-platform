@@ -174,41 +174,43 @@ def render_governance_view():
             
     st.markdown('</div>', unsafe_allow_html=True)
     # 🏢 الطابق الثاني: انبثاق حقول الفحوصات الجيوتقنية والقيود المفلترة بناءً على معطيات البوابة التمهيدية
+    # 🏢 الطابق الثاني: انبثاق حقول الفحوصات الجيوتقنية المجرّدة والصامتة تماماً لمنع التحايل وكشف الأجوبة
     st.markdown('<div class="gov-panel-box">', unsafe_allow_html=True)
     st.markdown('<p class="gov-section-header">🧪 الخطوة 2: القراءات والفحوصات الجيوتقنية المطلوبة لهذه المعاملة</p>', unsafe_allow_html=True)
     
     # حجب وعزل الفحوصات بالكامل طالما أن البوابة التمهيدية معلقة على خيار "اختر بنداً..."
     if active_route == "locked":
-        st.markdown("<div style='background: rgba(197, 160, 89, 0.02); padding: 20px; border-radius: 6px; border: 1px dashed rgba(197, 160, 89, 0.15); text-align: right;'><p style='color: #a0b0af; margin:0; font-size:12px;'>⚠️ الرجاء إكمال معطيات الرخصة والخطوة الأولى بالكامل بالأعلى (تحديد المحافظة، نوع الطلب، الاستعمال، وتصفير المساحة) لكي يتم تنشيط وفرد الحقول الجيوتقنية المطابقة لحالتك.</p></div>", unsafe_allow_html=True)
+        st.markdown("<div style='background: rgba(197, 160, 89, 0.02); padding: 20px; border-radius: 6px; border: 1px dashed rgba(197, 160, 89, 0.15); text-align: right;'><p style='color: #a0b0af; margin:0; font-size:12px;'>⚠️ الرجاء إكمال معطيات الرخصة والخطوة الأولى بالكامل بالأعلى لتنشيط وفرد الحقول الجيوتقنية المطابقة لحالتك.</p></div>", unsafe_allow_html=True)
     else:
         gc1, gc2 = st.columns(2)
         
-        # --- المجموعة 1: الفحوصات الأساسية (تظهر للجميع دائماً) ---
+        # --- المجموعة 1: الفحوصات الأساسية المشتركة (تظهر للجميع ومطهرة من شروط الهنت) ---
         with gc2:
-            st.markdown("<p style='color: #c5a059; font-weight: bold; font-size: 12px; margin-bottom: 5px; text-align: right;'>📋 فحوصات الاعتمادية والقدرة الأساسية:</p>", unsafe_allow_html=True)
-            soil_validity = st.selectbox("صلاحية واعتمادية تقرير التربة (Soil_Report_Validity)", ["معتمد ومجاز ومصادق", "غير مصادق / تحت المراجعة"], key="f_sv_final_v7")
-            bh_count = st.number_input("عدد الحفر الاستكشافية المنفذة (Boreholes_Count)", min_value=0, max_value=50, value=0, key="f_bc_final_v7") # تصفير القيمة الابتدائية إلى 0
+            st.markdown("<p style='color: #c5a059; font-weight: bold; font-size: 12px; margin-bottom: 5px; text-align: right;'>📋 فحوصات الاعتمادية والقدرة الأساسية للعقار:</p>", unsafe_allow_html=True)
+            soil_validity = st.selectbox("صلاحية واعتمادية تقرير التربة (Soil_Report_Validity)", ["معتمد ومجاز ومصادق", "غير مصادق / تحت المراجعة"], key="f_sv_final_v8")
+            bh_count = st.number_input("عدد الحفر الاستكشافية المنفذة في الموقع (Boreholes_Count)", min_value=0, max_value=50, value=0, key="f_bc_final_v8")
             
+            # عزل شروط الطول والعمق المكتوبة سابقاً ليبقى الحقل هندسياً أعمى
             if active_route == "heavy":
-                bh_depth = st.number_input("عمق الحفرة الاختبارية للأبراج العالية (Borehole_Depth_Heavy) - المطلوب ≥ 15م", min_value=0.0, max_value=150.0, value=0.0, key="f_bdh_final_v7")
+                bh_depth = st.number_input("عمق الحفرة الاختبارية المنفذة للأبراج العالية (Borehole_Depth_Heavy) - متر", min_value=0.0, max_value=150.0, value=0.0, key="f_bdh_final_v8")
             else:
-                bh_depth = st.number_input("عمق الحفرة الاختبارية للأبنية الخفيفة (Borehole_Depth_Shallow) - المطلوب ≥ 6م", min_value=0.0, max_value=50.0, value=0.0, key="f_bds_final_v7")
+                bh_depth = st.number_input("عمق الحفرة الاختبارية المنفذة للأبنية الخفيفة (Borehole_Depth_Shallow) - متر", min_value=0.0, max_value=50.0, value=0.0, key="f_bds_final_v8")
                 
-            bearing_capacity = st.number_input("قدرة تحمل التربة التصميمية المسموحة (Soil_Bearing_Capacity) - kN/m²", min_value=0.0, max_value=2000.0, value=0.0, key="f_bc_cap_final_v7")
-            report_age = st.number_input("عمر التقرير الجيوتقني الحالي بالأشهر (Soil_Report_Age) - المطلوب ≤ 24 شهر", min_value=0, max_value=120, value=0, key="f_ra_final_v7")
+            bearing_capacity = st.number_input("قدرة تحمل التربة التصميمية المسموحة المعتمدة (Soil_Bearing_Capacity) - kN/m²", min_value=0.0, max_value=2000.0, value=0.0, key="f_bc_cap_final_v8")
+            report_age = st.number_input("عمر التقرير الجيوتقني الحالي من تاريخ الإصدار (Soil_Report_Age) - بالأشهر", min_value=0, max_value=120, value=0, key="f_ra_final_v8")
 
-        # --- المجموعة 2: الفحوصات المتقدمة (تظهر للمتوسط والثقيل وتختفي تلقائياً للدور السكنية) ---
+        # --- المجموعة 2: الفحوصات المتقدمة (تظهر للمتوسط والثقيل ومطهرة تماماً من الشروط المسبقة) ---
         with gc1:
             if active_route in ["medium", "heavy"]:
-                st.markdown("<p style='color: #c5a059; font-weight: bold; font-size: 12px; margin-bottom: 5px; text-align: right;'>🔬 الفحوصات المختبرية والكيميائية الإلزامية:</p>", unsafe_allow_html=True)
-                sulphate_so3 = st.number_input("محتوى الكبريتات الثلاثية الذائبة في التربة (Soil_Sulphate_Content_SO3) - المطلوب ≤ 5%", min_value=0.0, max_value=100.0, value=0.0, key="f_so3_final_v7")
-                chloride_content = st.number_input("نسبة أيونات الكلوريدات الذائبة (Soil_Chloride_Content) - المطلوب ≤ 0.1%", min_value=0.00, max_value=10.00, value=0.00, step=0.01, key="f_cl_final_v7")
-                organic_content = st.number_input("محتوى المواد العضوية والجذور (Soil_Organic_Content) - المطلوب ≤ 2%", min_value=0.0, max_value=100.0, value=0.0, key="f_org_final_v7")
-                compaction_degree = st.number_input("درجة الحدل ورص التربة الميداني (Soil_Compaction_Degree) - المطلوب ≥ 95%", min_value=0.0, max_value=100.0, value=0.0, key="f_cd_final_v7")
+                st.markdown("<p style='color: #c5a059; font-weight: bold; font-size: 12px; margin-bottom: 5px; text-align: right;'>🔬 الفحوصات المختبرية والكيميائية الإلزامية للتربة:</p>", unsafe_allow_html=True)
+                sulphate_so3 = st.number_input("محتوى الكبريتات الثلاثية الذائبة في التربة (Soil_Sulphate_Content_SO3) - %", min_value=0.0, max_value=100.0, value=0.0, key="f_so3_final_v8")
+                chloride_content = st.number_input("نسبة أيونات الكلوريدات الذائبة في موقع التأسيس (Soil_Chloride_Content) - %", min_value=0.00, max_value=10.00, value=0.00, step=0.01, key="f_cl_final_v8")
+                organic_content = st.number_input("محتوى المواد العضوية والجذور الكلية (Soil_Organic_Content) - %", min_value=0.0, max_value=100.0, value=0.0, key="f_org_final_v8")
+                compaction_degree = st.number_input("درجة الحدل ورص التربة الميداني لطبقات الأساس (Soil_Compaction_Degree) - %", min_value=0.0, max_value=100.0, value=0.0, key="f_cd_final_v8")
             else:
-                st.markdown("<div style='background: rgba(197, 160, 89, 0.03); padding: 15px; border-radius: 6px; border: 1px dashed rgba(197, 160, 89, 0.15); margin-top: 25px; text-align: right;'><p style='color: #a0b0af; margin:0; font-size:11px;'>🔒 تم إعفاء هذه المعاملة تلقائياً من الفحوصات الكيميائية المعقدة بموجب الكود العراقي.</p></div>", unsafe_allow_html=True)
+                st.markdown("<div style='background: rgba(197, 160, 89, 0.03); padding: 15px; border-radius: 6px; border: 1px dashed rgba(197, 160, 89, 0.15); margin-top: 25px; text-align: right;'><p style='color: #a0b0af; margin:0; font-size:11px;'>🔒 تم إعفاء هذه المعاملة تلقائياً من الفحوصات الكيميائية المعقدة بموجب محددات الكود القياسي العراقي.</p></div>", unsafe_allow_html=True)
 
-        # --- المجموعة 3: قيود الأمان والجيوفيزياء (تتأثر صراحة بالمحافظة والسرداب والمشاريع الكبرى) ---
+        # --- المجموعة 3: قيود الأمان والجيوفيزياء الصامتة (حذف محدد الـ 10.75% لمنع التزوير) ---
         if active_route == "heavy":
             st.markdown("<hr style='border-color: rgba(197, 160, 89, 0.15); margin: 10px 0;'>", unsafe_allow_html=True)
             st.markdown("<p style='color: #ff4b4b; font-weight: bold; font-size: 12px; margin-bottom: 5px; text-align: right;'>⚠️ قيود السلامة والأمان الجيوفيزيائية والجبسية للأبراج العالية ومشاريع الاستثمار:</p>", unsafe_allow_html=True)
@@ -216,22 +218,21 @@ def render_governance_view():
             with g2:
                 if gov_province in ["النجف", "الأنبار", "المثنى", "نينوى"]:
                     st.caption(f"🔍 قيد جيولوجي نشط: [{gov_province}] مصنفة بوجود عيوب جيرية وتكهفات.")
-                    gpr_scan = st.selectbox("نتائج مسح الرادار الأرضي الاختراقي للكهوف (Soil_GPR_Void_Scan)", ["خالٍ من الفجوات والتكهفات الحرجة", "تم رصد فجوات وتجاويف تحت سطحية غير معالجة"], key="f_gpr_final_v7")
+                    gpr_scan = st.selectbox("نتائج مسح الرادار الأرضي الاختراقي للكهوف والكهوف الجيرية (Soil_GPR_Void_Scan)", ["خالٍ من الفجوات والتكهفات الحرجة", "تم رصد فجوات وتجاويف تحت سطحية غير معالجة"], key="f_gpr_final_v8")
                 else:
                     st.caption(f"ℹ️ قيد الفجوات غير نشط في محافظة [{gov_province}].")
                     gpr_scan = "خالٍ من الفجوات والتكهفات الحرجة"
-                gypsum_content = st.number_input("نسبة محتوى الجبس الكلية (Soil_Gypsum_Content) - الحد الأعلى الآمن 10.75%", min_value=0.0, max_value=100.0, value=0.0, key="f_gyp_final_v7")
+                gypsum_content = st.number_input("نسبة محتوى الجبس الكلية لطبقات التربة السطحية (Soil_Gypsum_Content) - %", min_value=0.0, max_value=100.0, value=0.0, key="f_gyp_final_v8")
             with g1:
                 if gov_has_basement == "موجود":
-                    water_table = st.number_input("منسوب المياه الجوفية المستقر تحت السطح (Water_Table_Depth) - بالمتر", min_value=0.0, max_value=100.0, value=0.0, key="f_wt_final_v7")
+                    water_table = st.number_input("منسوب المياه الجوفية المستقر تحت السطح (Water_Table_Depth) - بالمتر", min_value=0.0, max_value=100.0, value=0.0, key="f_wt_final_v8")
                 else:
                     st.markdown("<div style='padding-top: 25px; text-align: right;'><p style='color: #a0b0af; margin:0; font-size:11px;'>ℹ️ فحص المياه الجوفية محجوب لعدم وجود سرداب.</p></div>", unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
 
         # 🏢 الطابق الثالث: بوابة جباية أجور عملية المطابقة الإلكترونية الفورية
         st.markdown('<div class="gov-panel-box" style="border-color: #c5a059 !important; background: rgba(197, 160, 89, 0.05) !important;">', unsafe_allow_html=True)
         st.markdown('<p class="gov-section-header" style="color: #c5a059 !important; border-bottom-color: #c5a059 !important;">💰 الخطوة 3: جباية أجور المطابقة الآلية وإصدار شهادة الامتثال</p>', unsafe_allow_html=True)
-        st.markdown('<div style="direction: rtl; text-align: right; margin-bottom: 15px;"><p style="margin: 0; font-size: 12px; color: #ffffff;">أجور عملية التدقيق والمطابقة الرقمية الفورية تبلغ: <span style="color: #c5a059; font-weight: bold; font-size: 14px;">25,000 دينار عراقي</span></p><p style="margin: 3px 0 0 0; font-size: 10px; color: #52c41a;">● بوابة الدفع الإلكتروني لنقابة المهندسين نشطة وجاهزة.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div style="direction: rtl; text-align: right; margin-bottom: 15px;"><p style="margin: 0; font-size: 12px; color: #ffffff;">أجور عملية التدقيق والمطابقة الرقمية الفورية تبلغ: <span style="color: #c5a059; font-weight: bold; font-size: 14px;">100,000 دينار عراقي</span></p><p style="margin: 3px 0 0 0; font-size: 10px; color: #52c41a;">● بوابة الدفع الإلكتروني لنقابة المهندسين نشطة وجاهزة.</p></div>', unsafe_allow_html=True)
         
         if st.button("💳 تأكيد الدفع وتدقيق المعاملة هندسياً للمطابقة الآلية", key="gov_btn_pay_final_v7", use_container_width=True):
             st.success("✅ تم استقطاع الأجور بنجاح! جاري معايرة القراءات ميكانيكياً مع شيت الإكسل...")
