@@ -100,13 +100,15 @@ with main_content:
                 if st.button("🍃 استكشاف واجهة الاستدامة وكفاءة الطاقة", key="app_go_sustain", use_container_width=True):
                     st.session_state["current_page"] = "sustainability"; st.rerun()
                     
-        elif current_view == "data_governance":
+        if current_view == "data_governance":
             st.info("🧪 تم فك حظر كابينة الحوكمة! هنا ستفرد شاشة تدقيق شيت التربة.")
         elif current_view == "blogs":
             st.success("📚 تم فك حظر تبويب المدونات الوطني! هنا تعرض المقارنات المعتمدة.")
             
-        if st.button("↩️ إعادة تعيين وتعديل قائمة المعطيات العامة الـ 9", key="app_reset_gate_v109"):
-            st.session_state["gate_filter_approved"] = False; st.rerun()
+        if st.button("↩️ العودة الفورية إلى الشاشة الرئيسية (تعديل المعطيات الـ 9)", key="app_reset_gate_v109"):
+            st.session_state["gate_filter_approved"] = False
+            st.session_state["current_page"] = "home"
+            st.rerun()
 
 if st.session_state["current_page"] in ["about", "auth"]:
     with main_content:
