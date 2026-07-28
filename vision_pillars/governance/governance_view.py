@@ -258,12 +258,36 @@ def render_governance_view():
                 input_data["Soil_Chloride_Content"] = chloride_content
                 input_data["Soil_Organic_Content"] = organic_content
                 input_data["Soil_Compaction_Degree"] = compaction_degree
-                    # 2. استدعاء المحرك المركزي وقراءة الإكسل شيت حياً من مجلد soil_rules الجديد
+        # 2. استدعاء المحرك المركزي وقراءة الإكسل شيت حياً من مجلد soil_rules الجديد
         try:
             excel_rules = load_dynamic_excel_rules()
             audit_report = verify_soil_compliance(input_data, excel_rules)
             
-            # تهيئة نصوص الطباعة الرسمية للـ PDF خلف الكواليس
+            # 🎯 هندسة التحصين السيبراني لشركتك: توليد معرف رقمي فريد للباركود ومنع التزوير
+            import uuid
+            import datetime
+            tx_id = f"IBCP-{datetime.datetime.now().strftime('%Y%m%d')}-{str(uuid.uuid4())[:8].upper()}"
+            
+            # بناء رابط التحقق الرقمي الافتراضي لشركتك الاستثمارية
+            verify_url = f"https://national-ibcp-platform.com{tx_id}"
+            # جلب باركود إلكتروني فوري ومستقر سحابياً مشفر بالرابط لحساب حقوقك
+            qr_code_img_url = f"https://qrserver.com{verify_url}"
+            
+            # 🎯 التوثيق الصامت وحفظ نسخة الداتا لمطابقتها مع الدوائر المعنية لاحقاً
+            try:
+                ledger_file = "database_rules/audit_ledger.csv"
+                ledger_data = pd.DataFrame([{
+                    "Transaction_ID": tx_id, "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+                    "Province": gov_province, "Property_ID": gov_id_text, "Request_Type": gov_req_type,
+                    "Area": gov_area, "Floors": gov_floors, "Status": audit_report["status"]
+                }])
+                if not os.path.exists(ledger_file):
+                    ledger_data.to_csv(ledger_file, index=False, encoding="utf-8-sig")
+                else:
+                    ledger_data.to_csv(ledger_file, mode='a', header=False, index=False, encoding="utf-8-sig")
+            except Exception:
+                pass
+
             pdf_html_content = ""
             
             # 3. بث النتيجة وتوليد كروت الرفض الجنائية بالأبيض المقروء الفخم في حال التحايل
@@ -271,22 +295,19 @@ def render_governance_view():
                 st.balloons()
                 st.success("🎉 ممتاز! المعاملة مطابقة تماماً للمواصفات والضوابط العراقية المعتمدة لعام 2026. تم إصدار شهادة الامتثال الإلكترونية بنجاح.")
                 
-                # صياغة محتوى شهادة الامتثال لتقرير الـ PDF المطبوع للشركة الاستثمارية
                 pdf_html_content = f"""
                 <div class='pdf-header' style='color: green; border-bottom: 2px solid green; text-align: center; font-size: 18px; font-weight: bold; padding-bottom: 8px;'>شهادة امتثال هندسية معتمدة</div>
                 <p style='text-align: right; direction: rtl; font-size: 14px; line-height: 1.6;'>تفيد المنصة الرقمية الوطنية بأن المعاملة ذات الهوية (<b>{gov_id_text}</b>) في محافظة (<b>{gov_province}</b>) قد اجتازت مرحلة التدقيق والمطابقة الآلية الفورية مع الكود العراقي القياسي بنجاح باهر، وتعتبر مطابقة تماماً للمواصفات التشريعية والفنية المعمول بها بعد استقطاع الأجور المقررة هندسياً.</p>
-                <div style='text-align: center; margin-top: 20px;'><div style='text-align: center; font-size: 15px; font-weight: bold; color: green; border: 2px dashed green; padding: 10px; display: inline-block; border-radius: 4px;'>✔ معاملة معتمدة ومطابقة رقمياً بالكامل</div></div>
+                <div style='text-align: center; margin-top: 15px;'><div style='text-align: center; font-size: 14px; font-weight: bold; color: green; border: 2px dashed green; padding: 8px; display: inline-block; border-radius: 4px;'>✔ معاملة معتمدة ومطابقة رقمياً بالكامل</div></div>
                 """
             else:
                 st.error("🛑 تم رفض تصديق المعاملة! تم رصد تحايل أو قراءات هندسية مخالفة للحدود المسموحة قانوناً.")
                 
-                # بناء ترويسة تقرير الرفض المطور للشركة
                 pdf_html_content = f"""
                 <div class='pdf-header' style='color: #8b0000; border-bottom: 2px solid #8b0000; text-align: center; font-size: 18px; font-weight: bold; padding-bottom: 8px;'>تقرير رفض رقابي وإحالة قانونية قطعية</div>
                 <p style='font-size: 13px; text-align: right; direction: rtl; color: #333333; margin-bottom: 15px;'>بناءً على الفحص الإلكتروني المؤتمت لمعطيات الرخصة المدخلة للمعاملة (<b>{gov_id_text}</b>) بمحافظة (<b>{gov_province}</b>)، تم رصد وتفكيك المخالفات الإنشائية والتحايلات المختبرية التالية المقيدة بجدول العقوبات الوطني صراحة:</p>
                 """
                 
-                # طباعة كل مخالفة مسجلة بداخل كارت أحمر فاخر على الشاشة وبث الداتا الستة داخل الـ PDF
                 for violation in audit_report["violations"]:
                     st.markdown(
                         f"""
@@ -305,56 +326,56 @@ def render_governance_view():
                         unsafe_allow_html=True
                     )
                     
-                    # 🎯 تلبية لطلبك: تفجير وفرد الحقول الستة من شيت الإكسل داخل جدول مستقل ومحمي من الفراغات لكل مخالفة بالـ PDF
-                    # جلب حقل الحرج من الداتا أو تعيينه إلزامياً بموجب جدولك (حرج جداً)
                     severity_val = violation.get('severity', 'حرجة جداً [إبطال وإيقاف المعاملة تلقائياً]')
-                    
                     pdf_html_content += f"""
-                    <table class='pdf-v-table' style='width:100%; border-collapse:collapse; margin-bottom:20px; font-size:12px; direction:rtl; page-break-inside:avoid;'>
+                    <table class='pdf-v-table' style='width:100%; border-collapse:collapse; margin-bottom:15px; font-size:11px; direction:rtl; page-break-inside:avoid;'>
                         <tr style='background:#8b0000; color:#ffffff;'>
-                            <th colspan='2' style='padding:8px; border:1px solid #8b0000; text-align:right; font-size:13px;'>🚨 تفاصيل عطل بند المطابقة: {violation['title']}</th>
+                            <th colspan='2' style='padding:6px; border:1px solid #8b0000; text-align:right; font-size:12px;'>🚨 تفاصيل عطل بند المطابقة: {violation['title']}</th>
                         </tr>
                         <tr>
-                            <td style='padding:8px; border:1px solid #dddddd; background:#f8f9fa; width:25%; font-weight:bold;'>درجة المخالفة والحرج:</td>
-                            <td style='padding:8px; border:1px solid #dddddd; color:#red; font-weight:bold;'>{severity_val}</td>
+                            <td style='padding:6px; border:1px solid #dddddd; background:#f8f9fa; width:25%; font-weight:bold;'>درجة الحرج والعقوبة:</td>
+                            <td style='padding:6px; border:1px solid #dddddd; color:red; font-weight:bold;'>{severity_val}</td>
                         </tr>
                         <tr>
-                            <td style='padding:8px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>عنوان المخالفة الموجز:</td>
-                            <td style='padding:8px; border:1px solid #dddddd; font-weight:bold;'>"{violation['title']}"</td>
+                            <td style='padding:6px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>شرح المخالفة للمواطن:</td>
+                            <td style='padding:6px; border:1px solid #dddddd; line-height:1.4;'>"{violation['citizen']}"</td>
                         </tr>
                         <tr>
-                            <td style='padding:8px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>شرح المخالفة للمواطن (لغة مبسطة):</td>
-                            <td style='padding:8px; border:1px solid #dddddd; line-height:1.4;'>"{violation['citizen']}"</td>
+                            <td style='padding:6px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>رسالة الإصلاح والتوجيه:</td>
+                            <td style='padding:6px; border:1px solid #dddddd; line-height:1.4; color:green; font-weight:bold;'>"{violation['fix']}"</td>
                         </tr>
                         <tr>
-                            <td style='padding:8px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>شرح المخالفة للمهندس الفني (لغة هندسية):</td>
-                            <td style='padding:8px; border:1px solid #dddddd; line-height:1.4; color:#555555;'>{violation['engineer']}</td>
-                        </tr>
-                        <tr>
-                            <td style='padding:8px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>رسالة التوجيه والإصلاح (برمجياً):</td>
-                            <td style='padding:8px; border:1px solid #dddddd; line-height:1.4; color:green; font-weight:bold;'>"{violation['fix']}"</td>
-                        </tr>
-                        <tr>
-                            <td style='padding:8px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>العقوبة والأثر القانوني والإجرائي المترتب:</td>
-                            <td style='padding:8px; border:1px solid #dddddd; line-height:1.4; background:#fff0f0;'>{violation['penalty']}<br><small style='color:#666;'>🔗 المرجع الكودي: {violation['code']} | السند التشريعي: {violation['law']}</small></td>
+                            <td style='padding:6px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>الأثر الجزائي والقانوني:</td>
+                            <td style='padding:6px; border:1px solid #dddddd; line-height:1.4; background:#fff0f0;'>{violation['penalty']}<br><small style='color:#666;'>🔗 المرجع: {violation['code']} | {violation['law']}</small></td>
                         </tr>
                     </table>
                     """
-            # 4. بناء الهيكل التجاري الكامل لصفحة الـ PDF الرسمية لحفظ حقوق شركتك الاستثمارية
+            # 4. بناء الهيكل التجاري الكامل لصفحة الـ PDF الرسمية المدعومة بنظام الباركود السيبراني
             certified_pdf_template = f"""
             <html>
             <head>
             <style>
-                @page {{ size: A4; margin: 15mm 20mm 15mm 20mm; }}
+                @page {{ size: A4; margin: 12mm 15mm 12mm 15mm; }}
                 body {{ direction: rtl; text-align: right; font-family: 'Arial', sans-serif; background: #ffffff !important; color: #000000 !important; margin: 0; padding: 0; }}
-                .pdf-main-wrap {{ max-width: 100%; page-break-inside: avoid; }}
-                .pdf-header-box {{ text-align: center; margin-bottom: 20px; border-bottom: 3px double #c5a059; padding-bottom: 12px; }}
+                .pdf-main-wrap {{ max-width: 100%; }}
+                .pdf-header-box {{ text-align: center; margin-bottom: 18px; border-bottom: 3px double #c5a059; padding-bottom: 10px; }}
                 .pdf-header-title {{ margin: 0; font-size: 20px; color: #071615; font-weight: 800; }}
                 .pdf-header-subtitle {{ margin: 4px 0 0 0; font-size: 13px; color: #c5a059; font-weight: 700; }}
-                .pdf-section-title {{ color: #071615; border-right: 4px solid #c5a059; padding-right: 8px; margin: 15px 0 10px 0; font-size: 14px; font-weight: bold; }}
-                .pdf-data-table {{ width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 11px; direction: rtl; }}
-                .pdf-data-table td {{ padding: 7px; border: 1px solid #dddddd; vertical-align: middle; }}
-                .pdf-footer-sig {{ margin-top: 30px; text-align: left; font-size: 10px; color: #555555; border-top: 1px solid #dddddd; padding-top: 10px; page-break-inside: avoid; }}
+                .pdf-section-title {{ color: #071615; border-right: 4px solid #c5a059; padding-right: 8px; margin: 15px 0 8px 0; font-size: 13px; font-weight: bold; }}
+                .pdf-data-table {{ width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 11px; direction: rtl; }}
+                .pdf-data-table td {{ padding: 6px; border: 1px solid #dddddd; vertical-align: middle; }}
+                
+                /* تجميع حزمة التوقيع والباركود في سطر واحد متزن بقاع المستند لمنع التفرع لصفحة ثانية */
+                .pdf-signature-block {{ 
+                    margin-top: 25px; 
+                    border-top: 1px solid #dddddd; 
+                    padding-top: 12px; 
+                    display: table; 
+                    width: 100%; 
+                    page-break-inside: avoid;
+                }}
+                .sig-col-text {{ display: table-cell; width: 75%; font-size: 10px; color: #444444; vertical-align: middle; line-height: 1.5; }}
+                .sig-col-qr {{ display: table-cell; width: 25%; text-align: left; vertical-align: middle; }}
             </style>
             </head>
             <body>
@@ -394,13 +415,21 @@ def render_governance_view():
                         </tr>
                     </table>
                     
-                    <!-- حقن جداول الفحوصات والـ 6 حقول الإلزامية المفككة لكل مخالفة تلقائياً من الإكسل -->
+                    <!-- حقن جداول الفحوصات والـ 6 حقول المفرزة من الإكسل -->
                     {pdf_html_content}
                     
-                    <!-- التوقيع الإلكتروني المؤتمت المصفى في قاع الصفحة الأولى ومنع الفراغ -->
-                    <div class="pdf-footer-sig">
-                        <p style="margin: 0;">صدر هذا التقرير الفني آلياً عن المنظومة الذكية للمطابقة الفورية للرخص الهندسية بموجب الكود العراقي القياسي.</p>
-                        <p style="margin: 3px 0 0 0;">تاريخ التوثيق والمصادقة الرقمية: <b>2026/07/28 - بغداد</b></p>
+                    <!-- 🎯 حقن كتلة الباركود والتوثيق السيبراني الصارم في قاع المستند بانتظام ملموم -->
+                    <div class="pdf-signature-block">
+                        <div class="sig-col-text">
+                            <p style="margin: 0; font-weight: bold; color: #071615;">🔒 وثيقة مؤمنة بنظام الفحص الرقمي لمكافحة التزوير</p>
+                            <p style="margin: 4px 0 0 0;">المعرّف الرقمي الموحد (UUID): <span style="font-family: monospace; font-weight: bold; color: #8b0000;">{tx_id}</span></p>
+                            <p style="margin: 2px 0 0 0;">صدر هذا التقرير آلياً عن النظام المطور للمطابقة الآلية للرخص بموجب المحددات التشريعية العراقية القياسية.</p>
+                            <p style="margin: 2px 0 0 0; color: #666666;">تاريخ وتوقيت المصادقة الرقمية: <b>2026/07/28 - بغداد</b></p>
+                        </div>
+                        <div class="sig-col-qr">
+                            <!-- استدعاء الباركود المشفر برابط التحقق الحصري لشركتك -->
+                            <img src="{qr_code_img_url}" alt="QR Verification" style="border: 1px solid #c5a059; padding: 2px; background: #ffffff;" />
+                        </div>
                     </div>
                 </div>
                 <script>window.onload = function() {{ window.print(); }}</script>
@@ -410,14 +439,14 @@ def render_governance_view():
             
             st.markdown("<br><hr style='border-color: rgba(197, 160, 89, 0.2);'>", unsafe_allow_html=True)
             
-            # 🎯 زر التحميل والطباعة الفوري الشامل والمطهر بملف HTML/PDF المكتمل لحقوقك
+            # زر التحميل والسحب النهائي المطور بنظام الباركود والتوثيق
             st.download_button(
-                label="📥 سحب وتحميل هذا التقرير الرقابي الرسمي كملف PDF معتمد للطباعة المعايرة",
+                label="📥 سحب وتحميل هذا التقرير الرقابي الموثق بالباركود كملف PDF معتمد",
                 data=certified_pdf_template,
-                file_name=f"IBCP_Compliance_Report_{gov_id_text.replace('/', '_')}.html",
+                file_name=f"IBCP_Secured_Report_{gov_id_text.replace('/', '_')}.html",
                 mime="text/html",
                 use_container_width=True,
-                key="btn_certified_premium_pdf_download_v120"
+                key="btn_certified_premium_pdf_download_v125"
             )
 
         except Exception as e:
