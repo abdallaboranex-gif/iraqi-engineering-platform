@@ -41,7 +41,6 @@ except Exception:
 if "current_page" not in st.session_state:
     st.session_state["current_page"] = "home"
 
-# تهيئة حالة ذاكرة تثبيت قائمة الفلترة الـ 9 العامة (تعني القفل وعدم المرور في حال False)
 if "gate_filter_approved" not in st.session_state:
     st.session_state["gate_filter_approved"] = False
 # 7. استدعاء الملقم الجانبي وتأمين الأزرار والرموز في قاع الملف
@@ -58,20 +57,19 @@ with sidebar_stats:
     except Exception:
         pass
 
-# --- الطابق الأيمن الرئيسي: تطبيق حلقة التوجيه وعزل غرف الفحص ---
+# --- الطابق الأيمن الرئيسي: تطبيق حلقة التوجيه وعزل غرف الفحص الفخمة ---
 with main_content:
     current_view = st.session_state["current_page"]
     
-    # 🎯 حزام الأمان المطور: الحجز والقفل الصارم يتفعل فقط إذا دخل المستخدم لكابينة فحص ومطابقة التربة
+    # 🎯 حزام الأمان الفيدرالي: القفل يتفعل فقط وحصرياً إذا ضغط المستخدم على زر واجهة فحص التربة
     if not st.session_state["gate_filter_approved"] and current_view == "data_governance":
         try:
-            # استدعاء مباشر وصريح للنسخة العاشرة النظيفة لكابينة الحوكمة العامة والمدخلات الـ 9
             import vision_pillars.governance.governance_view as gov_package_v10
             gov_package_v10.render_governance_view()
         except Exception as e:
             st.error(f"⚠️ عطل في تحميل البوابة التمهيدية: {str(e)}")
     else:
-        # تفريغ وعزل المسارات الحرة للرئيسية والمدونات بصفر حظر عشوائي
+        # 🌿 إذا كان المستخدم في الرئيسية أو المدونات تفتح الواجهات الأصلية الفاخرة حرة وصافية 100%
         if current_view == "home":
             try:
                 from core_layout.hero.hero_linker import show_hero_section
@@ -81,32 +79,39 @@ with main_content:
                 
             st.markdown("<br><br>", unsafe_allow_html=True)
             st.markdown("### 🌐 كابينات الرؤية الاستراتيجية الكبرى للمنصة")
-            col_v1, col_v2, col_v3, col_v4 = st.columns(4)
             
+            # حقن مصفوفة الكروت الزجاجية التصويرية الأصلية الأربعة بكامل فخامتها البصرية السابقة
+            col_v1, col_v2, col_v3, col_v4 = st.columns(4)
             with col_v1:
-                if st.button("🗺️ استكشاف واجهة المدن الذكية", key="app_go_sc", use_container_width=True):
+                st.markdown(f'<div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);"><img src="data:image/jpeg;base64,{img_smart_cities}" style="width:100%; height:130px; object-fit:cover; opacity:0.85;" />', unsafe_allow_html=True)
+                if st.button("🗺️ المدن الذكية", key="app_go_sc_v10", use_container_width=True):
                     st.session_state["current_page"] = "smart_cities"; st.rerun()
+                st.markdown('</div>', unsafe_allow_html=True)
+                
             with col_v2:
-                if st.button("⚖️ استكشاف واجهة حوكمة البيانات", key="app_go_gov", use_container_width=True):
+                st.markdown(f'<div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);"><img src="data:image/png;base64,{img_governance}" style="width:100%; height:130px; object-fit:cover; opacity:0.85;" />', unsafe_allow_html=True)
+                if st.button("⚖️ حوكمة البيانات", key="app_go_gov_v10", use_container_width=True):
                     st.session_state["current_page"] = "data_governance"; st.rerun()
+                st.markdown('</div>', unsafe_allow_html=True)
+                
             with col_v3:
-                if st.button("🤖 استكشاف واجهة الأتمتة والذكاء", key="app_go_auto", use_container_width=True):
+                st.markdown(f'<div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);"><img src="data:image/png;base64,{img_automation}" style="width:100%; height:130px; object-fit:cover; opacity:0.85;" />', unsafe_allow_html=True)
+                if st.button("🤖 الأتمتة والذكاء", key="app_go_auto_v10", use_container_width=True):
                     st.session_state["current_page"] = "automation"; st.rerun()
+                st.markdown('</div>', unsafe_allow_html=True)
+                
             with col_v4:
-                if st.button("🍃 استكشاف واجهة الاستدامة وكفاءة الطاقة", key="app_go_sustain", use_container_width=True):
+                st.markdown(f'<div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);"><img src="data:image/png;base64,{img_sustainability}" style="width:100%; height:130px; object-fit:cover; opacity:0.85;" />', unsafe_allow_html=True)
+                if st.button("🍃 الاستدامة والطاقة", key="app_go_sustain_v10", use_container_width=True):
                     st.session_state["current_page"] = "sustainability"; st.rerun()
+                st.markdown('</div>', unsafe_allow_html=True)
                     
         elif current_view == "data_governance":
-            st.success("🧪 ممتاز! تم اجتياز الفلترة بنجاح وفتح كابينة التدقيق الشامل لمدونة التربة.")
+            st.success("🧪 ممتاز! تم فك الحظر آلياً وفتح كابينة التدقيق لمدونة التربة القياسية.")
             
         elif current_view == "blogs":
             st.markdown("<h3 style='color:#c5a059; text-align:right;'>📚 مدونة المقارنات والمحددات الإنشائية الوطنية</h3>", unsafe_allow_html=True)
             st.markdown("<p style='color:#ffffff; text-align:right;'>مرحباً بك في قسم المدونات! هنا يتم استعراض كافة جداول المواصفات والتعليمات الفنية المعمول بها في نقابة المهندسين والبلديات العراقية بشكل صامت وحر.</p>", unsafe_allow_html=True)
-            
-        if st.button("↩️ العودة وتعديل المعطيات العامة الـ 9 للعقار", key="app_reset_gate_v10"):
-            st.session_state["gate_filter_approved"] = False
-            st.session_state["current_page"] = "home"
-            st.rerun()
 
 if st.session_state["current_page"] in ["about", "auth"]:
     with main_content:
