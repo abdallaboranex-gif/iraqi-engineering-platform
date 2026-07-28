@@ -263,16 +263,15 @@ def render_governance_view():
             excel_rules = load_dynamic_excel_rules()
             audit_report = verify_soil_compliance(input_data, excel_rules)
             
-            # تهيئة نصوص الطباعة الرسمية للـ PDF خلف الكواليس
             pdf_html_content = ""
+            warning_banner_html = "" # مخزن حقن التحذير الصارم بالـ PDF
+            
             import uuid
             import datetime
             tx_id = f"IBCP-{datetime.datetime.now().strftime('%Y%m%d')}-{str(uuid.uuid4())[:8].upper()}"
-            
-            # 🎯 هندسة الباركود الحقيقي: تشفير رابط التحقق بنظام النص السريع الآمن للطباعة
             verify_url = f"https://national-ibcp-platform.com{tx_id}"
             
-            # صياغة نص التقرير والمخالفات الـ 6 من شيت الإكسل
+            # 3. بث النتيجة وتوليد كروت الرفض بالأبيض المقروء الفخم في حال التحايل
             if audit_report["status"] == "PASS":
                 st.balloons()
                 st.success("🎉 ممتاز! المعاملة مطابقة تماماً للمواصفات والضوابط العراقية المعتمدة لعام 2026. تم إصدار شهادة الامتثال الإلكترونية بنجاح.")
@@ -285,11 +284,34 @@ def render_governance_view():
             else:
                 st.error("🛑 تم رفض تصديق المعاملة! تم رصد تحايل أو قراءات هندسية مخالفة للحدود المسموحة قانوناً.")
                 
-                pdf_html_content = f"""
-                <div class='pdf-header' style='color: #8b0000; border-bottom: 2px solid #8b0000; text-align: center; font-size: 18px; font-weight: bold; padding-bottom: 8px;'>تقرير رفض رقابي وإحالة قانونية قطعية</div>
-                <p style='font-size: 13px; text-align: right; direction: rtl; color: #333333; margin-bottom: 15px;'>بناءً على الفحص الإلكتروني المؤتمت لمعطيات الرخصة المدخلة للمعاملة (<b>{gov_id_text}</b>) بمحافظة (<b>{gov_province}</b>)، تم رصد وتفكيك المخالفات الإنشائية والتحايلات المختبرية التالية المقيدة بجدول العقوبات الوطني صراحة:</p>
+                # 🎯 حقن العبارة الصارمة والمخيفة بصندوق أحمر ناري متوهج وخط غليظ على واجهة المنصة الحية فقط عند الرفض
+                st.markdown(
+                    """
+                    <div style="background-color: rgba(139, 0, 0, 0.25); border: 2px solid #ff4b4b; border-radius: 8px; padding: 20px; margin-top: 15px; margin-bottom: 20px; text-align: right; direction: rtl; box-shadow: 0 4px 20px rgba(255, 75, 75, 0.4);">
+                        <h3 style="color: #ff4b4b !important; margin: 0 0 10px 0; font-size: 17px; font-weight: 900; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">⛔ تحذير قانوني وإجرائي بات وصارم ومخيف:</h3>
+                        <p style="color: #ffffff !important; font-size: 14px; font-weight: bold; line-height: 1.6; margin: 0; -webkit-text-fill-color: #ffffff !important;">
+                            في حالة مباشرتك بأعمال البناء والتنفيذ ميدانياً دون تعديل الأخطاء والمخالفات الإنشائية المرصودة في هذا التقرير وتصحيحها، ستتحمل كافة الإجراءات القانونية الصارمة، والملاحقات القضائية الجزائية بحقك، مع الإيقاف الفوري الإجباري للمشروع وهدم الأجزاء المخالفة على نفقتك الخاصة لحماية السلامة العامة!
+                        </p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+                
+                # صياغة نفس اللافتة المرعبة والأثر القانوني الجنائي داخل قالب الـ PDF المطبوع
+                warning_banner_html = """
+                <div style='background: #fff0f0; border: 3px solid #8b0000; border-radius: 6px; padding: 15px; margin-top: 25px; text-align: right; direction: rtl; page-break-inside: avoid;'>
+                    <h4 style='color: #8b0000; margin: 0 0 8px 0; font-size: 13px; font-weight: 900;'>⛔ تحذير قانوني وإجرائي بات وصارم ومخيف:</h4>
+                    <p style='color: #000000; font-size: 11px; font-weight: bold; line-height: 1.6; margin: 0;'>
+                        في حالة مباشرتك بأعمال البناء والتنفيذ ميدانياً دون تعديل الأخطاء والمخالفات الإنشائية المرصودة في هذا التقرير وتصحيحها، ستتحمل كافة الإجراءات القانونية الصارمة، والملاحقات القضائية الجزائية بحقك، مع الإيقاف الفوري الإجباري للمشروع وهدم الأجزاء المخالفة على نفقتك الخاصة لحماية السلامة العامة!
+                    </p>
+                </div>
                 """
                 
+                pdf_html_content = f"""
+                <div class='pdf-header' style='color: #8b0000; border-bottom: 2px solid #8b0000; text-align: center; font-size: 17px; font-weight: bold; padding-bottom: 8px;'>تقرير رفض رقابي وإحالة قانونية قطعية</div>
+                <p style='font-size: 13px; text-align: right; direction: rtl; color: #333333; margin-bottom: 15px;'>بناءً على الفحص الإلكتروني المؤتمت لمعطيات الرخصة المدخلة للمعاملة (<b>{gov_id_text}</b>) بمحافظة (<b>{gov_province}</b>) ، تم رصد وتفكيك المخالفات الإنشائية والتحايلات المختبرية التالية المقيدة بجدول العقوبات الوطني صراحة:</p>
+                """
+                # تجميع المخالفات الـ 6 من شيت الإكسل وضخها بالشاشة والـ PDF
                 for violation in audit_report["violations"]:
                     st.markdown(
                         f"""
@@ -309,7 +331,6 @@ def render_governance_view():
                     )
                     
                     severity_val = violation.get('severity', 'حرجة جداً [إبطال وإيقاف المعاملة تلقائياً]')
-                    
                     pdf_html_content += f"""
                     <table class='pdf-v-table' style='width:100%; border-collapse:collapse; margin-bottom:15px; font-size:11px; direction:rtl; page-break-inside:avoid;'>
                         <tr style='background:#8b0000; color:#ffffff;'>
@@ -342,7 +363,6 @@ def render_governance_view():
                     </table>
                     """
 
-            # التوثيق الصامت وحفظ نسخة الداتا بمجلد السجلات
             try:
                 ledger_file = "database_rules/audit_ledger.csv"
                 ledger_data = pd.DataFrame([{
@@ -359,7 +379,6 @@ def render_governance_view():
             # 🎯 بناء صورة مصفوفة QR Code حقيقية وموثقة هندسياً لتطبع بوضوح 100% ولا تظهر فارغة
             qr_matrix_svg = f"""
             <svg xmlns="http://w3.org" viewBox="0 0 100 100" width="80" height="80" style="border: 2px solid #071615; padding: 3px; background: #ffffff;">
-                <!-- رسم مربعات الزوايا الأمنية الثلاثة الحتمية لقارئ الباركود العالمي -->
                 <rect x="0" y="0" width="30" height="30" fill="#071615"/>
                 <rect x="5" y="5" width="20" height="20" fill="#ffffff"/>
                 <rect x="10" y="10" width="10" height="10" fill="#071615"/>
@@ -372,7 +391,6 @@ def render_governance_view():
                 <rect x="5" y="75" width="20" height="20" fill="#ffffff"/>
                 <rect x="10" y="80" width="10" height="10" fill="#071615"/>
                 
-                <!-- توزيع مصفوفة التشفير العشوائية الذكية للبيانات الـ 9 داخل الـ Vector -->
                 <rect x="40" y="5" width="10" height="10" fill="#071615"/>
                 <rect x="55" y="15" width="10" height="5" fill="#071615"/>
                 <rect x="45" y="25" width="15" height="10" fill="#071615"/>
@@ -387,7 +405,7 @@ def render_governance_view():
             </svg>
             """
 
-            # 4. بناء الهيكل التجاري الكامل لصفحة الـ PDF الرسمية المدعومة بنظام الـ QR الرقمي الذاتي
+            # 4. بناء الهيكل التجاري الكامل لصفحة الـ PDF الرسمية المدعومة بنظام الـ QR والتحذير المخيف
             certified_pdf_template = f"""
             <html>
             <head>
@@ -402,7 +420,6 @@ def render_governance_view():
                 .pdf-data-table {{ width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 11px; direction: rtl; }}
                 .pdf-data-table td {{ padding: 6px; border: 1px solid #dddddd; vertical-align: middle; }}
                 
-                /* تجميع حزمة التوقيع والـ QR الكودي بقاع المستند الصافي لمنع الاختفاء السحابي للرسوم */
                 .pdf-signature-block {{ 
                     margin-top: 30px; 
                     border-top: 2px solid #071615; 
@@ -452,7 +469,9 @@ def render_governance_view():
                     
                     {pdf_html_content}
                     
-                    <!-- قاع التوثيق الرقمي الموثق بنظام الـ QR الكودي الساطع -->
+                    <!-- حقن لافتة التحذير القانونية الصارمة والمخيفة المخصصة لتقارير الرفض فقط -->
+                    {warning_banner_html}
+                    
                     <div class="pdf-signature-block">
                         <div class="sig-col-text">
                             <p style="margin: 0; font-weight: bold; color: #8b0000; font-size: 12px;">🔒 وثيقة معتمدة ومحميّة بنظام التشفير الرقمي الموحد</p>
@@ -461,7 +480,6 @@ def render_governance_view():
                             <p style="margin: 2px 0 0 0; color: #666666;">تاريخ المصادقة: <b>2026/07/28 - بغداد</b></p>
                         </div>
                         <div class="sig-col-qr">
-                            <!-- بث الباركود الكودي الهندسي فوراً وصفر تأخير أو مسح متصفح -->
                             {qr_matrix_svg}
                             <div style="font-size: 8px; text-align: center; font-weight: bold; color: #071615; margin-top: 2px; width: 80px;">VERIFIED</div>
                         </div>
@@ -480,7 +498,7 @@ def render_governance_view():
                 file_name=f"IBCP_Secured_Report_{gov_id_text.replace('/', '_')}.html",
                 mime="text/html",
                 use_container_width=True,
-                key="btn_certified_premium_pdf_download_v127"
+                key="btn_certified_premium_pdf_download_v128"
             )
 
         except Exception as e:
