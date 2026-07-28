@@ -14,7 +14,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "databa
 import config.settings as custom_settings
 custom_settings.apply_unified_background()
 
-# 4. دالة محمية لتشفير صور الكبائن الأربعة لتعمل سحابياً بامتياز
+# 4. دالة محمية لتشفير صور الكبائن لتعمل سحابياً بامتياز وبدون مسارات محلية مكسورة
 def get_base64_image(image_path):
     try:
         if os.path.exists(image_path):
@@ -35,7 +35,7 @@ try:
     import core_layout.navbar.navbar_linker as nv_module
     nv_module.show_navbar_section()
 except Exception:
-    st.error("🚨 عطل طارئ in منظومة شريط التحكم المركزي.")
+    st.error("🚨 عطل طارئ في منظومة شريط التحكم المركزي.")
 
 # 6. إدارة الذاكرة السحابية للتنقل الذكي المباشر بين الواجهات والتبويبات
 if "current_page" not in st.session_state:
@@ -62,10 +62,10 @@ with sidebar_stats:
 with main_content:
     current_view = st.session_state["current_page"]
     
-    # 🎯 حزام الأمان المطور: الحجر والقفل الصارم يتفعل فقط وحصرياً إذا دخل المستخدم لكابينة فحص ومطابقة التربة
     # 🎯 حزام الأمان المطور: الحجز والقفل الصارم يتفعل فقط إذا دخل المستخدم لكابينة فحص ومطابقة التربة
     if not st.session_state["gate_filter_approved"] and current_view == "data_governance":
         try:
+            # استدعاء مباشر وصريح للنسخة العاشرة النظيفة لكابينة الحوكمة العامة والمدخلات الـ 9
             import vision_pillars.governance.governance_view as gov_package_v10
             gov_package_v10.render_governance_view()
         except Exception as e:
@@ -108,7 +108,7 @@ with main_content:
             st.session_state["current_page"] = "home"
             st.rerun()
 
-elif st.session_state["current_page"] in ["about", "auth"]:
+if st.session_state["current_page"] in ["about", "auth"]:
     with main_content:
         st.markdown(f"## 🔒 واجهة مستقلة منفصلة: {st.session_state['current_page'].upper()}")
         if st.button("🏠 العودة للشاشة الرئيسية", key="app_back_nav_p10"):
