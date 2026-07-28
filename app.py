@@ -109,23 +109,22 @@ with main_content:
             show_footer_section()
         except Exception:
             st.caption("⚠️ قاع الشاشة خاضع للتحديث.")
-
-        # 🎯 التوجيه النهائي الفاخر: فرض واجهة الفلترة والمدخلات الـ 9 أولاً كشرط حتمي للعبور داخل تبويب المدونات والفحوصات
-        if not st.session_state["gate_filter_approved"]:
+        # 🎯 تطبيق فكرتك الجوهرية الشاملة: قفل وحجز الشاشة الرئيسية والمدونات والفحوصات كلياً إلا بعد اجتياز بوابة الفلترة الـ 9 العامة
+        if not st.session_state["gate_filter_approved"] and current_view in ["home", "data_governance", "blogs", "projects", "smart_cities", "automation", "sustainability"]:
             try:
                 import vision_pillars.governance.governance_view as gov_package_v10
                 gov_package_v10.render_governance_view()
             except Exception as e:
-                st.error(f"⚠️ عطل في تحميل البوابة التمهيدية: {str(e)}")
-
-            # إذا تم الضغط على زر تثبيت المعطيات الـ 9 بنجاح، تفتح الشرايين وتنبثق المدونة أو الفحص المختار
-            st.success(f"🔓 البوابة مفتوحة ومؤمنة بالمعطيات الحالية. القسم النشط: `{current_view.upper()}`")
-            
-            # هنا سيتم توجيه المستخدم لملفات الفحص الصافية للمدونات الخمسة المعزولة لاحقاً
+                st.error(f"⚠️ عطل في تحميل البوابة التمهيدية الموحدة: {str(e)}")
+        else:
+            # إذا اجتاز المستخدم بوابة الفرز أو نقر لإعادة التعيين تفرد وتفتح له المدونات حياً
             if current_view == "data_governance":
                 st.info("🧪 هنا ستنبثق شاشة فحص ومطابقة مدونة التربة (soil_rules) الحالية.")
             
-            if st.button("↩️ إعادة تعيين وتعديل قائمة المعطيات العامة الـ 9", key="app_reset_gate"):
+            if current_view == "blogs":
+                st.success("📚 تم فك حظر تبويب المدونات! هنا ستعرض المقارنات الإنشائية المعتمدة.")
+                
+            if st.button("↩️ إعادة تعيين وتعديل قائمة المعطيات العامة الـ 9", key="app_reset_gate_v10"):
                 st.session_state["gate_filter_approved"] = False; st.rerun()
 
     elif current_view in ["about", "auth"]:
