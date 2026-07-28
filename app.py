@@ -14,7 +14,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "databa
 import config.settings as custom_settings
 custom_settings.apply_unified_background()
 
-# 4. تأمين مسارات الصور المحلية المستقرة لتعمل سحابياً بوضوح 100% وصفر كسر بكسلي
+# 4. تأمين مسارات الصور المحلية لتعمل سحابياً بوضوح 100% وصفر كسر بكسلي
 img_smart_cities = "assets/smart_cities.jpeg"
 img_governance = "assets/governance.png"
 img_automation = "assets/automation.png"
@@ -70,33 +70,37 @@ with main_content:
             st.markdown("<br><br>", unsafe_allow_html=True)
             st.markdown("### 🌐 كابينات الرؤية الاستراتيجية الكبرى للمنصة")
             
-            # حقن مصفوفة الكروت الزجاجية التصويرية الأصلية الأربعة بكامل فخامتها البصرية السابقة وصورها الحية
+            # حقن مصفوفة الكروت الزجاجية التصويرية الأصلية الأربعة المحمية سيبرانياً من عطل الـ Storage
             col_v1, col_v2, col_v3, col_v4 = st.columns(4)
             with col_v1:
                 st.markdown('<div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">', unsafe_allow_html=True)
-                st.image(img_smart_cities, use_container_width=True)
-                if st.button("🗺️ المدن الذكية", key="app_go_sc_v12", use_container_width=True):
+                if os.path.exists(img_smart_cities):
+                    st.image(img_smart_cities, use_container_width=True)
+                if st.button("🗺️ المدن الذكية", key="app_go_sc_v13", use_container_width=True):
                     st.session_state["current_page"] = "smart_cities"; st.rerun()
                 st.markdown('</div>', unsafe_allow_html=True)
                 
             with col_v2:
                 st.markdown('<div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">', unsafe_allow_html=True)
-                st.image(img_governance, use_container_width=True)
-                if st.button("⚖️ حوكمة البيانات", key="app_go_gov_v12", use_container_width=True):
+                if os.path.exists(img_governance):
+                    st.image(img_governance, use_container_width=True)
+                if st.button("⚖️ حوكمة البيانات", key="app_go_gov_v13", use_container_width=True):
                     st.session_state["current_page"] = "data_governance"; st.rerun()
                 st.markdown('</div>', unsafe_allow_html=True)
                 
             with col_v3:
                 st.markdown('<div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">', unsafe_allow_html=True)
-                st.image(img_automation, use_container_width=True)
-                if st.button("🤖 الأتمتة والذكاء", key="app_go_auto_v12", use_container_width=True):
+                if os.path.exists(img_automation):
+                    st.image(img_automation, use_container_width=True)
+                if st.button("🤖 الأتمتة والذكاء", key="app_go_auto_v13", use_container_width=True):
                     st.session_state["current_page"] = "automation"; st.rerun()
                 st.markdown('</div>', unsafe_allow_html=True)
                 
             with col_v4:
                 st.markdown('<div style="background-color: rgba(7, 22, 21, 0.7); border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.3); padding: 0px; text-align: center; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">', unsafe_allow_html=True)
-                st.image(img_sustainability, use_container_width=True)
-                if st.button("🍃 الاستدامة والطاقة", key="app_go_sustain_v12", use_container_width=True):
+                if os.path.exists(img_sustainability):
+                    st.image(img_sustainability, use_container_width=True)
+                if st.button("🍃 الاستدامة والطاقة", key="app_go_sustain_v13", use_container_width=True):
                     st.session_state["current_page"] = "sustainability"; st.rerun()
                 st.markdown('</div>', unsafe_allow_html=True)
                     
@@ -110,7 +114,7 @@ with main_content:
 if st.session_state["current_page"] in ["about", "auth"]:
     with main_content:
         st.markdown(f"## 🔒 واجهة مستقلة منفصلة: {st.session_state['current_page'].upper()}")
-        if st.button("🏠 العودة للشاشة الرئيسية", key="app_back_nav_p12"):
+        if st.button("🏠 العودة للشاشة الرئيسية", key="app_back_nav_p13"):
             st.session_state["current_page"] = "home"; st.rerun()
 
 try:
