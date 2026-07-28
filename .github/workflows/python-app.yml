@@ -1,0 +1,26 @@
+name: 🛡️ الحارس السيبراني لسلامة وصيانة الأكواد قبل النشر السحابي
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: 🐍 تهيئة بيئة بايثون القياسية المستقرة
+      uses: actions/setup-python@v5
+      with:
+        python-python-version: "3.11"
+        
+    - name: 🧪 إطلاق الفحص الآلي المسبق للأوزان والمسافات الحساسة
+      run: |
+        echo "🔍 جاري قراءة وتدقيق أوزان ملف app.py حياً..."
+        python -m py_compile app.py
+        
+        echo "🔍 جاري قراءة وتدقيق أوزان ملف كابينة الحوكمة حياً..."
+        python -m py_compile vision_pillars/governance/governance_view.py
