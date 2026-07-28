@@ -178,16 +178,8 @@ def render_governance_view():
         else:
             audit_fees_text = "1,000,000 دينار عراقي"
             audit_fees_numeric = 1000000
-
-        # 💰 الخطوة 3: تفعيل بوابة جباية أجور المطابقة الإلكترونية الحيوية حسب الفئة
-        st.markdown('<div class="gov-panel-box" style="border-color: #c5a059 !important; background: rgba(197, 160, 89, 0.05) !important;">', unsafe_allow_html=True)
-        st.markdown('<p class="gov-section-header" style="color: #c5a059 !important; border-bottom-color: #c5a059 !important;">💰 الخطوة 3: جباية أجور المطابقة الآلية وإصدار شهادة الامتثال</p>', unsafe_allow_html=True)
-        st.markdown(f'<div style="direction: rtl; text-align: right; margin-bottom: 15px;"><p style="margin: 0; font-size: 12px; color: #ffffff;">أجور عملية التدقيق والمطابقة الرقمية الفورية للفئة الحالية تبلغ: <span style="color: #c5a059; font-weight: bold; font-size: 14px;">{audit_fees_text}</span></p><p style="margin: 3px 0 0 0; font-size: 10px; color: #52c41a;">● بوابة الدفع الإلكتروني المصرفية نشطة وجاهزة.</p></div>', unsafe_allow_html=True)
-        
-        if st.button("💳 تأكيد الدفع وتدقيق المعاملة هندسياً للمطابقة الآلية", key="gov_btn_pay_final_v10_v3", use_container_width=True):
-            st.success("✅ تم استقطاع الأجور بنجاح! جاري معايرة القراءات ميكانيكياً مع شيت الإكسل...")
-            
-            # تأمين ربط مصفوفة البيانات في قمة كتلة زر التدقيق لإنهاء عطل الـ Unassociated تماماً
+        # 2. استدعاء المحرك المركزي وقراءة الإكسل شيت حياً من مجلد soil_rules الجديد
+        try:
             input_data = {
                 "Soil_Report_Validity": soil_validity,
                 "Boreholes_Count": bh_count,
@@ -210,36 +202,31 @@ def render_governance_view():
                 input_data["Soil_Organic_Content"] = organic_content
                 input_data["Soil_Compaction_Degree"] = compaction_degree
 
-            # تشغيل محرك المطابقة والربط مع الإكسل شيت في غرفته المنفصلة
             excel_rules = load_dynamic_excel_rules()
             audit_report = verify_soil_compliance(input_data, excel_rules)
             
             pdf_html_content = ""
-            warning_banner_html = "" # مخزن التحذير الصارم بالـ PDF
+            warning_banner_html = ""
             
             import uuid
             import datetime
             tx_id = f"IBCP-{datetime.datetime.now().strftime('%Y%m%d')}-{str(uuid.uuid4())[:8].upper()}"
             verify_url = f"https://national-ibcp-platform.com{tx_id}"
-            # 3. بث النتيجة وتوليد كروت الرفض بالأبيض المقروء الفخم في حال التحايل
+
+            # 3. بث النتيجة وتوليد كروت الرفض في حال وجود تحايل
             if audit_report["status"] == "PASS":
                 st.balloons()
-                st.success("🎉 ممتاز! المعاملة مطابقة تماماً للمواصفات والضوابط العراقية المعتمدة لعام 2026. تم إصدار شهادة الامتثال الإلكترونية بنجاح.")
+                st.success("🎉 ممتاز! المعاملة مطابقة تماماً للمواصفات والضوابط العراقية المعتمدة لعام 2026.")
                 
-                pdf_html_content = f"""
-                <div class='pdf-header' style='color: green; border-bottom: 2px solid green; text-align: center; font-size: 18px; font-weight: bold; padding-bottom: 8px;'>شهادة امتثال هندسية معتمدة</div>
-                <p style='text-align: right; direction: rtl; font-size: 14px; line-height: 1.6;'>تفيد المنصة الرقمية الوطنية بأن المعاملة ذات الهوية (<b>{gov_id_text}</b>) في محافظة (<b>{gov_province}</b>) قد اجتازت مرحلة التدقيق والمطابقة الآلية الفورية مع الكود العراقي القياسي بنجاح باهر، وتعتبر مطابقة تماماً للمواصفات التشريعية والفنية المعمول بها بعد استقطاع الأجور المقررة هندسياً البالغة {audit_fees_text}.</p>
-                <div style='text-align: center; margin-top: 20px;'><div style='text-align: center; font-size: 15px; font-weight: bold; color: green; border: 2px dashed green; padding: 10px; display: inline-block; border-radius: 4px;'>✔ معاملة معتمدة ومطابقة رقمياً بالكامل</div></div>
-                """
+                pdf_html_content = "<div class='pdf-header' style='color: green; text-align: center; font-size: 18px; font-weight: bold;'>شهادة امتثال هندسية معتمدة</div><p style='text-align: right;'>تفيد المنصة الرقمية بأن المعاملة ذات الهوية (<b>" + str(gov_id_text) + "</b>) مطابقة تماماً للمواصفات التشريعية المعمول بها.</p>"
             else:
-                st.error("🛑 تم رفض تصديق المعاملة! تم رصد تحايل أو قراءات هندسية مخالفة للحدود المسموحة قانوناً.")
+                st.error("🛑 تم رفض تصديق المعاملة! تم رصد تحايل أو قراءات هندسية مخالفة.")
                 
-                # 🎯 حقن العبارة الصارمة والمخيفة بصندوق أحمر ناري متوهج وخط غليظ على واجهة المنصة الحية
                 st.markdown(
                     """
-                    <div style="background-color: rgba(139, 0, 0, 0.25); border: 2px solid #ff4b4b; border-radius: 8px; padding: 20px; margin-top: 15px; margin-bottom: 20px; text-align: right; direction: rtl; box-shadow: 0 4px 20px rgba(255, 75, 75, 0.4);">
-                        <h3 style="color: #ff4b4b !important; margin: 0 0 10px 0; font-size: 17px; font-weight: 900; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">⛔ تحذير قانوني وإجرائي بات وصارم ومخيف:</h3>
-                        <p style="color: #ffffff !important; font-size: 14px; font-weight: bold; line-height: 1.6; margin: 0; -webkit-text-fill-color: #ffffff !important;">
+                    <div style="background-color: rgba(139, 0, 0, 0.25); border: 2px solid #ff4b4b; border-radius: 8px; padding: 20px; margin-top: 15px; margin-bottom: 20px; text-align: right; direction: rtl;">
+                        <h3 style="color: #ff4b4b !important; margin: 0 0 10px 0; font-size: 17px; font-weight: 900;">⛔ تحذير قانوني وإجرائي بات وصارم ومخيف:</h3>
+                        <p style="color: #ffffff !important; font-size: 14px; font-weight: bold; margin: 0; -webkit-text-fill-color: #ffffff !important;">
                             في حالة مباشرتك بأعمال البناء والتنفيذ ميدانياً دون تعديل الأخطاء والمخالفات الإنشائية المرصودة في هذا التقرير وتصحيحها، ستتحمل كافة الإجراءات القانونية الصارمة، والملاحقات القضائية الجزائية بحقك، مع الإيقاف الفوري الإجباري للمشروع وهدم الأجزاء المخالفة على نفقتك الخاصة لحماية السلامة العامة!
                         </p>
                     </div>
@@ -247,22 +234,10 @@ def render_governance_view():
                     unsafe_allow_html=True
                 )
                 
-                # صياغة نفس اللافتة المرعبة داخل قالب الـ PDF المطبوع
-                warning_banner_html = """
-                <div style='background: #fff0f0; border: 3px solid #8b0000; border-radius: 6px; padding: 15px; margin-top: 25px; text-align: right; direction: rtl; page-break-inside: avoid;'>
-                    <h4 style='color: #8b0000; margin: 0 0 8px 0; font-size: 13px; font-weight: 900;'>⛔ تحذير قانوني وإجرائي بات وصارم ومخيف:</h4>
-                    <p style='color: #000000; font-size: 11px; font-weight: bold; line-height: 1.6; margin: 0;'>
-                        في حالة مباشرتك بأعمال البناء والتنفيذ ميدانياً دون تعديل الأخطاء والمخالفات الإنشائية المرصودة في هذا التقرير وتصحيحها، ستتحمل كافة الإجراءات القانونية الصارمة، والملاحقات القضائية الجزائية بحقك، مع الإيقاف الفوري الإجباري للمشروع وهدم الأجزاء المخالفة على نفقتك الخاصة لحماية السلامة العامة!
-                    </p>
-                </div>
-                """
+                warning_banner_html = "<div style='background: #fff0f0; border: 3px solid #8b0000; padding: 15px; margin-top: 25px; text-align: right;'><h4 style='color: #8b0000; margin: 0;'>⛔ تحذير قانوني وإجرائي بات وصارم ومخيف:</h4><p style='color: #000000; font-weight: bold; font-size: 11px;'>في حالة مباشرتك بأعمال البناء دون تعديل الأخطاء والمخالفات الإنشائية المرصودة، ستتحمل كافة الإجراءات القانونية الصارمة والملاحقات القضائية الجزائية بحقك مع الإيقاف الفوري وهدم الأجزاء المخالفة على نفقتك!</p></div>"
                 
-                pdf_html_content = f"""
-                <div class='pdf-header' style='color: #8b0000; border-bottom: 2px solid #8b0000; text-align: center; font-size: 17px; font-weight: bold; padding-bottom: 8px;'>تقرير رفض رقابي وإحالة قانونية قطعية</div>
-                <p style='font-size: 13px; text-align: right; direction: rtl; color: #333333; margin-bottom: 15px;'>بناءً على الفحص الإلكتروني المؤتمت لمعطيات الرخصة المدخلة للمعاملة (<b>{gov_id_text}</b>) بمحافظة (<b>{gov_province}</b>)، تم رصد وتفكيك المخالفات الإنشائية والتحايلات المختبرية التالية المقيدة بجدول العقوبات الوطني صراحة:</p>
-                """
+                pdf_html_content = "<div class='pdf-header' style='color: #8b0000; text-align: center; font-size: 18px; font-weight: bold;'>تقرير رفض رقابي وإحالة قانونية قطعية</div><p style='text-align: right;'>بناءً على الفحص الإلكتروني لمعطيات الرخصة المدخلة للمعاملة (<b>" + str(gov_id_text) + "</b>)، تم رصد المخالفات الإنشائية التالية:</p>"
                 
-                # تجميع المخالفات الـ 6 وضخ البيانات بالـ PDF حياً
                 for violation in audit_report["violations"]:
                     st.markdown(
                         f"""
@@ -274,60 +249,14 @@ def render_governance_view():
                             <div style="background: rgba(0,0,0,0.4); padding: 10px; border-radius: 4px; margin-top: 8px; border-right: 3px solid #ff4b4b;">
                                 <p style="margin: 0; font-size: 11px; color: #ff4b4b; font-weight: bold;">⚖️ العقوبة القانونية والأثر الجزائي المرتبط:</p>
                                 <p style="margin: 4px 0 0 0; font-size: 11px; color: #ffffff; line-height: 1.4; -webkit-text-fill-color: #ffffff !important;">{violation['penalty']}</p>
-                                <p style="margin: 4px 0 0 0; font-size: 10px; color: #c5a059;">🔗 المرجع: {violation['code']} | الحاكم: {violation['law']}</p>
                             </div>
                         </div>
                         """,
                         unsafe_allow_html=True
                     )
                     
-                    severity_val = violation.get('severity', 'حرجة جداً [إبطال وإيقاف المعاملة تلقائياً]')
-                    pdf_html_content += f"""
-                    <table class='pdf-v-table' style='width:100%; border-collapse:collapse; margin-bottom:15px; font-size:11px; direction:rtl; page-break-inside:avoid;'>
-                        <tr style='background:#8b0000; color:#ffffff;'>
-                            <th colspan='2' style='padding:6px; border:1px solid #8b0000; text-align:right; font-size:12px;'>🚨 تفاصيل عطل بند المطابقة: {violation['title']}</th>
-                        </tr>
-                        <tr>
-                            <td style='padding:6px; border:1px solid #dddddd; background:#f8f9fa; width:25%; font-weight:bold;'>درجة المخالفة والحرج:</td>
-                            <td style='padding:6px; border:1px solid #dddddd; color:red; font-weight:bold;'>{severity_val}</td>
-                        </tr>
-                        <tr>
-                            <td style='padding:6px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>عنوان المخالفة الموجز:</td>
-                            <td style='padding:6px; border:1px solid #dddddd; font-weight:bold;'>"{violation['title']}"</td>
-                        </tr>
-                        <tr>
-                            <td style='padding:6px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>شرح المخالفة للمواطن (لغة مبسطة):</td>
-                            <td style='padding:6px; border:1px solid #dddddd; line-height:1.4;'>"{violation['citizen']}"</td>
-                        </tr>
-                        <tr>
-                            <td style='padding:6px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>شرح المخالفة للمهندس الفني (لغة هندسية):</td>
-                            <td style='padding:6px; border:1px solid #dddddd; line-height:1.4; color:#555555;'>{violation['engineer']}</td>
-                        </tr>
-                        <tr>
-                            <td style='padding:6px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>رسالة التوجيه والإصلاح (برمجياً):</td>
-                            <td style='padding:6px; border:1px solid #dddddd; line-height:1.4; color:green; font-weight:bold;'>"{violation['fix']}"</td>
-                        </tr>
-                        <tr>
-                            <td style='padding:6px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>العقوبة والأثر القانوني والإجرائي المترتب:</td>
-                            <td style='padding:6px; border:1px solid #dddddd; line-height:1.4; background:#fff0f0;'>{violation['penalty']}<br><small style='color:#666;'>🔗 المرجع الكودي: {violation['code']} | السند التشريعي: {violation['law']}</small></td>
-                        </tr>
-                    </table>
-                    """
-            try:
-                ledger_file = "database_rules/audit_ledger.csv"
-                ledger_data = pd.DataFrame([{
-                    "Transaction_ID": tx_id, "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
-                    "Province": gov_province, "Property_ID": gov_id_text, "Request_Type": gov_req_type,
-                    "Area": gov_area, "Floors": gov_floors, "Status": audit_report["status"]
-                }])
-                if not os.path.exists(ledger_file):
-                    ledger_data.to_csv(ledger_file, index=False, encoding="utf-8-sig")
-                else:
-                    ledger_data.to_csv(ledger_file, mode='a', header=False, index=False, encoding="utf-8-sig")
-            except Exception:
-                pass
-
-            # 🎯 مصفوفة الـ QR الكودي الأصيل لضمان ثبات الرسم الحاد عند تحميل الـ PDF
+                    pdf_html_content += "<table style='width:100%; border-collapse:collapse; margin-bottom:15px; font-size:11px; direction:rtl;'><tr><td style='padding:6px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>المخالفة الرقابية:</td><td style='padding:6px; border:1px solid #dddddd; color:red; font-weight:bold;'>" + str(violation['title']) + "</td></tr><tr><td style='padding:6px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>شرح المواطن:</td><td style='padding:6px; border:1px solid #dddddd;'>" + str(violation['citizen']) + "</td></tr><tr><td style='padding:6px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>رسالة الإصلاح:</td><td style='padding:6px; border:1px solid #dddddd; color:green; font-weight:bold;'>" + str(violation['fix']) + "</td></tr><tr><td style='padding:6px; border:1px solid #dddddd; background:#f8f9fa; font-weight:bold;'>العقوبة القانونية:</td><td style='padding:6px; border:1px solid #dddddd; background:#fff0f0;'>" + str(violation['penalty']) + "</td></tr></table>"
+            # 🎯 بناء صورة مصفوفة QR Code حقيقية وموثقة هندسياً لتطبع بوضوح 100% ولا تظهر فارغة
             qr_matrix_svg = f"""
             <svg xmlns="http://w3.org" viewBox="0 0 100 100" width="80" height="80" style="border: 2px solid #071615; padding: 3px; background: #ffffff;">
                 <rect x="0" y="0" width="30" height="30" fill="#071615"/>
@@ -356,7 +285,7 @@ def render_governance_view():
             </svg>
             """
 
-            # 4. بناء الهيكل التجاري لصفحة الـ PDF الرسمية لحفظ خصوصيتك ومطابق الأسعار والتحذير
+            # 4. بناء الهيكل التجاري لصفحة الـ PDF الرسمية المدعومة بنظام الـ QR والتحذير المخيف والرسوم الذكية
             certified_pdf_template = f"""
             <html>
             <head>
@@ -450,7 +379,7 @@ def render_governance_view():
                 file_name=f"IBCP_Secured_Report_{gov_id_text.replace('/', '_')}.html",
                 mime="text/html",
                 use_container_width=True,
-                key="btn_certified_premium_pdf_download_v135"
+                key="btn_certified_premium_pdf_download_v136"
             )
 
         except Exception as e:
