@@ -115,9 +115,9 @@ with main_content:
         
         # إذا لم يتم تثبيت المعطيات الـ 9 العامة بعد، يتم إجبار السيرفر على إظهار قائمة الفلترة أولاً حتماً
         if not st.session_state["gate_filter_approved"]:
-            from vision_pillars.governance.governance_view import render_governance_view
-            try:
-                render_governance_view()
+            import vision_pillars.governance.governance_view as gov_package_v10
+            gov_package_v10.render_governance_view()
+
             except Exception as e:
                 st.error(f"⚠️ عطل في تحميل البوابة التمهيدية: {str(e)}")
         else:
