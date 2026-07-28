@@ -258,7 +258,7 @@ def render_governance_view():
                 input_data["Soil_Chloride_Content"] = chloride_content
                 input_data["Soil_Organic_Content"] = organic_content
                 input_data["Soil_Compaction_Degree"] = compaction_degree
-        # 2. استدعاء المحرك المركزي وقراءة الإكسل شيت حياً من مجلد soil_rules الجديد
+               # 2. استدعاء المحرك المركزي وقراءة الإكسل شيت حياً من مجلد soil_rules الجديد
         try:
             excel_rules = load_dynamic_excel_rules()
             audit_report = verify_soil_compliance(input_data, excel_rules)
@@ -273,22 +273,22 @@ def render_governance_view():
                 
                 # صياغة محتوى شهادة الامتثال لتقرير الـ PDF المطبوع
                 pdf_html_content = f"""
-                <div class='pdf-header'>شهادة امتثال إلكترونية معتمدة</div>
-                <p>تشهد نقابة المهندسين العراقيين بأن المعاملة ذات الهوية (<b>{gov_id_text}</b>) في محافظة (<b>{gov_province}</b>) مطابقة تماماً لكافة معايير الكود الفيدرالي لعام 2026 بعد الفحص والمطابقة الآلية الفورية واستقطاع الرسوم المقررة.</p>
-                <div class='pdf-seal'>✔ معتمد ومصادق رقمياً</div>
+                <div class='pdf-header' style='color: green; border-bottom: 2px solid green; text-align: center; font-size: 18px; font-weight: bold; padding-bottom: 8px;'>شهادة امتثال إلكترونية معتمدة</div>
+                <p style='text-align: right; direction: rtl;'>تشهد نقابة المهندسين العراقيين بأن المعاملة ذات الهوية (<b>{gov_id_text}</b>) في محافظة (<b>{gov_province}</b>) مطابقة تماماً لكافة معايير الكود الفيدرالي لعام 2026 بعد الفحص والمطابقة الآلية الفورية واستقطاع الرسوم المقررة.</p>
+                <div style='text-align: center; font-size: 16px; font-weight: bold; color: green; margin-top: 30px; border: 2px dashed green; padding: 10px; display: inline-block;'>✔ معتمد ومصادق رقمياً</div>
                 """
             else:
                 st.error("🛑 تم رفض تصديق المعاملة! تم رصد تحايل أو قراءات هندسية مخالفة للحدود المسموحة قانوناً.")
                 
                 # بناء ترويسة تقرير الرفض الرسمي داخل ملف الـ PDF المطبوع
                 pdf_html_content = f"""
-                <div class='pdf-header' style='color: #8b0000; border-bottom: 2px solid #8b0000;'>تقرير رفض رقابي وإحالة قانونية قطعية</div>
-                <p style='font-size: 14px;'>بموجب معطيات الرخصة المدخلة للمعاملة (<b>{gov_id_text}</b>) بمحافظة (<b>{gov_province}</b>)، تم رصد المخالفات الإنشائية والتحايلات المختبرية التالية المقيدة بجدول العقوبات الفيدرالي:</p>
-                <table class='pdf-table'>
-                    <tr>
-                        <th>بند المخالفة الرقابي</th>
-                        <th>التفسير القانوني والجزائي المرتبط</th>
-                        <th>رسالة الإصلاح والتوجيه الإلزامي</th>
+                <div class='pdf-header' style='color: #8b0000; border-bottom: 2px solid #8b0000; text-align: center; font-size: 18px; font-weight: bold; padding-bottom: 8px;'>تقرير رفض رقابي وإحالة قانونية قطعية</div>
+                <p style='font-size: 14px; text-align: right; direction: rtl;'>بموجب معطيات الرخصة المدخلة للمعاملة (<b>{gov_id_text}</b>) بمحافظة (<b>{gov_province}</b>)، تم رصد المخالفات الإنشائية والتحايلات المختبرية التالية المقيدة بجدول العقوبات الفيدرالي:</p>
+                <table style='width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; direction: rtl;'>
+                    <tr style='background: #071615; color: #ffffff;'>
+                        <th style='padding: 10px; border: 1px solid #dddddd; text-align: right;'>بند المخالفة الرقابي</th>
+                        <th style='padding: 10px; border: 1px solid #dddddd; text-align: right;'>التفسير القانوني والجزائي المرتبط</th>
+                        <th style='padding: 10px; border: 1px solid #dddddd; text-align: right;'>رسالة الإصلاح والتوجيه الإلزامي</th>
                     </tr>
                 """
                 
@@ -314,27 +314,27 @@ def render_governance_view():
                     # حقن المخالفة الحالية كسطر منظم داخل جدول تقرير الـ PDF المطبوع
                     pdf_html_content += f"""
                     <tr>
-                        <td style='color: #8b0000; font-weight: bold;'>🚨 {violation['title']}</td>
-                        <td><b>العقوبة:</b> {violation['penalty']}<br><small style='color: #555;'>🔗 {violation['code']} | {violation['law']}</small></td>
-                        <td style='color: green; font-weight: bold;'>🔧 {violation['fix']}</td>
+                        <td style='color: #8b0000; font-weight: bold; padding: 10px; border: 1px solid #dddddd;'>🚨 {violation['title']}</td>
+                        <td style='padding: 10px; border: 1px solid #dddddd;'><b>العقوبة:</b> {violation['penalty']}<br><small style='color: #555;'>🔗 {violation['code']} | {violation['law']}</small></td>
+                        <td style='color: green; font-weight: bold; padding: 10px; border: 1px solid #dddddd;'>🔧 {violation['fix']}</td>
                     </tr>
                     """
                 
                 # إغلاق وسم الجدول في تقرير الرفض
                 pdf_html_content += "</table>"
+
             # 4. بناء الهيكل الكامل والمطهر لصفحة الـ PDF الرسمية البيضاء المخصصة للطباعة الفورية
             certified_pdf_template = f"""
-            <div id="certified-printable-document" style="direction: rtl; text-align: right; font-family: 'Arial', sans-serif; background: #ffffff !important; color: #000000 !important; padding: 40px; border: 2px solid #c5a059; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 20px;">
-                <!-- الترويسة السيادية الرسمية للوثيقة المطبوعة -->
+            <html>
+            <body style="direction: rtl; text-align: right; font-family: 'Arial', sans-serif; background: #ffffff !important; color: #000000 !important; padding: 30px;">
                 <div style="text-align: center; margin-bottom: 25px; border-bottom: 3px double #c5a059; padding-bottom: 15px;">
                     <h2 style="margin: 0; font-size: 22px; color: #071615; font-weight: 800;">جمهورية العراق</h2>
-                    <h3 style="margin: 5px 0; font-size: 16px; color: #c5a059; font-weight: 700;">نقابة المهنسين العراقيين - المركز العام</h3>
+                    <h3 style="margin: 5px 0; font-size: 16px; color: #c5a059; font-weight: 700;">نقابة المهندسين العراقيين - المركز العام</h3>
                     <p style="margin: 5px 0 0 0; font-size: 11px; color: #555555;">المرصد الوطني لأتمتة التدقيق الإنشائي وحوكمة الرخص الهندسية</p>
                 </div>
                 
-                <!-- جدول البيانات العامة الـ 9 المفرزة للرخصة -->
                 <h4 style="color: #071615; border-right: 4px solid #c5a059; padding-right: 8px; margin-bottom: 12px; font-size: 14px;">📋 معطيات المعاملة والموقع الإداري التخطيطي:</h4>
-                <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 12px;">
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 12px; direction: rtl;">
                     <tr style="background: #f8f9fa;">
                         <td style="padding: 8px; border: 1px solid #dddddd; width: 25%;"><b>هوية العقار الرسمية:</b></td>
                         <td style="padding: 8px; border: 1px solid #dddddd; width: 25%;">{gov_id_text}</td>
@@ -353,51 +353,28 @@ def render_governance_view():
                         <td style="padding: 8px; border: 1px solid #dddddd;"><b>الارتفاع / الطوابق:</b></td>
                         <td style="padding: 8px; border: 1px solid #dddddd;">{gov_floors} طابق</td>
                     </tr>
-                    <tr>
-                        <td style="padding: 8px; border: 1px solid #dddddd;"><b>أبعاد العقار (طول×عرض):</b></td>
-                        <td style="padding: 8px; border: 1px solid #dddddd;">{gov_length}م × {gov_width}م</td>
-                        <td style="padding: 8px; border: 1px solid #dddddd;"><b>عرض الشارع المقابل:</b></td>
-                        <td style="padding: 8px; border: 1px solid #dddddd;">{gov_street_w} متر</td>
-                    </tr>
                 </table>
-                
-                <!-- حقن نصوص ونتائج الفحص المستخرجة ميكانيكياً من الإكسل -->
-                <style>
-                    .pdf-header {{ text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 15px; padding-bottom: 8px; color: #071615; }}
-                    .pdf-seal {{ text-align: center; font-size: 16px; font-weight: bold; color: green; margin-top: 30px; border: 2px dashed green; padding: 10px; display: inline-block; }}
-                    .pdf-table {{ width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }}
-                    .pdf-table th {{ background: #071615; color: #ffffff; padding: 10px; border: 1px solid #dddddd; text-align: right; }}
-                    .pdf-table td {{ padding: 10px; border: 1px solid #dddddd; text-align: right; vertical-align: top; line-height: 1.4; }}
-                </style>
                 {pdf_html_content}
-                
-                <!-- التوقيع والختم الإلكتروني الفيدرالي المقفل بقاع الصفحة -->
                 <div style="margin-top: 40px; text-align: left; font-size: 11px; color: #555555; border-top: 1px solid #dddddd; padding-top: 15px;">
-                    <p>صدر هذا التقرير آلياً عن الخادم المركزي الفيدرالي لنقابة المهندسين العراقيين.</p>
-                    <p>تاريخ وتوقيت الفحص الموثق: <b>2026/07/28 - بغداد</b></p>
+                    <p>صدر هذا التقرير الموثق آلياً عن الخادم المركزي الفيدرالي لنقابة المهندسين العراقيين.</p>
+                    <p>تاريخ الفحص والمصادقة: <b>2026/07/28 - بغداد</b></p>
                 </div>
-            </div>
-            
-            <!-- حاقن نافذة الطباعة التلقائية الفورية للمتصفح لمنع KeyErrors سحابياً -->
-            <script>
-                function printCertifiedDocument() {{
-                    var printContents = document.getElementById("certified-printable-document").innerHTML;
-                    var originalContents = document.body.innerHTML;
-                    document.body.innerHTML = printContents;
-                    window.print();
-                    document.body.innerHTML = originalContents;
-                    window.location.reload(); // إعادة تدوير الصفحة لإنعاش أحمال المتصفح
-                }}
-            </script>
+                <script>window.onload = function() {{ window.print(); }}</script>
+            </body>
+            </html>
             """
             
-            st.markdown("<br>", unsafe_allow_html=True)
-            # عرض وثيقة الـ PDF الفاخرة داخل صندوق زجاجي مخصص لمعاينتها قبل ضغط زر السحب والطباعة
-            st.markdown(certified_pdf_template, unsafe_allow_html=True)
+            st.markdown("<br><hr style='border-color: rgba(197, 160, 89, 0.2);'>", unsafe_allow_html=True)
             
-            st.markdown("<br>", unsafe_allow_html=True)
-            # زر السحب والطباعة المذهب والمدعوم بالأمر الفيدرالي الحاسم والمباشر
-            st.button("📥 تحميل وطباعة هذا التقرير الرسمي كملف PDF معتمد", key="btn_trigger_certified_pdf_print", on_click=st.components.v1.html, args=(f"<script>window.parent.document.getElementById('certified-printable-document') ? null : window.print();</script>",), use_container_width=True)
+            # 🎯 زر التحميل والطباعة الفوري المضمون سحابياً بدون كراش
+            st.download_button(
+                label="📥 تحميل وطباعة التقرير الرسمي كملف PDF معتمد لنقابة المهندسين",
+                data=certified_pdf_template,
+                file_name=f"IBCP_Report_{gov_id_text.replace('/', '_')}.html",
+                mime="text/html",
+                use_container_width=True,
+                key="btn_certified_pdf_download_v109"
+            )
 
         except Exception as e:
             st.error(f"⚠️ فشل في سحب ومعايرة البيانات من محرك الفحص المعزول: {str(e)}")
